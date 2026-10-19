@@ -1,0 +1,6 @@
+# 資料の原本・抜き書きは公開しない
+sources/
+
+.DS_Store
+__pycache__/
+*.pyc
