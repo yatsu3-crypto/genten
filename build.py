@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""entries/*.md を読み、データを template.html に埋め込んで genten.html を出力する。
+"""entries/*.md と private/*.md を読み、データを template.html に埋め込んで出力する。
 
 使い方: python3 build.py
-- `_` で始まるファイル（_template.md など）は読まない。
-- 方剤が0件でも genten.html を出力する。
+- genten.html（公開用）は entries/ だけから作る。
+- genten-local.html（手元用）は entries/ に private/<方剤名>.md の同じ見出しの内容を足して作る。
+- private/ と genten-local.html はリポジトリに入れない（.gitignore 済み）。
+- `_` で始まるファイル（_template.md など）は読まない。方剤が0件でも出力する。
 """
 import datetime
 import json
@@ -12,14 +14,21 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent
 ENTRIES = ROOT / "entries"
+PRIVATE = ROOT / "private"
 TEMPLATE = ROOT / "template.html"
-OUT = ROOT / "genten.html"
+OUT_PUBLIC = ROOT / "genten.html"
+OUT_LOCAL = ROOT / "genten-local.html"
 
 META_KEYS = ["名前", "読み", "ツムラ番号", "出典"]
 SECTIONS = ["条文", "出典", "構成", "方意", "諸家の論", "院長メモ"]
 
 
-def parse(path):
+def md_files(folder):
+    return sorted(p for p in folder.glob("*.md") if not p.name.startswith("_")) if folder.is_dir() else []
+
+
+def read_md(path):
+    """frontmatter と「## 見出し」ごとの本文を返す。"""
     text = path.read_text(encoding="utf-8").replace("\r\n", "\n")
     meta, body = {}, text
     if text.startswith("---\n"):
@@ -43,14 +52,38 @@ def parse(path):
 
     unknown = [k for k in sections if k not in SECTIONS]
     if unknown:
-        print("警告: %s に未知の見出しがあります（表示されません）: %s" % (path.name, "、".join(unknown)), file=sys.stderr)
+        print("警告: %s/%s に未知の見出しがあります（表示されません）: %s"
+              % (path.parent.name, path.name, "、".join(unknown)), file=sys.stderr)
+    return meta, sections
+
+
+def parse(path):
+    meta, sections = read_md(path)
+    # 旧方式の「非公開」印が残っていたら公開してしまうので止める
+    if "非公開 -->" in path.read_text(encoding="utf-8"):
+        print("エラー: entries/%s に非公開の印があります。非公開部分は private/%s に移してください。何も出力していません。"
+              % (path.name, path.name), file=sys.stderr)
+        sys.exit(1)
     entry = {"file": path.stem}
     for k in META_KEYS:
         entry[k] = meta.get(k, "")
     if not entry["名前"]:
         entry["名前"] = path.stem
     entry["本文"] = {k: sections.get(k, "") for k in SECTIONS}
+    entry["非公開"] = []
     return entry
+
+
+def with_private(entry, path):
+    """private/ の同じ見出しの内容を、公開部分の後ろに足す。"""
+    _, sections = read_md(path)
+    e = dict(entry, 本文=dict(entry["本文"]), 非公開=[])
+    for k in SECTIONS:
+        extra = sections.get(k, "")
+        if extra:
+            e["本文"][k] = (e["本文"][k] + "\n\n" + extra).strip()
+            e["非公開"].append(k)
+    return e
 
 
 def sort_key(e):
@@ -58,19 +91,29 @@ def sort_key(e):
     return (0, int(num), e["読み"]) if num.isdigit() else (1, 0, e["読み"] or e["名前"])
 
 
-def main():
-    files = sorted(p for p in ENTRIES.glob("*.md") if not p.name.startswith("_")) if ENTRIES.is_dir() else []
-    entries = sorted((parse(p) for p in files), key=sort_key)
+def write(out, edition, entries):
     data = {
         "built": datetime.date.today().isoformat(),
+        "edition": edition,
         "sections": SECTIONS,
         "entries": entries,
     }
     # </script> で埋め込みが途切れないようにする
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
-    html = TEMPLATE.read_text(encoding="utf-8").replace("__GENTEN_DATA__", payload)
-    OUT.write_text(html, encoding="utf-8")
-    print("genten.html を出力しました（方剤 %d 件）" % len(entries))
+    out.write_text(TEMPLATE.read_text(encoding="utf-8").replace("__GENTEN_DATA__", payload), encoding="utf-8")
+    print("%s を出力しました（方剤 %d 件）" % (out.name, len(entries)))
+
+
+def main():
+    entries = sorted((parse(p) for p in md_files(ENTRIES)), key=sort_key)
+    write(OUT_PUBLIC, "public", entries)
+
+    private = {p.stem: p for p in md_files(PRIVATE)}
+    orphans = sorted(set(private) - {e["file"] for e in entries})
+    if orphans:
+        print("警告: entries/ に対応する方剤がない private/ のファイルは読みません: %s"
+              % "、".join(n + ".md" for n in orphans), file=sys.stderr)
+    write(OUT_LOCAL, "local", [with_private(e, private[e["file"]]) if e["file"] in private else e for e in entries])
 
 
 if __name__ == "__main__":

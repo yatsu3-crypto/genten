@@ -1,6 +1,10 @@
 # 資料の原本・抜き書きは公開しない
 sources/
 
+# 非公開の方剤データと、それを含む手元用（build.py が出力）
+private/
+genten-local.html
+
 .DS_Store
 __pycache__/
 *.pyc

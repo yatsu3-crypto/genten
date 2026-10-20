@@ -77,9 +77,30 @@ main{max-width:760px;margin:0 auto;padding:14px calc(14px + env(safe-area-inset-
 .pill.src{color:var(--matsu)}
 .sec{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:11px 14px 12px;margin-bottom:9px}
 .sec h3{font-size:13px;letter-spacing:.12em;color:var(--matsu);margin:0 0 5px}
-.sec .body{white-space:pre-wrap;word-break:break-word}
+.sec .body{word-break:break-word}
+.body p{margin:0 0 .7em}
+.body > :last-child{margin-bottom:0}
+.body h4{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-size:14px;color:var(--kin-d);
+  margin:.9em 0 .3em;padding-bottom:2px;border-bottom:1px dotted var(--line)}
+.body h4:first-child{margin-top:0}
+.body ul{margin:0 0 .7em;padding-left:1.2em}
+.body li{margin-bottom:.35em}
+.body strong{color:var(--sumi);font-weight:700}
+.tbl{overflow-x:auto;margin:0 -4px .7em;-webkit-overflow-scrolling:touch}
+.tbl table{width:100%;border-collapse:collapse;font-size:13px;line-height:1.5}
+.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:6px 5px;text-align:left;vertical-align:top}
+.tbl th{background:var(--washi-d);color:var(--sumi2);font-size:12px;font-weight:700;white-space:nowrap}
+.tbl td:first-child{font-weight:700;white-space:nowrap}
 .sec.jobun .body{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-size:16.5px;line-height:1.9}
 .todo{display:inline-block;font-size:12px;font-weight:700;color:var(--shu);border:1.5px dashed var(--shu);border-radius:8px;padding:2px 9px;background:rgba(193,67,46,.05)}
+/* 本文中の「要確認」「要原本照合」 */
+.flag{font-family:"Zen Kaku Gothic New","Hiragino Sans",sans-serif;font-size:12px;font-weight:900;line-height:1.5;
+  color:#fff;background:var(--shu);border-radius:6px;padding:1px 7px;margin:0 2px;white-space:nowrap;vertical-align:1px}
+.flagcount{color:#fff;background:var(--shu);border-color:var(--shu)}
+/* 非公開（手元版のみ）の部分 */
+.edition{margin-left:auto;font-size:11px;font-weight:700;color:var(--ai);border:1.5px solid var(--ai);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.sec.priv{border-left:4px solid var(--ai)}
+.privbadge{font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--ai);border:1px solid var(--ai);border-radius:999px;padding:0 7px;margin-left:6px;vertical-align:1px}
 
 .listempty{text-align:center;color:var(--sumi2);padding:40px 20px;font-size:14px}
 .listempty .big{font-size:40px;margin-bottom:8px}
@@ -115,6 +136,7 @@ main{max-width:760px;margin:0 auto;padding:14px calc(14px + env(safe-area-inset-
       <h1>原典</h1>
       <div class="sub">方剤の条文・出典・構成・方意をすぐ引く</div>
     </div>
+    <span class="edition" id="edition" hidden>手元版</span>
   </div>
   <div class="search">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#332C25" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
@@ -149,6 +171,48 @@ DATA.entries.forEach(function(e){
   e._idx = norm([e["名前"], e["読み"], e["ツムラ番号"], e["出典"], e["本文"]["構成"]].join(" "));
 });
 var TODO = '<span class="todo">要確認</span>';
+var LOCAL = DATA.edition === "local";
+/* 本文中の「要確認」「要原本照合」を目立たせる（エスケープ後の文字列に使う） */
+var FLAG_RE = /（(要確認|要原本照合)）|(要確認|要原本照合)/g;
+function flagify(html){ return html.replace(FLAG_RE, function(_, a, b){ return '<span class="flag">' + (a || b) + '</span>'; }); }
+
+/* 本文の Markdown を表示用に変換する（### 見出し・**太字**・表・箇条書き・段落のみ） */
+function inline(s){ return flagify(esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")); }
+function cells(line){ return line.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map(function(c){ return c.trim(); }); }
+var TBL_SEP = /^\s*\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?\s*$/;
+function md(text){
+  var lines = text.split("\n"), out = [], i = 0, m, buf;
+  var isBlock = function(l){ return !l.trim() || /^#{3,6}\s/.test(l) || /^\s*\|/.test(l) || /^\s*[-*]\s+/.test(l); };
+  while (i < lines.length){
+    var l = lines[i];
+    if (!l.trim()){ i++; continue; }
+    if ((m = l.match(/^#{3,6}\s+(.*)$/))){ out.push("<h4>" + inline(m[1]) + "</h4>"); i++; continue; }
+    if (/^\s*\|/.test(l)){
+      buf = [];
+      while (i < lines.length && /^\s*\|/.test(lines[i])) buf.push(lines[i++]);
+      var head = buf.length > 1 && TBL_SEP.test(buf[1]) ? cells(buf[0]) : null;
+      var rows = buf.filter(function(r, j){ return !(head && j < 2); });
+      out.push('<div class="tbl"><table>' +
+        (head ? "<thead><tr>" + head.map(function(c){ return "<th>" + inline(c) + "</th>"; }).join("") + "</tr></thead>" : "") +
+        "<tbody>" + rows.map(function(r){ return "<tr>" + cells(r).map(function(c){ return "<td>" + inline(c) + "</td>"; }).join("") + "</tr>"; }).join("") +
+        "</tbody></table></div>");
+      continue;
+    }
+    if (/^\s*[-*]\s+/.test(l)){
+      buf = [];
+      while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])) buf.push("<li>" + inline(lines[i++].replace(/^\s*[-*]\s+/, "")) + "</li>");
+      out.push("<ul>" + buf.join("") + "</ul>");
+      continue;
+    }
+    buf = [];
+    while (i < lines.length && !isBlock(lines[i])) buf.push(inline(lines[i++]));
+    out.push("<p>" + buf.join("<br>") + "</p>");
+  }
+  return out.join("");
+}
+function countFlags(e){
+  return DATA.sections.reduce(function(n, k){ return n + (e["本文"][k].match(FLAG_RE) || []).length; }, 0);
+}
 
 function renderList(){
   var q = norm($("#q").value);
@@ -177,11 +241,14 @@ function renderDetail(e){
   h += '<div class="dhead"><h2>' + esc(e["名前"]) + '</h2>' +
     '<div class="yomi">' + (e["読み"] ? esc(e["読み"]) : TODO) + '</div>' +
     '<div class="tags"><span class="pill num">ツムラ ' + (e["ツムラ番号"] ? esc(e["ツムラ番号"]) : "要確認") + '</span>' +
-    '<span class="pill src">' + (e["出典"] ? esc(e["出典"]) : "出典 要確認") + '</span></div></div>';
+    '<span class="pill src">' + (e["出典"] ? esc(e["出典"]) : "出典 要確認") + '</span>' +
+    (countFlags(e) ? '<span class="pill flagcount">要確認・要照合 ' + countFlags(e) + '</span>' : '') + '</div></div>';
   DATA.sections.forEach(function(k){
-    var v = e["本文"][k];
-    h += '<div class="sec' + (k === "条文" ? " jobun" : "") + '"><h3>' + esc(k) + '</h3>' +
-      '<div class="body">' + (v ? esc(v) : TODO) + '</div></div>';
+    var v = e["本文"][k], priv = e["非公開"].indexOf(k) !== -1;
+    var body = v ? md(v) : TODO;
+    h += '<div class="sec' + (k === "条文" ? " jobun" : "") + (priv && LOCAL ? " priv" : "") + '"><h3>' + esc(k) +
+      (priv && LOCAL ? '<span class="privbadge">非公開を含む</span>' : '') + '</h3>' +
+      '<div class="body">' + body + '</div></div>';
   });
   $("#v-detail").innerHTML = h;
 }
@@ -200,7 +267,8 @@ $("#list").addEventListener("click", function(ev){
 });
 $("#q").addEventListener("input", function(){ renderList(); if (location.hash) go(""); });
 window.addEventListener("hashchange", route);
-$("#built").textContent = "データ更新 " + DATA.built;
+$("#built").textContent = "データ更新 " + DATA.built + (LOCAL ? "（手元版）" : "");
+$("#edition").hidden = !LOCAL;
 renderList(); route();
 </script>
 </body>
