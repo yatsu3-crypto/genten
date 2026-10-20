@@ -4,6 +4,7 @@
 使い方: python3 build.py
 - genten.html（公開用）は entries/ だけから作る。
 - genten-local.html（手元用）は entries/ に private/<方剤名>.md の同じ見出しの内容を足して作る。
+- 公開用には private/ に中身がある見出しの名前だけを渡す（画面で「手元版のみ」と出すため）。中身は入れない。
 - private/ と genten-local.html はリポジトリに入れない（.gitignore 済み）。
 - `_` で始まるファイル（_template.md など）は読まない。方剤が0件でも出力する。
 """
@@ -74,15 +75,13 @@ def parse(path):
     return entry
 
 
-def with_private(entry, path):
-    """private/ の同じ見出しの内容を、公開部分の後ろに足す。"""
-    _, sections = read_md(path)
-    e = dict(entry, 本文=dict(entry["本文"]), 非公開=[])
-    for k in SECTIONS:
-        extra = sections.get(k, "")
-        if extra:
-            e["本文"][k] = (e["本文"][k] + "\n\n" + extra).strip()
-            e["非公開"].append(k)
+def with_private(entry, sections, edition):
+    """「非公開」に private/ に中身がある見出し名を入れる。手元用ではその内容を公開部分の後ろに足す。
+    公開用には見出し名だけを渡し、中身は渡さない。"""
+    e = dict(entry, 本文=dict(entry["本文"]), 非公開=[k for k in SECTIONS if sections.get(k)])
+    if edition == "local":
+        for k in e["非公開"]:
+            e["本文"][k] = (e["本文"][k] + "\n\n" + sections[k]).strip()
     return e
 
 
@@ -106,14 +105,13 @@ def write(out, edition, entries):
 
 def main():
     entries = sorted((parse(p) for p in md_files(ENTRIES)), key=sort_key)
-    write(OUT_PUBLIC, "public", entries)
-
-    private = {p.stem: p for p in md_files(PRIVATE)}
+    private = {p.stem: read_md(p)[1] for p in md_files(PRIVATE)}
     orphans = sorted(set(private) - {e["file"] for e in entries})
     if orphans:
         print("警告: entries/ に対応する方剤がない private/ のファイルは読みません: %s"
               % "、".join(n + ".md" for n in orphans), file=sys.stderr)
-    write(OUT_LOCAL, "local", [with_private(e, private[e["file"]]) if e["file"] in private else e for e in entries])
+    for out, edition in [(OUT_PUBLIC, "public"), (OUT_LOCAL, "local")]:
+        write(out, edition, [with_private(e, private.get(e["file"], {}), edition) for e in entries])
 
 
 if __name__ == "__main__":

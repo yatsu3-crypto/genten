@@ -101,6 +101,19 @@ main{max-width:760px;margin:0 auto;padding:14px calc(14px + env(safe-area-inset-
 .edition{margin-left:auto;font-size:11px;font-weight:700;color:var(--ai);border:1.5px solid var(--ai);border-radius:999px;padding:3px 10px;white-space:nowrap}
 .sec.priv{border-left:4px solid var(--ai)}
 .privbadge{font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--ai);border:1px solid var(--ai);border-radius:999px;padding:0 7px;margin-left:6px;vertical-align:1px}
+.privnote{font-size:13px;color:var(--usu)}
+/* iPhone幅では表を1行1カードの縦並びにする */
+@media (max-width:560px){
+  .tbl{overflow:visible;margin:0 0 .7em}
+  .tbl table,.tbl tbody,.tbl tr,.tbl td{display:block;width:auto}
+  .tbl thead{display:none}
+  .tbl tr{background:var(--washi);border:1px solid var(--line);border-radius:10px;padding:8px 11px 9px;margin-bottom:7px}
+  .tbl td{border:0;padding:3px 0;font-size:13.5px;line-height:1.6}
+  .tbl td:first-child{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-size:16px;
+    padding:0 0 4px;margin-bottom:3px;border-bottom:1px dotted var(--line)}
+  .tbl td[data-label]:not(:first-child)::before{content:attr(data-label);display:block;font-size:11px;font-weight:700;color:var(--usu);letter-spacing:.04em}
+  .tbl td.blank{display:none}
+}
 
 .listempty{text-align:center;color:var(--sumi2);padding:40px 20px;font-size:14px}
 .listempty .big{font-size:40px;margin-bottom:8px}
@@ -194,7 +207,10 @@ function md(text){
       var rows = buf.filter(function(r, j){ return !(head && j < 2); });
       out.push('<div class="tbl"><table>' +
         (head ? "<thead><tr>" + head.map(function(c){ return "<th>" + inline(c) + "</th>"; }).join("") + "</tr></thead>" : "") +
-        "<tbody>" + rows.map(function(r){ return "<tr>" + cells(r).map(function(c){ return "<td>" + inline(c) + "</td>"; }).join("") + "</tr>"; }).join("") +
+        "<tbody>" + rows.map(function(r){ return "<tr>" + cells(r).map(function(c, j){
+          /* data-label：カード表示のときに列名を出す。blank：中身が「—」だけの欄はカードでは隠す */
+          return "<td" + (head && head[j] ? ' data-label="' + esc(head[j]) + '"' : "") + (/^[—-]?$/.test(c) ? ' class="blank"' : "") + ">" + inline(c) + "</td>";
+        }).join("") + "</tr>"; }).join("") +
         "</tbody></table></div>");
       continue;
     }
@@ -245,7 +261,7 @@ function renderDetail(e){
     (countFlags(e) ? '<span class="pill flagcount">要確認・要照合 ' + countFlags(e) + '</span>' : '') + '</div></div>';
   DATA.sections.forEach(function(k){
     var v = e["本文"][k], priv = e["非公開"].indexOf(k) !== -1;
-    var body = v ? md(v) : TODO;
+    var body = v ? md(v) : (priv ? '<span class="privnote">手元版のみ</span>' : TODO);
     h += '<div class="sec' + (k === "条文" ? " jobun" : "") + (priv && LOCAL ? " priv" : "") + '"><h3>' + esc(k) +
       (priv && LOCAL ? '<span class="privbadge">非公開を含む</span>' : '') + '</h3>' +
       '<div class="body">' + body + '</div></div>';
