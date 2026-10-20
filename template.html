@@ -199,7 +199,13 @@ function md(text){
   while (i < lines.length){
     var l = lines[i];
     if (!l.trim()){ i++; continue; }
-    if ((m = l.match(/^#{3,6}\s+(.*)$/))){ out.push("<h4>" + inline(m[1]) + "</h4>"); i++; continue; }
+    if ((m = l.match(/^#{3,6}\s+(.*)$/))){
+      out.push("<h4>" + inline(m[1]) + "</h4>"); i++;
+      /* 中身のない小見出し（資料にない項目）には「要確認」を出す */
+      var j = i; while (j < lines.length && !lines[j].trim()) j++;
+      if (j >= lines.length || /^#{3,6}\s/.test(lines[j])) out.push("<p>" + TODO + "</p>");
+      continue;
+    }
     if (/^\s*\|/.test(l)){
       buf = [];
       while (i < lines.length && /^\s*\|/.test(lines[i])) buf.push(lines[i++]);
