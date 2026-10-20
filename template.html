@@ -96,6 +96,9 @@ main{max-width:760px;margin:0 auto;padding:14px calc(14px + env(safe-area-inset-
 /* 本文中の「要確認」「要原本照合」 */
 .flag{font-family:"Zen Kaku Gothic New","Hiragino Sans",sans-serif;font-size:12px;font-weight:900;line-height:1.5;
   color:#fff;background:var(--shu);border-radius:6px;padding:1px 7px;margin:0 2px;white-space:nowrap;vertical-align:1px}
+.flag.hon{background:var(--kin-d)}
+.flag.ok{background:var(--matsu)}
+.flag.yomi{background:var(--ai)}
 .flagcount{color:#fff;background:var(--shu);border-color:var(--shu)}
 /* 非公開（手元版のみ）の部分 */
 .edition{margin-left:auto;font-size:11px;font-weight:700;color:var(--ai);border:1.5px solid var(--ai);border-radius:999px;padding:3px 10px;white-space:nowrap}
@@ -186,8 +189,13 @@ DATA.entries.forEach(function(e){
 var TODO = '<span class="todo">要確認</span>';
 var LOCAL = DATA.edition === "local";
 /* 本文中の「要確認」「要原本照合」を目立たせる（エスケープ後の文字列に使う） */
+/* 確認の段階：要確認・要原本照合（未確認・朱）→ 翻刻確認（金茶）→ 院長確認（松葉）。読み：社員案（藍） */
 var FLAG_RE = /（(要確認|要原本照合)）|(要確認|要原本照合)/g;
-function flagify(html){ return html.replace(FLAG_RE, function(_, a, b){ return '<span class="flag">' + (a || b) + '</span>'; }); }
+var MARK_RE = /（(要確認|要原本照合|翻刻確認|院長確認|読み：社員案)）|(要確認|要原本照合|翻刻確認|院長確認|読み：社員案)/g;
+var MARK_CLASS = {"翻刻確認":" hon", "院長確認":" ok", "読み：社員案":" yomi"};
+function flagify(html){
+  return html.replace(MARK_RE, function(_, a, b){ var t = a || b; return '<span class="flag' + (MARK_CLASS[t] || "") + '">' + t + '</span>'; });
+}
 
 /* 本文の Markdown を表示用に変換する（### 見出し・**太字**・表・箇条書き・段落のみ） */
 function inline(s){ return flagify(esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")); }
