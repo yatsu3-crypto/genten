@@ -189,10 +189,10 @@ DATA.entries.forEach(function(e){
 var TODO = '<span class="todo">要確認</span>';
 var LOCAL = DATA.edition === "local";
 /* 本文中の「要確認」「要原本照合」を目立たせる（エスケープ後の文字列に使う） */
-/* 確認の段階：要確認・要原本照合（未確認・朱）→ 翻刻確認（金茶）→ 院長確認（松葉）。読み：社員案（藍） */
+/* 確認の段階：要確認・要原本照合（未確認・朱）→ 翻刻確認（金茶）→ 院長確認（松葉）。読み：社員案・訳：社員案（藍） */
 var FLAG_RE = /（(要確認|要原本照合)）|(要確認|要原本照合)/g;
-var MARK_RE = /（(要確認|要原本照合|翻刻確認|院長確認|読み：社員案)）|(要確認|要原本照合|翻刻確認|院長確認|読み：社員案)/g;
-var MARK_CLASS = {"翻刻確認":" hon", "院長確認":" ok", "読み：社員案":" yomi"};
+var MARK_RE = /（(要確認|要原本照合|翻刻確認|院長確認|読み：社員案|訳：社員案)）|(要確認|要原本照合|翻刻確認|院長確認|読み：社員案|訳：社員案)/g;
+var MARK_CLASS = {"翻刻確認":" hon", "院長確認":" ok", "読み：社員案":" yomi", "訳：社員案":" yomi"};
 function flagify(html){
   return html.replace(MARK_RE, function(_, a, b){ var t = a || b; return '<span class="flag' + (MARK_CLASS[t] || "") + '">' + t + '</span>'; });
 }
