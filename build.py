@@ -20,7 +20,7 @@ TEMPLATE = ROOT / "template.html"
 OUT_PUBLIC = ROOT / "genten.html"
 OUT_LOCAL = ROOT / "genten-local.html"
 
-META_KEYS = ["名前", "読み", "ツムラ番号", "出典"]
+META_KEYS = ["名前", "読み", "ツムラ番号", "出典", "別名"]
 SECTIONS = ["条文", "出典", "構成", "方意", "諸家の論", "院長メモ"]
 
 

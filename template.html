@@ -184,7 +184,7 @@ function norm(s){
     .replace(/\s+/g, "");
 }
 DATA.entries.forEach(function(e){
-  e._idx = norm([e["名前"], e["読み"], e["ツムラ番号"], e["出典"], e["本文"]["構成"]].join(" "));
+  e._idx = norm([e["名前"], e["別名"], e["読み"], e["ツムラ番号"], e["出典"], e["本文"]["構成"]].join(" "));
 });
 var TODO = '<span class="todo">要確認</span>';
 var LOCAL = DATA.edition === "local";
@@ -269,7 +269,7 @@ function renderList(){
 function renderDetail(e){
   var h = '<button class="back" onclick="history.length>1?history.back():go(\'\')">‹ 一覧へ</button>';
   h += '<div class="dhead"><h2>' + esc(e["名前"]) + '</h2>' +
-    '<div class="yomi">' + (e["読み"] ? esc(e["読み"]) : TODO) + '</div>' +
+    '<div class="yomi">' + (e["読み"] ? esc(e["読み"]) : TODO) + (e["別名"] ? '　別名 ' + esc(e["別名"]) : '') + '</div>' +
     '<div class="tags"><span class="pill num">ツムラ ' + (e["ツムラ番号"] ? esc(e["ツムラ番号"]) : "要確認") + '</span>' +
     '<span class="pill src">' + (e["出典"] ? esc(e["出典"]) : "出典 要確認") + '</span>' +
     (countFlags(e) ? '<span class="pill flagcount">要確認・要照合 ' + countFlags(e) + '</span>' : '') + '</div></div>';
