@@ -1,0 +1,108 @@
+/* ===== 副作用ナビモジュール（旧 fukusayou.html の見た目を washi のトークンに合わせたもの） ===== */
+/* 生薬ごとの色：甘＝朱、芩＝藍、麻＝金茶、附＝茜、大＝松葉、梔＝金茶の濃色、硝＝薄墨（旧 #7a3b6b・#b8862b は washi の色に寄せた） */
+.mod[data-mod="fuku"]{--fk-ka:var(--shu);--fk-ou:var(--ai);--fk-ma:var(--kin);--fk-bu:var(--akane);--fk-dai:var(--matsu);--fk-san:var(--kin-d);--fk-bo:var(--sumi2);--fk-all:var(--usu)}
+.fk-lead{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;margin-bottom:14px;font-size:14px}
+.fk-lead b{color:var(--shu)}
+.fk-split{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.fk-split div{border-radius:8px;padding:8px 10px;font-size:13px}
+.fk-split .d{background:color-mix(in srgb,var(--kin) 14%,var(--card))}
+.fk-split .d b{color:var(--kin-d)}
+.fk-split .i{background:color-mix(in srgb,var(--ai) 10%,var(--card))}
+.fk-split .i b{color:var(--ai)}
+.ref{font-size:10.5px;color:var(--usu);margin-left:3px;white-space:nowrap}
+.ref::before{content:"［"}.ref::after{content:"］"}
+
+/* 生薬カード */
+.fk-card{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--c,var(--shu));border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+.fk-card summary{list-style:none;cursor:pointer;padding:10px 14px;min-height:52px;display:flex;gap:10px;align-items:center}
+.fk-card summary::-webkit-details-marker{display:none}
+.fk-card summary .herb{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-size:19px;font-weight:700;min-width:3.2em}
+.fk-card summary .ae{flex:1;font-size:14px;font-weight:700}
+.fk-card summary .tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.fk-card .tag.d{background:color-mix(in srgb,var(--kin) 16%,var(--card));color:var(--kin-d)}
+.fk-card .tag.i{background:color-mix(in srgb,var(--ai) 12%,var(--card));color:var(--ai)}
+.fk-card summary::after{content:"＋";color:var(--usu);font-size:16px}
+.fk-card[open] summary::after{content:"－"}
+.fk-card .body{padding:0 14px 14px;font-size:14px}
+.fk-card h3{font-size:14px;color:var(--c,var(--shu));margin:10px 0 4px;border-bottom:1px dashed var(--line)}
+.fk-card ul{padding-left:1.2em;margin:0}
+.fk-card li{margin:3px 0}
+.fk-card p{margin:0}
+.fk-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.fk-chip{font-size:12px;background:var(--washi);border:1px solid var(--line);border-radius:6px;padding:1px 7px}
+.fk-chip a.fx{display:inline-block;padding:6px 2px}
+
+/* 文献 */
+.fk-refs{background:var(--card);border:1px solid var(--line);border-radius:var(--r);margin-top:4px}
+.fk-refs summary{cursor:pointer;min-height:44px;display:flex;align-items:center;padding:0 14px;font-size:13px;font-weight:700;color:var(--sumi2)}
+.fk-refs ol{margin:0;padding:0 14px 12px 2.2em;font-size:12px;color:var(--sumi2)}
+.fk-refs li{margin:4px 0;word-break:break-all}
+.fk-refs li b{color:var(--sumi);font-weight:700}
+.fk-refs p{font-size:11.5px;color:var(--usu);margin:0;padding:0 14px 12px}
+
+/* 併用チェック */
+.fk-search{margin:0 0 8px}
+.fk-topics{display:flex;gap:6px;overflow-x:auto;margin:0 -14px 8px;padding:0 14px 2px;scrollbar-width:none}
+.fk-topics::-webkit-scrollbar{display:none}
+.fk-topics button{flex:0 0 auto;font-family:inherit;font-size:12px;font-weight:600;color:var(--sumi2);background:var(--card);
+  border:1px solid var(--line);border-radius:999px;padding:0 12px;min-height:36px;cursor:pointer;white-space:nowrap}
+.fk-topics button.on{background:var(--shu);border-color:var(--shu);color:var(--on)}
+.fk-btnrow{display:flex;gap:10px;align-items:center;margin:4px 0 8px}
+.fk-btnrow span{font-size:13px;color:var(--sumi2)}
+.fk-btn{font-family:inherit;font-size:14px;font-weight:700;color:var(--ai);background:var(--card);border:1px solid var(--ai);border-radius:10px;min-height:44px;padding:0 14px;cursor:pointer}
+.fk-flist{max-height:42vh;overflow:auto;-webkit-overflow-scrolling:touch;background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
+.fk-row{display:flex;align-items:center;gap:8px;min-height:48px;padding:4px 4px 4px 12px;border-bottom:1px solid var(--line);cursor:pointer}
+.fk-row:last-child{border-bottom:0}
+.fk-row.sel{background:color-mix(in srgb,var(--matsu) 12%,var(--card))}
+.fk-row .ck{flex:0 0 18px;color:var(--matsu);font-weight:900}
+.fk-row .nm{flex:1;min-width:0;line-height:1.35}
+.fk-row .nm b{font-weight:700}
+.fk-row .num{font-size:11px;color:var(--kin-d);font-weight:700;margin-right:4px}
+.fk-row .g{font-size:11.5px;color:var(--sumi2);text-align:right;white-space:nowrap;line-height:1.3}
+.fk-row .g .mk{display:block;font-size:10.5px;color:var(--usu)}
+.fk-row .g .unk{color:var(--shu);font-weight:700}
+.fk-row .go{flex:0 0 44px;min-height:44px;display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--ai);text-decoration:none;
+  font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif}
+.fk-empty{padding:14px;color:var(--sumi2);font-size:14px}
+.mini{display:inline-block;font-size:10px;font-weight:700;color:var(--on);border-radius:4px;padding:0 4px;margin-left:2px;line-height:1.6;vertical-align:1px}
+.m-ka{background:var(--fk-ka)}.m-ou{background:var(--fk-ou)}.m-ma{background:var(--fk-ma)}.m-bu{background:var(--fk-bu)}
+.m-dai{background:var(--fk-dai)}.m-san{background:var(--fk-san)}.m-bo{background:var(--fk-bo)}
+
+.fk-result{margin-top:14px;scroll-margin-top:130px}
+.fk-picked{font-size:13.5px;margin-bottom:10px;line-height:1.9}
+.fk-picked .lbl{font-size:12px;color:var(--sumi2);margin-right:4px}
+.fk-total{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;text-align:center}
+.fk-total .lbl{font-size:13px;color:var(--sumi2)}
+.fk-total .num{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-size:40px;font-weight:800;line-height:1.2;color:var(--kin-d)}
+.fk-total .num small{font-size:16px}
+.fk-total .msg{font-size:13px}
+.fk-total.caution{border-color:var(--kin);background:color-mix(in srgb,var(--kin) 12%,var(--card))}
+.fk-total.caution .num{color:var(--shu)}
+.fk-total .unk{display:inline-block;margin:4px 0 6px;font-size:13px;font-weight:700;color:var(--shu);border:1.5px dashed var(--shu);border-radius:8px;padding:3px 10px}
+.fk-total .bd{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--sumi2);text-align:left;line-height:1.8}
+.fk-total .bd .mk{color:var(--usu);font-size:11.5px}
+.fk-alert{border-radius:10px;padding:10px 12px;margin-top:10px;font-size:14px;background:color-mix(in srgb,var(--c) 10%,var(--card));border-left:4px solid var(--c)}
+.fk-alert .sub{display:block;font-size:12px;color:var(--sumi2);margin-top:2px}
+.fk-alert .unk{color:var(--shu);font-weight:700}
+.fk-dup{border:1.5px dashed var(--shu);border-radius:10px;padding:8px 12px;margin-top:10px;font-size:14px}
+.fk-dup b{color:var(--shu)}
+.fk-note{font-size:12px;color:var(--sumi2);margin-top:14px}
+
+/* 甘草リスク */
+.fk-chk{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:6px;cursor:pointer;min-height:48px}
+.fk-chk input{width:22px;height:22px;margin-top:1px;accent-color:var(--shu);flex:none}
+.fk-chk small{display:block;color:var(--sumi2);font-size:12px}
+
+/* 経過観察 */
+.fk-tl{position:relative;padding-left:22px}
+.fk-tl::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.fk-tl .st{position:relative;margin-bottom:14px}
+.fk-tl .st::before{content:"";position:absolute;left:-20px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--c,var(--shu));border:2px solid var(--card)}
+.fk-tl .when{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;font-size:16px}
+.fk-tl .what{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:14px;margin-top:4px}
+
+@media print{
+  .fk-btnrow,.fk-search,.fk-topics{display:none}
+  .fk-flist{max-height:none}
+  .fk-card .body{display:block}
+}

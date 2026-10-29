@@ -87,7 +87,11 @@ var ROUTER = (function(){
   return {
     replace: replace,
     /* fallback：アプリ内の履歴が無いときに行く先 */
-    back: function(fallback){ if (stack.length > 1) history.back(); else replace(fallback); },
+    /* 戻ったときは、ジャンプする前のスクロール位置に戻す（別のタブへ戻るときだけ。activate が位置を覚えている） */
+    back: function(fallback){
+      if (stack.length > 1){ restoring = modOf(stack[stack.length - 2]) !== current; history.back(); }
+      else replace(fallback);
+    },
     /* ひとつ前の画面のモジュール名（「‹ 証ナビへ」などの文言用） */
     prevMod: function(){ return stack.length > 1 ? modOf(stack[stack.length - 2]) : null; },
     order: ORDER,

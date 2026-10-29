@@ -54,13 +54,16 @@ MAKERS = [("コタロー", "小太郎漢方製薬"), ("小太郎", "小太郎漢
           ("三和", "三和生薬"), ("クラシエ", "クラシエ"), ("オースギ", "大杉製薬"), ("大杉", "大杉製薬"),
           ("太虎", "太虎精堂製薬")]
 
-TSV_HEADER = ["ツムラ番号", "方剤名", "生薬名", "量(g)", "製剤", "量の出所", "PMDA確認", "注記"]
+TSV_HEADER = ["ツムラ番号", "方剤名", "生薬名", "量(g)", "製剤", "量の出所", "PMDA確認", "URL", "注記"]
+# 量の出所がこれのときは、量が書いてあっても使わない（院長の判断待ち。アプリでは量未確認として扱う）
+PENDING_SOURCE = "保留"
 TSV_INTRO = [
-    "# 漢方総合アプリ：エキス剤の生薬量（1日量中の g）。ツムラの添付文書（PMDA）を正とする。",
+    "# 漢方総合アプリ：エキス剤の生薬量（1日量中の g）。PMDA の医療用医薬品添付文書を正とする（ツムラの製剤を基本とし、ツムラに無い方剤は他社）。",
     "# 1行＝方剤の生薬1つ。生薬名は entries の「## 構成」と同じ表記にする（違うと build が検査で知らせる）。",
     "# 量(g)：空欄＝要確認（アプリでは合計に入れない）。記憶や他アプリの数字で埋めない。",
-    "# 量の出所：entries＝entries の出典欄の PMDA 行から build が転記した初期値。PMDA で確かめて直したら PMDA と書く。",
-    "# PMDA確認：PMDA の添付文書で確かめた日（例 2026-11-05）と版。空欄＝未確認。",
+    "# 製剤：量を取った添付文書のメーカー。アプリの画面にも出す。",
+    "# 量の出所：entries＝entries の出典欄の PMDA 行から転記した値／PMDA＝添付文書から転記した値／保留＝添付文書の値はあるが院長の判断待ち（アプリでは量未確認として扱い、合計に入れない）。",
+    "# PMDA確認：PMDA の添付文書で確かめた日と、その添付文書の改訂年月・版。URL：その添付文書の PMDA のページ。",
     "# 列はタブ区切り。# で始まる行は読まない。",
 ]
 
@@ -251,7 +254,7 @@ def init_rows(entries):
             if HERB_CANON.get(b):
                 note.append("集計では%sとして数える（院長決定 Q5）" % HERB_CANON[b])
             rows.append([e["ツムラ番号"] if is_tsumura(e) else "", e["file"], raw, fmt_g(g), p["maker"],
-                         "entries" if g is not None else "", "", "。".join(note)])
+                         "entries" if g is not None else "", "", "", "。".join(note)])
     return rows
 
 
@@ -281,7 +284,9 @@ def read_tsv(path):
                 g = float(r["量(g)"])
             except ValueError:
                 raise ValueError("%s の %d 行目：量(g) が数字ではありません（%s）" % (path.name, no, r["量(g)"]))
-        r["g"] = g
+        # 保留の行は、量が書いてあっても未確認として扱う
+        r["pending"] = r["量の出所"] == PENDING_SOURCE
+        r["g"] = None if r["pending"] else g
         data.setdefault(r["方剤名"], []).append(r)
     if header is None:
         raise ValueError("%s に見出し行がありません" % path.name)
@@ -290,7 +295,8 @@ def read_tsv(path):
 
 def build_data(entries, tsv):
     """formulas・nameIndex・herbIndex と検査結果を返す。"""
-    formulas, herb_index, checks = {}, {}, {"mismatch": [], "blank": [], "disc": [], "differ": [], "orphan": [], "number": []}
+    formulas, herb_index = {}, {}
+    checks = {"mismatch": [], "blank": [], "disc": [], "differ": [], "orphan": [], "number": [], "unchecked": [], "keyblank": []}
     for e in entries:
         fid = e["file"]
         raws = herbs_of(e)
@@ -312,7 +318,8 @@ def build_data(entries, tsv):
         have = [h for h in herbs if h["g"] is not None]
         status = "full" if herbs and len(have) == len(herbs) else ("partial" if have else "none")
         if status != "full":
-            checks["blank"].append((e, status, [h["raw"] for h in herbs if h["g"] is None]))
+            wait = [x for r in rows for x in r["注記"].split("。") if "院長確認待ち" in x and "対応が資料" in x]
+            checks["blank"].append((e, status, [h["raw"] for h in herbs if h["g"] is None], wait))
         parsed = parse_entry(e)["g"]
         for h in herbs:
             pv = parsed.get(base_name(h["raw"]))
@@ -325,12 +332,23 @@ def build_data(entries, tsv):
                 key[h["canon"]] = None if (prev is None or h["g"] is None) else round(prev + h["g"], 3)
         makers = sorted({r["製剤"] for r in rows if r["製剤"]})
         checked = sorted({r["PMDA確認"] for r in rows if r["PMDA確認"]})
+        urls = sorted({r["URL"] for r in rows if r["URL"]})
+        pending = any(r["pending"] for r in rows)
+        if rows and any(not r["PMDA確認"] for r in rows):
+            checks["unchecked"].append(e)
+        nullkey = [k for k, v in key.items() if v is None]
+        if nullkey:
+            checks["keyblank"].append((e, nullkey, pending))
         formulas[fid] = {
             "id": fid, "name": e["名前"], "yomi": e["読み"], "tsumura": e["ツムラ番号"] if is_tsumura(e) else "",
             "aliases": [a for a in e["別名"].split("・") if a.strip()],
             "maker": "／".join(makers) or None,
             "herbs": herbs, "doseStatus": status,
             "pmda": "／".join(checked),
+            "url": urls[0] if len(urls) == 1 else "",
+            "pending": pending,
+            # 同じ方剤名で量の違う別の製剤（院長決定2：表には多いほうを載せ、こちらは注記）
+            "other": next((m.group(1) for r in rows for m in [re.search(r"ほかの製剤：(.+?)。警告", r["注記"])] if m), ""),
             "key": key,
         }
         for c in sorted({h["canon"] for h in herbs}):
@@ -377,14 +395,31 @@ def report(checks, formulas, tsv_path):
         L.append("- なし")
     L.append("")
     L.append("## (2) 量が空欄の方剤（%d 件。ツムラ番号順）" % len(checks["blank"]))
-    for e, status, blank in checks["blank"]:
+    for e, status, blank, wait in checks["blank"]:
         num = ("ツムラ%s" % e["ツムラ番号"]) if is_tsumura(e) else "ツムラ製剤なし"
-        L.append("- [%s] %s（%s）：%s" % (num, e["file"], "一部空欄" if status == "partial" else "全部空欄", "・".join(blank)))
+        pend = formulas[e["file"]]["pending"]
+        L.append("- [%s] %s（%s）：%s" % (num, e["file"], "保留＝院長の判断待ち。量未確認として扱う" if pend
+                                         else ("一部空欄" if status == "partial" else "全部空欄"), "・".join(blank)))
+        for w in wait:
+            L.append("  - " + w)
     L.append("")
-    L.append("## (3) 証ナビと entries の構成の食い違い（設計案3章。PMDA で要確認。ここでは直さない）")
+    L.append("## (2-2) 注意生薬（%s）の量が未確認の方剤（%d 件。併用チェックで「量未確認」と出る）" % ("・".join(KEY_HERBS), len(checks["keyblank"])))
+    for e, nullkey, pend in checks["keyblank"]:
+        L.append("- %s：%s%s" % (e["file"], "・".join(nullkey), "（保留）" if pend else ""))
+    if not checks["keyblank"]:
+        L.append("- なし")
+    L.append("")
+    L.append("## (2-3) PMDA確認 が空欄の行がある方剤（%d 件）" % len(checks["unchecked"]))
+    for e in checks["unchecked"]:
+        L.append("- %s" % e["file"])
+    if not checks["unchecked"]:
+        L.append("- なし")
+    L.append("")
+    L.append("## (3) 証ナビと entries の構成の食い違い（設計案3章。証ナビ側の扱いは4日目）")
     for f, h, d, g, has in checks["disc"]:
         now = ("いまの表：%s %s g" % (h, fmt_g(g)) if g is not None else "いまの表：%s 量空欄" % h) if has else "いまの構成に%sは無い" % h
-        L.append("- %s：%s。%s" % (f, d, now))
+        chk = formulas[f]["pmda"] if f in formulas else ""
+        L.append("- %s：%s。%s。%s" % (f, d, now, ("PMDA 確認 %s：添付文書は entries の構成と同じ" % chk) if chk else "PMDA 未確認"))
     L.append("")
     L.append("## (4) entries の PMDA 行と %s で量が違うもの（%d 件）" % (tsv_path.name, len(checks["differ"])))
     for e, raw, pv, tv in checks["differ"]:

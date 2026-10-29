@@ -47,5 +47,9 @@ document.addEventListener("click", function(ev){
   var b = ev.target.closest("[data-theme-set]"); if (b) theme.set(b.dataset.themeSet);
 });
 
+/* 併用チェックで選んだ方剤（方剤 id の集合）。全モジュールで1つを共有する。
+   患者に関わる内容なのでメモリの中だけで持ち、localStorage には保存しない（院長決定9・Q7）。 */
+var SELECTED = new Set();
+
 /* モジュールの登録先。各モジュールが MODULES.<名前> = {...} を入れ、最後に router.js が動かす */
 var MODULES = {};
