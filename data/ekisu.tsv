@@ -28,13 +28,13 @@
 3	乙字湯	甘草	2.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200012D1080_1_14	
 3	乙字湯	升麻	1.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200012D1080_1_14	
 3	乙字湯	大黄	0.5	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200012D1080_1_14	
-5	安中散	桂皮	4.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200001D1066_1_10	添付文書の エンゴサク 3.0 g・ウイキョウ 1.5 g・シュクシャ 1.0 g・リョウキョウ 0.5 g と構成の 延胡索・茴香・縮砂・良姜 の対応が資料（2日目の読み替え表・再照合の並びと量・消去法）だけでは決まらないため、量を空欄にした（院長確認待ち）
-5	安中散	延胡索		ツムラ		2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200001D1066_1_10	
+5	安中散	桂皮	4.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200001D1066_1_10	添付文書の エンゴサク・ウイキョウ・シュクシャ・リョウキョウ を構成の 延胡索・茴香・縮砂・良姜 と読み替えた（院長確認 2026-10-29）
+5	安中散	延胡索	3.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200001D1066_1_10	
 5	安中散	牡蛎	3.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200001D1066_1_10	
-5	安中散	茴香		ツムラ		2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200001D1066_1_10	
+5	安中散	茴香	1.5	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200001D1066_1_10	
 5	安中散	甘草	1.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200001D1066_1_10	
-5	安中散	縮砂		ツムラ		2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200001D1066_1_10	
-5	安中散	良姜		ツムラ		2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200001D1066_1_10	
+5	安中散	縮砂	1.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200001D1066_1_10	
+5	安中散	良姜	0.5	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200001D1066_1_10	
 6	十味敗毒湯	桔梗	3.0	ツムラ	entries	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200070D1105_1_13	証ナビとの違い：証ナビは桜皮、entries（ツムラ6）は樸樕（PMDA 2026-10-29 確認：添付文書は entries の構成と同じ）
 6	十味敗毒湯	柴胡	3.0	ツムラ	entries	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200070D1105_1_13	
 6	十味敗毒湯	川芎	3.0	ツムラ	entries	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200070D1105_1_13	
@@ -606,13 +606,13 @@
 85	神秘湯	甘草	2.0	ツムラ	entries	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200082D1043_1_11	
 85	神秘湯	柴胡	2.0	ツムラ	entries	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200082D1043_1_11	
 85	神秘湯	蘇葉	1.5	ツムラ	entries	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200082D1043_1_11	
-86	当帰飲子	当帰	5.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200108D1023_1_10	添付文書の シツリシ 3.0 g・カシュウ 2.0 g と構成の 蒺藜子・何首烏 の対応が資料（2日目の読み替え表・再照合の並びと量・消去法）だけでは決まらないため、量を空欄にした（院長確認待ち）
+86	当帰飲子	当帰	5.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200108D1023_1_10	添付文書の シツリシ・カシュウ を構成の 蒺藜子・何首烏 と読み替えた（院長確認 2026-10-29）
 86	当帰飲子	地黄	4.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200108D1023_1_10	
-86	当帰飲子	蒺藜子		ツムラ		2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200108D1023_1_10	
+86	当帰飲子	蒺藜子	3.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200108D1023_1_10	
 86	当帰飲子	芍薬	3.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200108D1023_1_10	
 86	当帰飲子	川芎	3.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200108D1023_1_10	
 86	当帰飲子	防風	3.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200108D1023_1_10	
-86	当帰飲子	何首烏		ツムラ		2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200108D1023_1_10	
+86	当帰飲子	何首烏	2.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200108D1023_1_10	
 86	当帰飲子	黄耆	1.5	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200108D1023_1_10	
 86	当帰飲子	荊芥	1.5	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200108D1023_1_10	
 86	当帰飲子	甘草	1.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200108D1023_1_10	
@@ -760,14 +760,14 @@
 103	酸棗仁湯	川芎	3.0	ツムラ	entries	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200056D1032_1_10	
 103	酸棗仁湯	知母	3.0	ツムラ	entries	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200056D1032_1_10	
 103	酸棗仁湯	甘草	1.0	ツムラ	entries	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200056D1032_1_10	
-104	辛夷清肺湯	石膏	5.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200080D1044_1_16	添付文書の ビャクゴウ 3.0 g・ビワヨウ 2.0 g と構成の 百合・枇杷葉 の対応が資料（2日目の読み替え表・再照合の並びと量・消去法）だけでは決まらないため、量を空欄にした（院長確認待ち）
+104	辛夷清肺湯	石膏	5.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200080D1044_1_16	添付文書の ビャクゴウ・ビワヨウ を構成の 百合・枇杷葉 と読み替えた（院長確認 2026-10-29）
 104	辛夷清肺湯	麦門冬	5.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200080D1044_1_16	
 104	辛夷清肺湯	黄芩	3.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200080D1044_1_16	
 104	辛夷清肺湯	山梔子	3.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200080D1044_1_16	
 104	辛夷清肺湯	知母	3.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200080D1044_1_16	
-104	辛夷清肺湯	百合		ツムラ		2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200080D1044_1_16	
+104	辛夷清肺湯	百合	3.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200080D1044_1_16	
 104	辛夷清肺湯	辛夷	2.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200080D1044_1_16	
-104	辛夷清肺湯	枇杷葉		ツムラ		2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200080D1044_1_16	
+104	辛夷清肺湯	枇杷葉	2.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200080D1044_1_16	
 104	辛夷清肺湯	升麻	1.0	ツムラ	PMDA	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200080D1044_1_16	
 105	通導散	枳実	3.0	ツムラ	entries	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200105D1038_1_11	
 105	通導散	大黄	3.0	ツムラ	entries	2026-10-29 2023年12月改訂 第1版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200105D1038_1_11	
@@ -1101,8 +1101,8 @@
 	当帰芍薬散加附子	白朮	4.5	三和生薬	entries	2026-10-29 2026年8月改訂 第3版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/300303_5200112C1024_1_12	
 	当帰芍薬散加附子	沢瀉	3.5	三和生薬	entries	2026-10-29 2026年8月改訂 第3版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/300303_5200112C1024_1_12	
 	当帰芍薬散加附子	附子（加工ブシ）	1.0	三和生薬	entries	2026-10-29 2026年8月改訂 第3版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/300303_5200112C1024_1_12	添付文書の表記：日局 加工ブシ
-	附子人参湯	人参	3.0	三和生薬	保留	2026-10-29 2025年9月改訂 第2版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/300303_5200148C1022_1_12	ツムラの医療用製剤なし。製剤：三和附子理中湯エキス細粒（2025年9月改訂 第2版）。三和 附子理中湯エキス細粒の量。附子人参湯として扱うか院長確認待ち（それまでは量未確認として扱い、合計に入れない）。添付文書の確認メモ：PMDA 上の名称は「附子理中湯」（一般名コード5200148、附子人参湯の名の製剤は見当たらず）、同名の別添付文書 300303_5200148C1022_2_12（2023年10月改訂 第1版）は「ブシ」1.0g と表記、他の量は同じ
-	附子人参湯	甘草	3.0	三和生薬	保留	2026-10-29 2025年9月改訂 第2版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/300303_5200148C1022_1_12	
-	附子人参湯	白朮	3.0	三和生薬	保留	2026-10-29 2025年9月改訂 第2版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/300303_5200148C1022_1_12	
-	附子人参湯	乾姜	3.0	三和生薬	保留	2026-10-29 2025年9月改訂 第2版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/300303_5200148C1022_1_12	
-	附子人参湯	附子	1.0	三和生薬	保留	2026-10-29 2025年9月改訂 第2版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/300303_5200148C1022_1_12	添付文書の表記：日局 加工ブシ
+	附子人参湯	人参	3.0	三和生薬	PMDA	2026-10-29 2025年9月改訂 第2版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/300303_5200148C1022_1_12	ツムラの医療用製剤なし。製剤：三和 附子理中湯エキス細粒（2025年9月改訂 第2版）。附子理中湯は附子人参湯の別名（人参湯＝理中湯に附子を加えたもの。院長確認 2026-10-29）。添付文書の確認メモ：PMDA 上の名称は「附子理中湯」（一般名コード5200148、附子人参湯の名の製剤は見当たらず）、同名の別添付文書 300303_5200148C1022_2_12（2023年10月改訂 第1版）は「ブシ」1.0g と表記、他の量は同じ
+	附子人参湯	甘草	3.0	三和生薬	PMDA	2026-10-29 2025年9月改訂 第2版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/300303_5200148C1022_1_12	
+	附子人参湯	白朮	3.0	三和生薬	PMDA	2026-10-29 2025年9月改訂 第2版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/300303_5200148C1022_1_12	
+	附子人参湯	乾姜	3.0	三和生薬	PMDA	2026-10-29 2025年9月改訂 第2版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/300303_5200148C1022_1_12	
+	附子人参湯	附子	1.0	三和生薬	PMDA	2026-10-29 2025年9月改訂 第2版	https://www.pmda.go.jp/PmdaSearch/iyakuDetail/300303_5200148C1022_1_12	添付文書の表記：日局 加工ブシ

@@ -402,6 +402,8 @@ def report(checks, formulas, tsv_path):
                                          else ("一部空欄" if status == "partial" else "全部空欄"), "・".join(blank)))
         for w in wait:
             L.append("  - " + w)
+    if not checks["blank"]:
+        L.append("- なし")
     L.append("")
     L.append("## (2-2) 注意生薬（%s）の量が未確認の方剤（%d 件。併用チェックで「量未確認」と出る）" % ("・".join(KEY_HERBS), len(checks["keyblank"])))
     for e, nullkey, pend in checks["keyblank"]:
