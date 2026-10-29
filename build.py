@@ -14,11 +14,19 @@
   - 共通部品 modules/common/ は決まった順で先に入れる（router.js だけは最後）。
 - 公開用で modules/<名前>/placeholder.html があれば、view.html の代わりにそれを入れる（脈診＝「手元版のみ」）。
 - 手元用で modules-local/<名前>/ があれば、そのモジュールは丸ごとそちらを使う（modules-local/ は .gitignore 済み）。
+
+共通の方剤データ（2日目。中身は formulas.py）:
+- DATA に formulas（方剤ごとの構成と量）・nameIndex（方剤名の表記ゆれ→id）・herbIndex（生薬→方剤）を足す。
+- 量は data/ekisu.tsv から取る。無いときだけ entries の PMDA 行から初期値を作る（上書きしない）。
+- 検査結果（構成と表の名前の食い違い・量の空欄・証ナビとの食い違い）を表示し、sources/ があれば
+  sources/pmda-check.md（社員に渡す PMDA 確認リスト。非公開）にも書き出す。
 """
 import datetime
 import json
 import pathlib
 import sys
+
+import formulas as fm
 
 ROOT = pathlib.Path(__file__).resolve().parent
 ENTRIES = ROOT / "entries"
@@ -28,6 +36,8 @@ OUT_PUBLIC = ROOT / "genten.html"
 OUT_LOCAL = ROOT / "genten-local.html"
 MODULES = ROOT / "modules"
 MODULES_LOCAL = ROOT / "modules-local"
+EKISU = ROOT / "data" / "ekisu.tsv"
+PMDA_CHECK = ROOT / "sources" / "pmda-check.md"
 
 # 下部タブの順。template.html の .apptab と同じ並び
 MODULE_ORDER = ["genten", "shou", "myaku", "fuku"]
@@ -152,13 +162,15 @@ def assemble(edition):
     return parts
 
 
-def write(out, edition, entries):
+def write(out, edition, entries, shared):
     data = {
         "built": datetime.date.today().isoformat(),
         "edition": edition,
+        "schema": 2,
         "sections": SECTIONS,
         "entries": entries,
     }
+    data.update(shared)
     template = TEMPLATE.read_text(encoding="utf-8")
     for s in SLOTS:
         if template.count(s) != 1:
@@ -185,8 +197,51 @@ def main():
     if orphans:
         print("警告: entries/ に対応する方剤がない private/ のファイルは読みません: %s"
               % "、".join(n + ".md" for n in orphans), file=sys.stderr)
+    shared = formula_data(entries)
     for out, edition in [(OUT_PUBLIC, "public"), (OUT_LOCAL, "local")]:
-        write(out, edition, [with_private(e, private.get(e["file"], {}), edition) for e in entries])
+        write(out, edition, [with_private(e, private.get(e["file"], {}), edition) for e in entries], shared)
+
+
+def formula_data(entries):
+    """共通の方剤データを作り、検査結果を出す。formulas は entries（公開部分）と ekisu.tsv だけから作る。"""
+    if not EKISU.is_file():
+        fm.write_tsv(EKISU, fm.init_rows(entries))
+        print("%s が無かったので、entries の PMDA 行から初期値を作りました" % EKISU.relative_to(ROOT))
+    try:
+        tsv = fm.read_tsv(EKISU)
+    except ValueError as err:
+        fail(str(err) + "。")
+    formulas, name_index, herb_index, checks = fm.build_data(entries, tsv)
+    lines = fm.report(checks, formulas, EKISU)
+    print("\n".join(["", "==== 方剤データの検査 ===="] + lines + [""]))
+    if PMDA_CHECK.parent.is_dir():
+        PMDA_CHECK.write_text(pmda_check_md(lines), encoding="utf-8")
+        print("%s に PMDA 確認リストを書き出しました（非公開）" % PMDA_CHECK.relative_to(ROOT))
+    return {"formulas": formulas, "nameIndex": name_index, "herbIndex": herb_index}
+
+
+def pmda_check_md(lines):
+    head = [
+        "# PMDA 確認リスト（漢方総合アプリ・エキス剤の生薬量）",
+        "",
+        "作成 %s（build.py が毎回作り直す。このファイルを直接直さない）。非公開（sources/）。" % datetime.date.today().isoformat(),
+        "",
+        "## 社員の方へ：作業のしかた",
+        "",
+        "1. `data/ekisu.tsv` を表計算ソフト（タブ区切り）で開く。1行＝方剤の生薬1つ、ツムラ番号順。",
+        "2. PMDA の医療用医薬品の添付文書（**ツムラの製剤を正とする**）を開き、組成欄の「1日量中の生薬量（g）」を `量(g)` に書く。",
+        "3. 書いた行・確かめた行の `PMDA確認` に、確かめた日と添付文書の改訂年月・版を書く（例 `2026-11-05 2023年12月改訂 第1版`）。",
+        "   すでに量が入っている行（`量の出所`＝entries）も、PMDA と合っていれば `PMDA確認` を埋める。",
+        "4. PMDA と違う数字・違う生薬があったら、表は PMDA に合わせて直し、`量の出所` を `PMDA` にし、`注記` に何が違ったかを書く。",
+        "   entries（原典の本文）は直さない。違いは院長に報告する。",
+        "5. ツムラの製剤が無い方剤（ツムラ番号が空欄）は、どの製剤の量を載せるか院長に確認してから書く。",
+        "6. 生薬名は entries の「構成」と同じ表記にする（例：附子（ブシ末））。添付文書のカタカナ名では書かない。",
+        "7. 分からない量は空欄のままにする（空欄はアプリで「量 要確認」と出て、甘草の合計には入らない）。",
+        "",
+        "## いまの状態",
+        "",
+    ]
+    return "\n".join(head + lines) + "\n"
 
 
 if __name__ == "__main__":
