@@ -1,10 +1,11 @@
 /* ===== 脈診モジュール（公開版。2026-10-30 院長決定で公開版に組み込み） =====
    - 判定の計算は手元版（modules-local/myaku/myaku.js）と同じ（重み・相兼脈・複合脈の推定・八綱の振り分けは変えていない）。
-   - 文は data.js（院長確認済みの下書き sources/koten/myaku28-draft.md から作ったもの）だけを使う。書籍の表は使わない。
+   - 文は data.js（院長確認済みの書き直し版 sources/koten/myaku28-draft.md から作ったもの）だけを使う。書籍の表は使わない。
    - 手元版との違い（文の出どころをそろえたため）：
-     1. 相兼脈は説明と出典を下書きから。翻刻に根拠のない組み合わせ（弦滑数）は無い。
-     2. 注意の札は、下書きに文があるもの（散・疾・革）と、調律異常で心電図を勧める札（アプリの補足）だけ。
-     3. 病態は名前だけ。治法・参考処方は出さない（書籍由来でないと確かめられていないため。院長確認待ち＝案A、2026-10-30）。
+     1. 相兼脈は説明と出典を myaku28-draft.md から。翻刻に根拠のない組み合わせ（弦滑数）は無い。
+     2. 注意の札は、myaku28-draft.md に文があるもの（散・疾・革）と、調律異常で心電図を勧める札（アプリの補足）だけ。
+     3. 治法・参考処方（アプリ側の補足・書籍外。2026-10-30 院長確認）は、手元版だけの語句（安全装置）を含まない文だけ出す。
+        無い病態では治法・処方の行を出さない。札「参考処方・書籍外」と説明文（各脈の解説タブの下）は旧 脈診ナビと同じ。
         病態の「鑑別」の行、部位の臓腑・上中下の割り当て、「脈診の要点」のタブは無い（書籍由来のため）。代わりに「各脈の解説」のタブ。
    - 所見はメモリの中だけ（保存しない）。画面の状態（サブタブ）は genten.myaku.tab.v1（subtabModule が保存）。
      旧 "myakushin.tab" は新しいキーが空のときだけ写す（judge・list のみ）。旧キーは消さない。所見の旧キー myakushin.v1 は読まない。 */
@@ -14,6 +15,13 @@ var PULSES = D.PULSES, DETAIL = D.DETAIL, SYN = D.SYN, R = D.R, fixedForce = D.f
     GROUPS = D.GROUPS, POSCELLS = D.POSCELLS, ALERT = D.ALERT, EXAMPLE = D.EXAMPLE;
 var SUBS = ["judge", "list", "kaisetsu"];
 
+/* 原典に無い方剤（エキス剤なし／一般用。院長決定）。リンクにせず小札を付ける（手元版と同じ） */
+var NO_EXT = ["参苓白朮散", "銀翹散"];
+function rxHTML(f){
+  var h = linkify(f);
+  NO_EXT.forEach(function(n){ h = h.split(n).join(n + '<span class="unreg">エキス剤なし／一般用</span>'); });
+  return h;
+}
 /* 「要確認」を札にする（文はエスケープ済みのもの） */
 function flags(s){ return String(s).replace(/要確認/g, '<span class="flag">要確認</span>'); }
 function txt(s){ return flags(esc(s)); }
@@ -98,7 +106,7 @@ function hakko(ps){
   kj = f === "有力" ? "実" : f === "無力" ? "虚" : "—";
   return {hr, kn, kj};
 }
-/* 注意の札：出す条件は手元版と同じ。文は data.js の ALERT（下書きにあるもの）だけ */
+/* 注意の札：出す条件は手元版と同じ。文は data.js の ALERT（myaku28-draft.md にあるもの）だけ */
 function alerts(ps){
   const a = [];
   for (const p of ["散", "疾", "革"]) if (ps.includes(p) && ALERT[p]) a.push(ALERT[p]);
@@ -138,7 +146,8 @@ function renderResult(){
       const s = SYN[id];
       h += `<div class="my-c ${i === 0 ? "top" : ""}"><div class="hd"><span class="nm">${s.n}</span><span class="sc">${sc}点</span></div>
       <div class="my-bar"><i style="width:${Math.round(sc / max * 100)}%"></i></div>
-      <ul class="my-why">${why[id].filter(Boolean).map(w => `<li>${txt(w)}</li>`).join("")}</ul></div>`;
+      <ul class="my-why">${why[id].filter(Boolean).map(w => `<li>${txt(w)}</li>`).join("")}</ul>
+      ${s.rx || s.f ? `<div class="my-rx">${s.rx ? `<b>${s.rx}</b>　` : ""}${s.f ? rxHTML(s.f) : ""}<span class="ext">参考処方・書籍外</span></div>` : ""}</div>`;
     });
     h += `</div>`;
     const missing = missingDims();
@@ -183,7 +192,7 @@ el("myCopy").onclick = () => {
   try { navigator.clipboard.writeText(text).then(() => toast("コピーしました：" + text.slice(0, 24) + "…"), fallback); } catch (e){ fallback(); }
 };
 
-/* ===== 二十八脈一覧（下書きの一覧表） ===== */
+/* ===== 二十八脈一覧（myaku28-draft.md の一覧表） ===== */
 function renderTable(q){
   q = (q || "").trim();
   let h = "";
@@ -205,7 +214,7 @@ el("myTb").addEventListener("click", e => {
   toast(p + "脈を入れました");
 });
 
-/* ===== 各脈の解説（下書きの各脈の節。HTML は生成時にエスケープ済み） ===== */
+/* ===== 各脈の解説（myaku28-draft.md の各脈の節。HTML は生成時にエスケープ済み） ===== */
 el("myDetail").innerHTML = PULSES.map(r => {
   const d = DETAIL[r.p]; if (!d) return "";
   return `<div class="my-panel my-tip"><h3>${esc(d.title)}</h3>${flags(d.html)}</div>`;
