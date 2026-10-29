@@ -9,6 +9,8 @@
 .fk-split .d b{color:var(--kin-d)}
 .fk-split .i{background:color-mix(in srgb,var(--ai) 10%,var(--card))}
 .fk-split .i b{color:var(--ai)}
+.fk-cls{font-size:12px;color:var(--sumi2);margin-top:6px}
+.fk-card li small{display:block;font-size:12px;color:var(--sumi2)}
 .ref{font-size:10.5px;color:var(--usu);margin-left:3px}
 .ref::before{content:"［"}.ref::after{content:"］"}
 

@@ -152,7 +152,8 @@ function renderDetail(){
     (r.tcm ? '<div class="sh-card sh-kin"><h3>中医の代表方 → エキス剤</h3><table class="kv">' + r.tcm.map(function(t){ return "<tr><td>" + t[0] + "</td><td>" + linkHTML(t[1]) + "</td></tr>"; }).join("") + "</table></div>" : "") +
     '<div class="sh-card"><h3>代替・鑑別</h3><ul class="tight">' + r.alt.map(function(a){ return "<li>" + linkHTML(a) + "</li>"; }).join("") + "</ul></div>" +
     '<div class="sh-card sh-caution"><h3>注意</h3><ul class="tight">' + r.caution.map(function(a){ return "<li>" + a + "</li>"; }).join("") + "</ul>" +
-    '<p class="hint">赤い生薬＝重複・副作用に注意。構成は原典（entries）の「構成」から。</p>' +
+    '<p class="hint">赤い生薬＝重複・副作用に注意。構成は原典（entries）の「構成」から。<br>注意文は各製剤の PMDA 添付文書（ツムラ。多くは2023年12月改訂 第1版、葛根湯は2026年8月改訂 第2版）の使用上の注意に合わせた。' +
+      '大腸メラノーシス：Zhang R, et al. Front Pharmacol 2023;14:1160480／富田ほか. medicina 2016;53(9):1374-1376。</p>' +
     '<div class="sh-row"><a class="sh-btn pri" href="#/fuku/check">併用チェックへ ›<small>' + (SELECTED.size ? SELECTED.size + "処方を選択中" : "") + "</small></a></div></div>";
 }
 

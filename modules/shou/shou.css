@@ -1,7 +1,8 @@
 /* ===== 証ナビ（旧 kampogairai の見た目を washi のトークンに合わせたもの） =====
    旧データ（SHOU_MODS）が使う色の名前を washi のトークンに対応させる：
    --kincha→--kin、--matsuba→--matsu、--alert→--shu-d、--oketsu→--akane、--ink→--sumi。
-   --sh-kan は旧の直書き #4f6f7a（寒飲・陰虚の色）。暗い表示用の値は新しく決めた（院長確認待ち）。 */
+   --sh-kan は旧の直書き #4f6f7a（寒飲・陰虚の色）。暗い表示用の値 #8FB0BA は、暗い背景 #1C1A17 で 7.51:1、カード #25221E で 6.85:1、
+   #2B2722 で 6.42:1（本文の基準 4.5:1 以上）。文字の --on #1C1A17 を載せる地の色としても 7.51:1。 */
 #m-shou,.mhead[data-mod="shou"]{--kincha:var(--kin);--matsuba:var(--matsu);--alert:var(--shu-d);--oketsu:var(--akane);--ink:var(--sumi);--sh-kan:#4F6F7A}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #m-shou{--sh-kan:#8FB0BA}}
 :root[data-theme="dark"] #m-shou{--sh-kan:#8FB0BA}
