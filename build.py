@@ -14,6 +14,8 @@
   - 共通部品 modules/common/ は決まった順で先に入れる（router.js だけは最後）。
 - 公開用で modules/<名前>/placeholder.html があれば、view.html の代わりにそれを入れる（脈診＝「手元版のみ」）。
 - 手元用で modules-local/<名前>/ があれば、そのモジュールは丸ごとそちらを使う（modules-local/ は .gitignore 済み）。
+- 安全装置（設計案 4-3）：手元版にしか無い語句（modules-local/*/data.js の文字列と、脈診の目印の語句）が
+  公開用に1つでも入っていたら、どちらのファイルも書かずにエラーで止める。entries（原典の本文）にもある語句は数えない。
 
 共通の方剤データ（2日目。中身は formulas.py）:
 - DATA に formulas（方剤ごとの構成と量）・nameIndex（方剤名の表記ゆれ→id）・herbIndex（生薬→方剤）を足す。
@@ -24,6 +26,7 @@
 import datetime
 import json
 import pathlib
+import re
 import sys
 
 import formulas as fm
@@ -45,6 +48,10 @@ COMMON_CSS = ["base.css", "dark.css"]
 COMMON_JS_FIRST = ["store.js", "linkify.js", "subtabs.js"]
 COMMON_JS_LAST = ["router.js"]
 SLOTS = ["__MODULES_CSS__", "__MODULES_HEAD__", "__MODULES_HTML__", "__MODULES_JS__", "__GENTEN_DATA__"]
+
+# 安全装置：公開用に入ってはいけない語句。modules-local/*/data.js の文字列（この字数以上・漢字かなを含む）を自動で拾い、目印の語句を足す
+LOCAL_ONLY_MIN = 10
+LOCAL_ONLY_FIXED = ["如盤走珠", "如軽刀刮竹", "葱管", "p.102", "p.104"]
 
 META_KEYS = ["名前", "読み", "ツムラ番号", "出典", "別名"]
 SECTIONS = ["条文", "出典", "構成", "方意", "諸家の論", "院長メモ"]
@@ -162,7 +169,7 @@ def assemble(edition):
     return parts
 
 
-def write(out, edition, entries, shared):
+def render(edition, entries, shared):
     data = {
         "built": datetime.date.today().isoformat(),
         "edition": edition,
@@ -186,8 +193,30 @@ def write(out, edition, entries, shared):
         result += [rest[:i], parts[s]]
         rest = rest[i + len(s):]
     result.append(rest)
-    out.write_text("".join(result), encoding="utf-8")
-    print("%s を出力しました（方剤 %d 件）" % (out.name, len(entries)))
+    return "".join(result)
+
+
+def local_only_phrases():
+    """手元版にしか無い語句。modules-local/*/data.js の文字列リテラルと目印の語句から、entries の本文にも出てくるものを除いたもの。"""
+    found = set(LOCAL_ONLY_FIXED)
+    pat = re.compile(r'"([^"\\\n]{%d,})"' % LOCAL_ONLY_MIN)
+    kana_kanji = re.compile("[\u3040-\u30ff\u4e00-\u9fff]")
+    for p in sorted(MODULES_LOCAL.glob("*/data.js")):
+        for m in pat.finditer(read(p)):
+            if kana_kanji.search(m.group(1)):
+                found.add(m.group(1))
+    body = "\n".join(p.read_text(encoding="utf-8") for p in md_files(ENTRIES))
+    return sorted(x for x in found if x not in body)
+
+
+def check_public(text):
+    """公開用の出力に手元版だけの語句が入っていたら止める（何も書かない）。"""
+    phrases = local_only_phrases()
+    leaked = [x for x in phrases if x in text]
+    if leaked:
+        fail("公開用（genten.html）に手元版だけの語句が %d 件入っています（例：%s）。modules/ に脈診の中身を入れていないか確かめてください。"
+             % (len(leaked), "、".join(leaked[:3])))
+    print("安全装置：手元版だけの語句 %d 件は公開用に入っていません" % len(phrases))
 
 
 def main():
@@ -198,8 +227,14 @@ def main():
         print("警告: entries/ に対応する方剤がない private/ のファイルは読みません: %s"
               % "、".join(n + ".md" for n in orphans), file=sys.stderr)
     shared = formula_data(entries)
+    texts = {}
+    for edition in ["public", "local"]:
+        texts[edition] = render(edition, [with_private(e, private.get(e["file"], {}), edition) for e in entries], shared)
+        if edition == "public":
+            check_public(texts[edition])
     for out, edition in [(OUT_PUBLIC, "public"), (OUT_LOCAL, "local")]:
-        write(out, edition, [with_private(e, private.get(e["file"], {}), edition) for e in entries], shared)
+        out.write_text(texts[edition], encoding="utf-8")
+        print("%s を出力しました（方剤 %d 件）" % (out.name, len(entries)))
 
 
 def formula_data(entries):
