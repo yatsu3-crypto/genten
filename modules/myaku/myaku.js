@@ -4,7 +4,8 @@
    - 手元版との違い（文の出どころをそろえたため）：
      1. 相兼脈は説明と出典を下書きから。翻刻に根拠のない組み合わせ（弦滑数）は無い。
      2. 注意の札は、下書きに文があるもの（散・疾・革）と、調律異常で心電図を勧める札（アプリの補足）だけ。
-     3. 病態の「鑑別」の行、部位の臓腑・上中下の割り当て、「脈診の要点」のタブは無い（書籍由来のため）。代わりに「各脈の解説」のタブ。
+     3. 病態は名前だけ。治法・参考処方は出さない（書籍由来でないと確かめられていないため。院長確認待ち＝案A、2026-10-30）。
+        病態の「鑑別」の行、部位の臓腑・上中下の割り当て、「脈診の要点」のタブは無い（書籍由来のため）。代わりに「各脈の解説」のタブ。
    - 所見はメモリの中だけ（保存しない）。画面の状態（サブタブ）は genten.myaku.tab.v1（subtabModule が保存）。
      旧 "myakushin.tab" は新しいキーが空のときだけ写す（judge・list のみ）。旧キーは消さない。所見の旧キー myakushin.v1 は読まない。 */
 (function(){
@@ -13,13 +14,6 @@ var PULSES = D.PULSES, DETAIL = D.DETAIL, SYN = D.SYN, R = D.R, fixedForce = D.f
     GROUPS = D.GROUPS, POSCELLS = D.POSCELLS, ALERT = D.ALERT, EXAMPLE = D.EXAMPLE;
 var SUBS = ["judge", "list", "kaisetsu"];
 
-/* 原典に無い方剤（エキス剤なし／一般用。院長決定）。リンクにせず小札を付ける */
-var NO_EXT = ["参苓白朮散", "銀翹散"];
-function rxHTML(f){
-  var h = linkify(f);
-  NO_EXT.forEach(function(n){ h = h.split(n).join(n + '<span class="unreg">エキス剤なし／一般用</span>'); });
-  return h;
-}
 /* 「要確認」を札にする（文はエスケープ済みのもの） */
 function flags(s){ return String(s).replace(/要確認/g, '<span class="flag">要確認</span>'); }
 function txt(s){ return flags(esc(s)); }
@@ -144,8 +138,7 @@ function renderResult(){
       const s = SYN[id];
       h += `<div class="my-c ${i === 0 ? "top" : ""}"><div class="hd"><span class="nm">${s.n}</span><span class="sc">${sc}点</span></div>
       <div class="my-bar"><i style="width:${Math.round(sc / max * 100)}%"></i></div>
-      <ul class="my-why">${why[id].filter(Boolean).map(w => `<li>${txt(w)}</li>`).join("")}</ul>
-      <div class="my-rx"><b>${s.rx}</b>　${rxHTML(s.f)}<span class="ext">参考処方・アプリの補足</span></div></div>`;
+      <ul class="my-why">${why[id].filter(Boolean).map(w => `<li>${txt(w)}</li>`).join("")}</ul></div>`;
     });
     h += `</div>`;
     const missing = missingDims();

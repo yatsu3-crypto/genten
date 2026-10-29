@@ -15,7 +15,7 @@
 | `modules/genten/` | 原典タブ（一覧・詳細） | 同上 |
 | `modules/shou/` | 証ナビタブ。`data.js` は17テーマの所見・判定・方剤詳細・患者説明（院長の自作）と注意文（PMDA 添付文書に合わせたもの。出典の確かめは `sources/shou-citations.md`） | 同上 |
 | `modules/fuku/` | 副作用タブ（生薬別・併用チェック・甘草リスク・経過観察）。出典の確かめは `sources/fukusayou-citations.md` | 同上 |
-| `modules/myaku/` | 脈診タブの**公開版**（2026-10-30 から）：判定・二十八脈・各脈の解説。`data.js` の文は院長確認済みの `sources/koten/myaku28-draft.md`（古典の翻刻から書き直したもの）からだけ取る。判定の仕組み（重み）は手元版と同じ。書籍の表は入れない。翻刻に根拠のない相兼脈（弦滑数）は入れない | 同上 |
+| `modules/myaku/` | 脈診タブの**公開版**（2026-10-30 から）：判定・二十八脈・各脈の解説。`data.js` の文は院長確認済みの `sources/koten/myaku28-draft.md`（古典の翻刻から書き直したもの）からだけ取る。判定の仕組み（重み）は手元版と同じ。病態は名前だけ出す（治法・参考処方は院長確認待ちで手元版のみ。外した文は `sources/koten/myaku-hidden.md`）。書籍の表は入れない。翻刻に根拠のない相兼脈（弦滑数）は入れない | 同上 |
 | `modules-local/` | 手元版だけに入るモジュール。いまは `modules-local/myaku/`（脈診の書籍版。書籍の表を含む。手元版ではこちらが `modules/myaku/` の代わりに入る） | **非公開**（`.gitignore` 済み。コミットしない） |
 | `build.py` | `entries/*.md`（と `private/*.md`）を読み、モジュールを組み立てて `genten.html` と `genten-local.html` を出力する | リポジトリに入る |
 | `formulas.py` | build が使う共通の方剤データ（構成・量・生薬の寄せ方・方剤名の表記ゆれ）と、`data/ekisu.tsv` の検査。結果は `sources/pmda-check.md`（社員に渡す PMDA 確認リスト）にも出る | 同上 |
