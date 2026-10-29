@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="保存テスト">
+<meta name="theme-color" content="#FBF5E6">
+<meta name="robots" content="noindex">
+<title>保存テスト｜漢方総合アプリ 実機確認</title>
+<!-- 実機確認用（1日目）。患者情報は扱わない。書くのは「どの画面で書いたか」と時刻だけ -->
+<style>
+:root{--washi:#FBF5E6;--card:#FFFCF4;--line:#D9CDB3;--sumi:#332C25;--sumi2:#5B5247;--shu:#C1432E;--kin-d:#8A6410;--matsu:#2E5D4B;--ai:#22376B;--r:12px}
+*{box-sizing:border-box}
+html{min-height:100%}
+body{margin:0;font-family:"Hiragino Sans","Yu Gothic",-apple-system,sans-serif;color:var(--sumi);background:var(--washi);font-size:15px;line-height:1.65;-webkit-text-size-adjust:100%}
+main{max-width:560px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 18px) 16px calc(env(safe-area-inset-bottom) + 40px)}
+h1{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:20px;margin:0 0 4px}
+.sub{font-size:12px;color:var(--sumi2);margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;margin-bottom:10px}
+.k{font-size:12px;font-weight:700;color:var(--matsu);letter-spacing:.1em}
+.v{font-size:17px;font-weight:700;word-break:break-all}
+.mode-standalone{color:var(--shu)}
+.mode-browser{color:var(--ai)}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;border-radius:999px;border:1.5px solid var(--ai);
+  background:var(--ai);color:#FFFCF4;font-weight:700;font-size:15px;font-family:inherit;margin-top:8px;text-decoration:none}
+.btn.ghost{background:var(--card);color:var(--ai)}
+.note{font-size:12.5px;color:var(--sumi2)}
+</style>
+</head>
+<body>
+<main>
+  <h1>保存テスト</h1>
+  <div class="sub">ホーム画面アプリと Safari で、保存した値が共有されるかを確かめるページ</div>
+
+  <div class="card"><div class="k">いまの開き方</div><div class="v" id="mode"></div></div>
+  <div class="card"><div class="k">このページのアドレス</div><div class="v" id="where" style="font-size:13px"></div></div>
+  <div class="card"><div class="k">保存されている値</div><div class="v" id="val"></div>
+    <button class="btn" id="write">この開き方で値を書く</button>
+    <button class="btn ghost" id="clear">値を消す</button>
+  </div>
+  <p class="note">保存のキーは genten.devtest.probe.v1。書くのは「Safari／ホーム画面アプリ」の別と時刻だけです。</p>
+</main>
+<script>
+var KEY = "genten.devtest.probe.v1";
+var standalone = (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+var label = standalone ? "ホーム画面アプリ（全画面）" : "Safari などのブラウザ";
+function show(){
+  var v = null;
+  try { v = localStorage.getItem(KEY); } catch (e){ v = "（保存できない環境）"; }
+  document.getElementById("val").textContent = v || "（まだ何も保存されていない）";
+}
+document.getElementById("mode").textContent = label;
+document.getElementById("mode").className = "v " + (standalone ? "mode-standalone" : "mode-browser");
+document.getElementById("where").textContent = location.href;
+document.getElementById("write").onclick = function(){
+  var d = new Date(), p = function(n){ return ("0" + n).slice(-2); };
+  try { localStorage.setItem(KEY, label + "で " + p(d.getHours()) + ":" + p(d.getMinutes()) + ":" + p(d.getSeconds()) + " に書いた"); } catch (e){}
+  show();
+};
+document.getElementById("clear").onclick = function(){ try { localStorage.removeItem(KEY); } catch (e){} show(); };
+show();
+</script>
+</body>
+</html>
