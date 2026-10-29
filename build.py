@@ -53,6 +53,9 @@ SLOTS = ["__MODULES_CSS__", "__MODULES_HEAD__", "__MODULES_HTML__", "__MODULES_J
 # 安全装置：公開用に入ってはいけない語句。modules-local/*/data.js の文字列（この字数以上・漢字かなを含む）を自動で拾い、目印の語句を足す
 LOCAL_ONLY_MIN = 10
 LOCAL_ONLY_FIXED = ["如盤走珠", "如軽刀刮竹", "葱管", "p.102", "p.104"]
+# 安全装置から外す語句（語句単位）。古典の翻刻（sources/koten/）に同じ表現があるものだけを、
+# sources/koten/ に除外語一覧（ファイル・箇所）を記録したうえで足す。2026-10-30 公開版の脈診の組み込みでは除外なし。
+LOCAL_ONLY_EXCLUDE = []
 
 META_KEYS = ["名前", "読み", "ツムラ番号", "出典", "別名"]
 SECTIONS = ["条文", "出典", "構成", "方意", "諸家の論", "院長メモ"]
@@ -207,7 +210,7 @@ def local_only_phrases():
             if kana_kanji.search(m.group(1)):
                 found.add(m.group(1))
     body = "\n".join(p.read_text(encoding="utf-8") for p in md_files(ENTRIES))
-    return sorted(x for x in found if x not in body)
+    return sorted(x for x in found if x not in body and x not in LOCAL_ONLY_EXCLUDE)
 
 
 def check_public(text):

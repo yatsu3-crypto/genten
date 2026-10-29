@@ -1,1 +1,27 @@
-<div class="listempty"><div class="big">🌼</div><b>脈診ナビは準備中です</b>手元版への組み込みは後日行います。</div>
+<!-- 脈診（公開版）。サブタブ：判定／二十八脈／各脈の解説。文は院長確認済みの下書き（古典の翻刻から書き直したもの）から -->
+<div data-sub="judge">
+  <div class="my-panel" id="myInputs"></div>
+  <div class="my-row">
+    <button type="button" class="my-btn" id="myReset">すべて解除</button>
+    <button type="button" class="my-btn" id="myExample">例を入れる</button>
+    <button type="button" class="my-btn pri" id="myCopy">カルテ用にコピー</button>
+    <span class="my-muted" id="myExnote"></span>
+  </div>
+  <p class="my-muted">所見は画面を閉じると消える（患者の情報は保存しない）。</p>
+  <div id="myResult" class="my-stack"></div>
+</div>
+
+<div data-sub="list" hidden>
+  <div class="search my-search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input type="search" id="myQ" placeholder="脈名・病態で絞り込み（例：痰、湿、弦）" autocomplete="off" enterkeyhint="search">
+  </div>
+  <div class="my-tblwrap"><table class="my-tbl"><thead><tr><th>脈象</th><th>特徴</th><th>実証</th><th>虚証</th><th>備考</th><th>出典</th></tr></thead><tbody id="myTb"></tbody></table></div>
+  <p class="my-muted">行をタップすると判定タブにその脈を入れます。「分類」（脈位の異常など）は古典に記載がないため、脈名の下に陰陽の別だけを示しています。1分間の回数も古典に記載がないため、至数は「一息○至」で示しています。</p>
+</div>
+
+<div data-sub="kaisetsu" hidden>
+  <div id="myDetail" class="my-stack"></div>
+  <p class="my-muted">各脈の説明は『瀕湖脈學』（疾は『診家正眼』、大は『素問』『傷寒論』『金匱要略』）の維基文庫の翻刻から書き直したもの。「要確認」は字や読みを原本で確かめていない箇所。</p>
+</div>
+<div class="my-toast" id="myToast" hidden></div>

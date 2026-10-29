@@ -1,0 +1,87 @@
+/* ===== 脈診ナビ（手元版だけ）=====
+   旧 myakushin.html の見た目を washi のトークンに合わせたもの。旧の色の名前 → washi：
+   --paper→--card、--ink→--sumi、--kincha→--kin、--matsuba→--matsu、--warn→--shu-d。
+   旧の -bg（薄い色の面）は color-mix でカードの色に混ぜて作る（明るい表示・暗い表示とも同じ式）。
+   ダーク表示は common/dark.css のトークンがそのまま効く（旧 脈診ナビの暗い値が全体の基準）。 */
+#m-myaku{
+  --my-shu-bg:color-mix(in srgb,var(--shu) 13%,var(--card));
+  --my-ai-bg:color-mix(in srgb,var(--ai) 12%,var(--card));
+  --my-matsu-bg:color-mix(in srgb,var(--matsu) 13%,var(--card));
+  --my-kin-bg:color-mix(in srgb,var(--kin) 15%,var(--card));
+  --my-warn-bg:color-mix(in srgb,var(--shu) 16%,var(--card));
+}
+#m-myaku h2{font-size:19px;margin:6px 0 0;letter-spacing:.04em;text-wrap:balance}
+#m-myaku h3{font-size:14px;margin:0;font-weight:700}
+.my-stack{display:grid;gap:14px;margin-top:14px}
+.my-panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.my-stack .my-panel{margin-bottom:0}
+.my-grp{display:grid;grid-template-columns:4.2em 1fr;gap:8px;align-items:start;padding-block:7px;border-bottom:1px dashed var(--line)}
+.my-grp:last-child{border-bottom:0}
+.my-grp .lab{font-size:12px;color:var(--sumi2);padding-top:11px;letter-spacing:.05em}
+.my-chips{display:flex;flex-wrap:wrap;gap:6px}
+.my-chip{font:inherit;font-size:15px;min-width:50px;min-height:44px;padding:4px 11px;border-radius:999px;border:1px solid var(--line);background:var(--washi);color:var(--sumi);cursor:pointer;line-height:1.25}
+.my-chip small{display:block;font-size:10px;color:var(--sumi2)}
+.my-chip[aria-pressed="true"]{background:var(--shu);border-color:var(--shu);color:var(--on)}
+.my-chip[aria-pressed="true"] small{color:var(--on);opacity:.85}
+.my-chip:focus-visible,.my-btn:focus-visible{outline:2px solid var(--ai);outline-offset:2px}
+.my-pos{display:grid;grid-template-columns:auto repeat(3,1fr);gap:6px;align-items:center;font-size:12px}
+.my-pos .h{text-align:center;color:var(--sumi2)}
+.my-pos .my-chip{min-width:0;width:100%;padding:4px 2px;font-size:13px}
+.my-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.my-btn{font:inherit;font-size:13px;font-weight:700;min-height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--sumi);cursor:pointer}
+.my-btn.pri{background:var(--matsu);border-color:var(--matsu);color:var(--on)}
+.my-summary{display:flex;flex-wrap:wrap;gap:6px;font-size:13px}
+.my-tag{padding:3px 10px;border-radius:999px;background:var(--my-ai-bg);color:var(--ai);font-weight:500}
+.my-tag.r{background:var(--my-shu-bg);color:var(--shu)}
+.my-tag.g{background:var(--my-matsu-bg);color:var(--matsu)}
+.my-tag.k{background:var(--my-kin-bg);color:var(--kin-d)}
+.my-hakko{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.my-hk{background:var(--washi);border-radius:10px;padding:8px;text-align:center}
+.my-hk .t{font-size:11px;color:var(--sumi2)}
+.my-hk .v{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-size:20px;font-weight:700}
+.my-alert{background:var(--my-warn-bg);color:var(--shu-d);border-radius:10px;padding:10px 12px;font-size:14px;font-weight:500}
+.my-cand{display:grid;gap:10px}
+.my-c{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--card)}
+.my-c.top{border-color:var(--shu);box-shadow:inset 3px 0 0 var(--shu)}
+.my-c .hd{display:flex;align-items:center;gap:8px}
+.my-c .nm{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-size:18px;font-weight:700;flex:1;min-width:0}
+.my-c .sc{font-variant-numeric:tabular-nums;font-size:12px;color:var(--sumi2)}
+.my-bar{height:5px;background:var(--line);border-radius:3px;margin:6px 0 4px;overflow:hidden}
+.my-bar i{display:block;height:100%;background:var(--kin);border-radius:3px}
+.my-c.top .my-bar i{background:var(--shu)}
+.my-why{font-size:12.5px;color:var(--sumi2);margin:0;padding-left:1.1em}
+.my-why li{margin:1px 0}
+.my-rx{font-size:13.5px;margin-top:6px;padding-top:6px;border-top:1px dashed var(--line);line-height:1.9}
+.my-rx b{color:var(--matsu)}
+.my-rx a.fx{display:inline-block;padding:2px 0}
+.my-rx .unreg{white-space:nowrap}
+.my-rx .ext{font-size:10.5px;color:var(--sumi2);border:1px solid var(--line);border-radius:4px;padding:0 4px;margin-left:4px;white-space:nowrap}
+.my-next{font-size:13px;margin-top:6px;background:var(--my-ai-bg);border-radius:8px;padding:6px 9px}
+.my-next b{color:var(--ai)}
+.my-combo{background:var(--my-kin-bg);border-radius:10px;padding:10px 12px}
+.my-combo .nm{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;font-size:17px;color:var(--kin-d)}
+.my-combo dl{margin:4px 0 0;font-size:13.5px}
+.my-combo dt{font-weight:700;display:inline}
+.my-combo dd{display:inline;margin:0}
+.my-combo dd::after{content:"";display:block;margin-bottom:3px}
+.my-single{display:grid;gap:6px;font-size:13.5px}
+.my-single > div{display:grid;grid-template-columns:3.4em 1fr;gap:6px}
+.my-single .p{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;color:var(--shu)}
+.my-muted{color:var(--sumi2);font-size:12px}
+.my-search{margin:0 0 10px}
+.my-search input{font-size:16px}
+.my-tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.my-tbl{border-collapse:collapse;width:100%;min-width:560px;font-size:13px}
+.my-tbl th,.my-tbl td{border-bottom:1px solid var(--line);padding:9px 8px;text-align:left;vertical-align:top}
+.my-tbl thead th{background:var(--my-kin-bg);color:var(--kin-d);font-weight:700;position:sticky;top:0}
+.my-tbl td.pn{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;white-space:nowrap;color:var(--shu)}
+.my-tbl tr.gh td{background:var(--washi);font-size:11.5px;color:var(--sumi2);letter-spacing:.08em;padding:5px 8px}
+.my-tbl tr[data-p]{cursor:pointer}
+.my-tip h3{font-size:16px;color:var(--ai);margin-bottom:4px}
+.my-tip p,.my-tip li{font-size:14px;margin:0 0 4px}
+.my-tip ul{margin:0;padding-left:1.2em}
+.my-mini{display:grid;grid-template-columns:auto 1fr 1fr;gap:4px 10px;font-size:13.5px;max-width:320px}
+.my-mini .h{color:var(--sumi2);font-size:12px}
+.my-toast{position:fixed;left:50%;bottom:calc(var(--tabbar-h) + 14px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--sumi);color:var(--washi);padding:8px 16px;border-radius:999px;font-size:13px;z-index:50;max-width:90vw}
+#myCopytxt{width:100%;font:inherit;font-size:16px;border:1px solid var(--line);border-radius:8px;background:var(--washi);color:var(--sumi);padding:8px}
+@media (prefers-reduced-motion: no-preference){.my-chip,.my-btn{transition:background .15s,border-color .15s}}
