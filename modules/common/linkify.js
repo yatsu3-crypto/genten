@@ -33,3 +33,27 @@ function linkify(text, unreg){
   });
   return out;
 }
+/* linkHTML(html) … すでに HTML になっている文字列（モジュールのデータ）の、タグの外の文字だけをリンクにする。
+   <a>…</a> の中は触らない。中身はエスケープし直さない（データ側で HTML として書かれているため）。 */
+function linkHTML(html, unreg){
+  var parts = String(html == null ? "" : html).split(/(<[^>]*>)/), inA = 0;
+  var out = parts.map(function(p){
+    if (p.charAt(0) === "<"){
+      if (/^<a[\s>]/i.test(p)) inA++; else if (/^<\/a>/i.test(p)) inA--;
+      return p;
+    }
+    if (inA || !NAME_RE) return p;
+    NAME_RE.lastIndex = 0;
+    return p.replace(NAME_RE, function(n){ return '<a class="fx" href="' + gentenHref(NAME_INDEX[n]) + '">' + n + '</a>'; });
+  }).join("");
+  (unreg || []).forEach(function(n){ out = out.split(n).join(n + '<span class="unreg">原典未登録</span>'); });
+  return out;
+}
+/* 文字列中の方剤名から、原典の id を出てくる順に重複なしで返す */
+function formulaIds(text){
+  var ids = [], m;
+  if (!NAME_RE) return ids;
+  NAME_RE.lastIndex = 0;
+  while ((m = NAME_RE.exec(String(text || "")))){ var id = NAME_INDEX[m[0]]; if (ids.indexOf(id) === -1) ids.push(id); }
+  return ids;
+}

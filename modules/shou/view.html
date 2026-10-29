@@ -1,1 +1,34 @@
-<div class="listempty"><div class="big">🌼</div><b>証ナビは準備中です</b>いまの証ナビは、これまでどおり別のページで使えます。</div>
+<!-- 証ナビ（旧 kampogairai を移したもの）。サブタブ：判定／比較表／方剤詳細／患者説明。テーマはヘッダーの #shTopics -->
+<div data-sub="dx">
+  <div id="shIntro"></div>
+  <div class="sh-card sh-result" id="shRes"></div>
+  <div class="sh-card">
+    <div class="sh-grp"><span class="sh-dot" style="background:var(--alert)"></span><span id="shRedTitle"></span></div>
+    <div class="sh-chips" id="shRed"></div>
+    <div id="shRedMsg"></div>
+  </div>
+  <div class="sh-card">
+    <p class="hint">当てはまる所見をタップ。太字は重み2。</p>
+    <div id="shGroups"></div>
+    <div class="sh-row"><button type="button" class="sh-btn" id="shReset">リセット</button><button type="button" class="sh-btn pri" id="shToDetail">方剤詳細へ</button></div>
+  </div>
+  <p class="sh-note">所見の選択は画面を閉じると消える（保存しない）。</p>
+</div>
+
+<div data-sub="cmp" hidden>
+  <h2 class="sh-h2" id="shCmpTitle"></h2>
+  <div class="sh-card scroll"><table class="wide" id="shCmp"></table></div>
+  <div class="sh-card" id="shCmpExtra"></div>
+</div>
+
+<div data-sub="rx" hidden>
+  <div class="sh-seg" id="shSeg"></div>
+  <div id="shDetail"></div>
+</div>
+
+<div data-sub="pt" hidden>
+  <h2 class="sh-h2">患者さんへの説明</h2>
+  <p class="hint">画面をそのまま患者さんに向けて使えます。</p>
+  <div class="sh-seg" id="shSeg2"></div>
+  <div id="shPt"></div>
+</div>

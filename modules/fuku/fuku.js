@@ -14,7 +14,7 @@ var FX = DATA.formulas || {};
 var PM_MA = "PMDA 添付文書：ツムラ葛根湯・麻黄湯 使用上の注意",
     PM_BU = "PMDA 添付文書：ツムラ真武湯・八味地黄丸 使用上の注意",
     PM_DAI = "PMDA 添付文書：ツムラ大黄甘草湯 使用上の注意",
-    PM_BO = "PMDA 添付文書：ツムラ調胃承気湯・大黄牡丹皮湯・防風通聖散 その他の注意",
+    PM_BO = "PMDA 添付文書：ツムラ大承気湯・調胃承気湯・大黄牡丹皮湯・防風通聖散 その他の注意",
     PM_RASH = "PMDA 添付文書：ツムラ葛根湯・真武湯 使用上の注意";
 var REFS = [
   ["Uneda 2024", "Uneda K, et al. PLoS One 2024;19(1):e0296450. doi:10.1371/journal.pone.0296450", "甘草を含む処方の割合（148処方のうち7割以上）、偽アルドステロン症のリスク因子、投与期間14日超"],
@@ -29,7 +29,7 @@ var REFS = [
   [PM_MA, "ツムラ葛根湯エキス顆粒（医療用）2026年8月改訂 第2版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200013D1123_1_14 ／ ツムラ麻黄湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200132D1035_1_12", "麻黄：9.1 合併症・既往歴等のある患者（循環器系の障害・重症高血圧症・排尿障害・甲状腺機能亢進症）、10.2 併用注意、11.2 その他の副作用（自律神経系・泌尿器）"],
   [PM_BU, "ツムラ真武湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200083D1030_1_13 ／ ツムラ八味地黄丸エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200121D1045_1_11", "附子：8.2 重要な基本的注意（ブシを含む製剤との併用）、9.1・9.5・9.7、11.2 その他の副作用"],
   [PM_DAI, "ツムラ大黄甘草湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200090D1030_1_12", "大黄：8.3・8.4 重要な基本的注意（併用・瀉下作用の個人差）、9.1・9.5・9.6、11.2 その他の副作用"],
-  [PM_BO, "ツムラ調胃承気湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200100D1027_1_11 ／ ツムラ大黄牡丹皮湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200091D1026_1_10 ／ ツムラ防風通聖散エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200130D1060_1_18", "芒硝：15.1 その他の注意（無水ボウショウ・食塩制限が必要な患者）。3つとも同じ文"],
+  [PM_BO, "ツムラ大承気湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200095D1024_1_09 ／ ツムラ調胃承気湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200100D1027_1_11 ／ ツムラ大黄牡丹皮湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200091D1026_1_10 ／ ツムラ防風通聖散エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200130D1060_1_18", "芒硝：15.1 その他の注意（無水ボウショウ・食塩制限が必要な患者）。4つとも同じ文"],
   [PM_RASH, "ツムラ葛根湯エキス顆粒（医療用）2026年8月改訂 第2版（上記）／ ツムラ真武湯エキス顆粒（医療用）2023年12月改訂 第1版（上記）", "薬疹：11.1.4 多形紅斑（葛根湯）、11.2 その他の副作用 過敏症（発疹・発赤・瘙痒・蕁麻疹等）"]
 ];
 function ref(){ return Array.prototype.map.call(arguments, function(k){ return '<span class="ref">' + esc(k) + '</span>'; }).join(""); }

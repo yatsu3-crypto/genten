@@ -214,6 +214,95 @@ a.fx{color:var(--ai);text-decoration:none;font-family:"Shippori Mincho","Hiragin
 @media print{
   .sec,.al{break-inside:avoid;box-shadow:none}
 }
+/* ===== 証ナビ（旧 kampogairai の見た目を washi のトークンに合わせたもの） =====
+   旧データ（SHOU_MODS）が使う色の名前を washi のトークンに対応させる：
+   --kincha→--kin、--matsuba→--matsu、--alert→--shu-d、--oketsu→--akane、--ink→--sumi。
+   --sh-kan は旧の直書き #4f6f7a（寒飲・陰虚の色）。暗い表示用の値は新しく決めた（院長確認待ち）。 */
+#m-shou,.mhead[data-mod="shou"]{--kincha:var(--kin);--matsuba:var(--matsu);--alert:var(--shu-d);--oketsu:var(--akane);--ink:var(--sumi);--sh-kan:#4F6F7A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #m-shou{--sh-kan:#8FB0BA}}
+:root[data-theme="dark"] #m-shou{--sh-kan:#8FB0BA}
+
+/* テーマ（ヘッダー内・横スクロール） */
+.sh-topics{display:flex;gap:6px;overflow-x:auto;margin:8px -16px 0;padding:0 16px 2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sh-topics::-webkit-scrollbar{display:none}
+.sh-topics button{flex:0 0 auto;font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;font-size:14px;color:var(--sumi2);
+  background:var(--washi);border:1.5px solid var(--line);border-radius:999px;padding:0 13px;min-height:44px;cursor:pointer;white-space:nowrap}
+.sh-topics button.on{background:var(--sumi);border-color:var(--sumi);color:var(--washi)}
+
+#m-shou .hint{color:var(--sumi2);font-size:13px;margin:6px 0}
+#m-shou .sh-h2{font-size:17px;margin:12px 0 8px}
+#m-shou h3{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-size:16px;margin:0 0 6px}
+.sh-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0;box-shadow:var(--shadow)}
+.sh-intro{border-left:5px solid var(--kin);background:color-mix(in srgb,var(--kin) 7%,var(--card))}
+.sh-result{border-left:5px solid var(--sumi)}
+.sh-kin{border-left:5px solid var(--kin)}
+.sh-caution{border-left:5px solid var(--shu-d)}
+.sh-note{font-size:12px;color:var(--usu);margin:4px 2px 0}
+
+/* 所見 */
+.sh-grp{margin:14px 0 6px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:6px}
+.sh-grp small{font-weight:500;color:var(--sumi2)}
+.sh-dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+.sh-chips{display:flex;flex-wrap:wrap;gap:8px}
+.sh-chip{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:6px 13px;min-height:44px;font:inherit;font-size:14.5px;color:var(--sumi);text-align:left;cursor:pointer}
+.sh-chip.on{color:var(--on);background:var(--c);border-color:var(--c)}
+
+/* 判定結果 */
+.sh-bars{display:grid;gap:8px;margin-top:4px}
+.sh-bar{display:grid;grid-template-columns:5.6em 1fr 2em;align-items:center;gap:8px;font-size:13.5px}
+.sh-track{height:12px;background:var(--washi-d);border-radius:6px;overflow:hidden}
+.sh-fill{height:100%;border-radius:6px;transition:width .25s}
+.sh-big{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-size:21px;font-weight:800;margin:2px 0 4px;line-height:1.4}
+.sh-rxline{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-size:18px;font-weight:800;line-height:1.5}
+.sh-rxline a.fx{font-weight:800}
+.sh-why{margin:6px 0 0;padding-left:1.2em;font-size:14px}
+.sh-why li{margin:2px 0}
+#m-shou .addon{margin-top:10px;padding:8px 10px;border-radius:10px;background:color-mix(in srgb,var(--akane) 9%,var(--card));font-size:14px}
+#m-shou .addon.combo{background:color-mix(in srgb,var(--kin) 12%,var(--card))}
+#m-shou .alert{background:color-mix(in srgb,var(--shu) 9%,var(--card));border:1.5px solid var(--shu-d);color:var(--shu-d);border-radius:12px;padding:10px 12px;margin:10px 0 0;font-size:14px}
+#m-shou input{font-size:16px!important;background:var(--card);color:var(--sumi)}
+
+/* ボタン */
+.sh-row{display:flex;gap:8px;margin-top:14px}
+.sh-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1.5px solid var(--line);background:var(--card);border-radius:10px;
+  padding:8px 10px;min-height:44px;font:inherit;font-size:14px;font-weight:700;color:var(--sumi);text-decoration:none;cursor:pointer;text-align:center}
+.sh-btn.pri{background:var(--ai);color:var(--on);border-color:var(--ai)}
+.sh-btn small{font-size:11px;font-weight:500;opacity:.85}
+.sh-sel{margin-left:auto;font:inherit;font-size:12px;font-weight:700;color:var(--ai);background:var(--card);border:1.5px solid var(--ai);border-radius:999px;
+  padding:0 10px;min-height:44px;cursor:pointer;white-space:nowrap}
+.sh-sel.on{background:var(--ai);color:var(--on)}
+
+/* 方剤詳細 */
+.sh-seg{display:grid;gap:6px;margin:4px 0}
+.sh-seg button{border:1.5px solid var(--line);background:var(--card);border-radius:10px;padding:0 1px;min-height:44px;font:inherit;font-weight:700;font-size:13px;color:var(--sumi);white-space:nowrap;min-width:0;cursor:pointer}
+.sh-seg button.on{color:var(--on);background:var(--c);border-color:var(--c)}
+#m-shou dl{margin:0}
+#m-shou dt{font-weight:700;font-size:12.5px;color:var(--sumi2);margin-top:10px}
+#m-shou dd{margin:2px 0 0}
+.sh-sublabel{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 9px;margin:14px 0 2px;
+  background:color-mix(in srgb,var(--shu) 14%,var(--card));color:var(--shu-d)}
+.sh-fm{margin-top:10px;padding-top:6px}
+.sh-fm + .sh-fm{border-top:1px dashed var(--line)}
+.sh-fmh{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px}
+.sh-fmh b{font-size:17px;font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif}
+.sh-fmh a.fx{display:inline-block;padding:8px 0}
+.sh-herb{display:inline-block;background:color-mix(in srgb,var(--kin) 12%,var(--card));border-radius:6px;padding:1px 7px;margin:2px 3px 2px 0;font-size:13px}
+.sh-herb.k{background:color-mix(in srgb,var(--shu) 16%,var(--card));color:var(--shu-d);font-weight:700}
+#m-shou ul.tight{margin:4px 0;padding-left:1.2em}
+#m-shou ul.tight li{margin:3px 0}
+.sh-pt{background:color-mix(in srgb,var(--kin) 6%,var(--card));border:1px dashed var(--kin);border-radius:12px;padding:14px;font-size:16px;line-height:1.85}
+
+/* 表 */
+#m-shou table{width:100%;border-collapse:collapse;font-size:13.5px}
+#m-shou th,#m-shou td{border-bottom:1px solid var(--line);padding:8px 6px;vertical-align:top;text-align:left}
+#m-shou th{font-weight:700;color:var(--sumi2);font-size:12px;white-space:nowrap}
+#m-shou .tname{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:800;min-width:6.5em}
+#m-shou .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+#m-shou .scroll table.wide{min-width:620px}
+#m-shou .kv td:first-child{white-space:nowrap;font-weight:700}
+#m-shou .nw{white-space:nowrap}
+
+@media print{.sh-topics,.sh-row,.sh-sel{display:none!important}}
 /* ===== 副作用ナビモジュール（旧 fukusayou.html の見た目を washi のトークンに合わせたもの） ===== */
 /* 生薬ごとの色：甘＝朱、芩＝藍、麻＝金茶、附＝茜、大＝松葉、梔＝金茶の濃色、硝＝薄墨（旧 #7a3b6b・#b8862b は washi の色に寄せた） */
 .mod[data-mod="fuku"]{--fk-ka:var(--shu);--fk-ou:var(--ai);--fk-ma:var(--kin);--fk-bu:var(--akane);--fk-dai:var(--matsu);--fk-san:var(--kin-d);--fk-bo:var(--sumi2);--fk-all:var(--usu)}
@@ -356,7 +445,7 @@ a.fx{color:var(--ai);text-decoration:none;font-family:"Shippori Mincho","Hiragin
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
   <input type="search" id="q" placeholder="方剤名・読み・番号・生薬で探す" autocomplete="off" enterkeyhint="search">
 </div></div>
-  <div class="mhead" data-mod="shou"></div>
+  <div class="mhead" data-mod="shou"><div class="sh-topics" id="shTopics" role="group" aria-label="テーマ"></div></div>
   <div class="mhead" data-mod="myaku"></div>
   <div class="mhead" data-mod="fuku"></div>
 </header>
@@ -370,7 +459,40 @@ a.fx{color:var(--ai);text-decoration:none;font-family:"Shippori Mincho","Hiragin
 <section class="view" id="v-detail"></section>
 </section>
 <section class="mod" data-mod="shou" id="m-shou">
-<div class="listempty"><div class="big">🌼</div><b>証ナビは準備中です</b>いまの証ナビは、これまでどおり別のページで使えます。</div>
+<!-- 証ナビ（旧 kampogairai を移したもの）。サブタブ：判定／比較表／方剤詳細／患者説明。テーマはヘッダーの #shTopics -->
+<div data-sub="dx">
+  <div id="shIntro"></div>
+  <div class="sh-card sh-result" id="shRes"></div>
+  <div class="sh-card">
+    <div class="sh-grp"><span class="sh-dot" style="background:var(--alert)"></span><span id="shRedTitle"></span></div>
+    <div class="sh-chips" id="shRed"></div>
+    <div id="shRedMsg"></div>
+  </div>
+  <div class="sh-card">
+    <p class="hint">当てはまる所見をタップ。太字は重み2。</p>
+    <div id="shGroups"></div>
+    <div class="sh-row"><button type="button" class="sh-btn" id="shReset">リセット</button><button type="button" class="sh-btn pri" id="shToDetail">方剤詳細へ</button></div>
+  </div>
+  <p class="sh-note">所見の選択は画面を閉じると消える（保存しない）。</p>
+</div>
+
+<div data-sub="cmp" hidden>
+  <h2 class="sh-h2" id="shCmpTitle"></h2>
+  <div class="sh-card scroll"><table class="wide" id="shCmp"></table></div>
+  <div class="sh-card" id="shCmpExtra"></div>
+</div>
+
+<div data-sub="rx" hidden>
+  <div class="sh-seg" id="shSeg"></div>
+  <div id="shDetail"></div>
+</div>
+
+<div data-sub="pt" hidden>
+  <h2 class="sh-h2">患者さんへの説明</h2>
+  <p class="hint">画面をそのまま患者さんに向けて使えます。</p>
+  <div class="sh-seg" id="shSeg2"></div>
+  <div id="shPt"></div>
+</div>
 </section>
 <section class="mod" data-mod="myaku" id="m-myaku">
 <div class="listempty"><div class="big">🌼</div><b>脈診ナビは手元版のみです</b>公開版には載せていません。</div>
@@ -526,14 +648,42 @@ function linkify(text, unreg){
   });
   return out;
 }
+/* linkHTML(html) … すでに HTML になっている文字列（モジュールのデータ）の、タグの外の文字だけをリンクにする。
+   <a>…</a> の中は触らない。中身はエスケープし直さない（データ側で HTML として書かれているため）。 */
+function linkHTML(html, unreg){
+  var parts = String(html == null ? "" : html).split(/(<[^>]*>)/), inA = 0;
+  var out = parts.map(function(p){
+    if (p.charAt(0) === "<"){
+      if (/^<a[\s>]/i.test(p)) inA++; else if (/^<\/a>/i.test(p)) inA--;
+      return p;
+    }
+    if (inA || !NAME_RE) return p;
+    NAME_RE.lastIndex = 0;
+    return p.replace(NAME_RE, function(n){ return '<a class="fx" href="' + gentenHref(NAME_INDEX[n]) + '">' + n + '</a>'; });
+  }).join("");
+  (unreg || []).forEach(function(n){ out = out.split(n).join(n + '<span class="unreg">原典未登録</span>'); });
+  return out;
+}
+/* 文字列中の方剤名から、原典の id を出てくる順に重複なしで返す */
+function formulaIds(text){
+  var ids = [], m;
+  if (!NAME_RE) return ids;
+  NAME_RE.lastIndex = 0;
+  while ((m = NAME_RE.exec(String(text || "")))){ var id = NAME_INDEX[m[0]]; if (ids.indexOf(id) === -1) ids.push(id); }
+  return ids;
+}
 /* ===== 共通：サブタブ（ヘッダー内 pill）を持つモジュールの骨組み =====
    subtabModule(名前, {title, sub, subs:[[id,表示名],…], fit})
    fit:true … サブタブを横スクロールさせず、幅を分け合って全部見せる（4つ以下のとき）。
    ハッシュ：#/<名前>/<サブタブid>（証ナビは #/shou/<テーマ>/<サブタブ> を想定し、最後の区切りをサブタブとして読む）。
    サブタブの切替は履歴を積まない。最後のサブタブは画面の状態として genten.<名前>.tab.v1 に保存する。
-   本体側：<… data-sub="id"> の要素があれば、選ばれたものだけ表示する（無ければ何もしない）。 */
+   本体側：<… data-sub="id"> の要素があれば、選ばれたものだけ表示する（無ければ何もしない）。
+   path（任意）：サブタブの前に入れる区切りを返す関数（証ナビのテーマ。例 "mukumi"）。
+   onPath（任意）：ハッシュのサブタブより前の区切り（配列）を受け取り、正しくなければ false を返す（既定の画面へ置き換える）。
+   top（任意）：サブタブを押したらページの先頭へ戻す。 */
 function subtabModule(name, cfg){
   var ids = cfg.subs.map(function(s){ return s[0]; });
+  var pre = function(){ return cfg.path ? encodeURIComponent(cfg.path()) + "/" : ""; };
   var head = document.querySelector('.mhead[data-mod="' + name + '"]');
   var body = document.querySelector('.mod[data-mod="' + name + '"]');
   var tabs = document.createElement("div");
@@ -543,17 +693,24 @@ function subtabModule(name, cfg){
   }).join("");
   head.insertBefore(tabs, head.firstChild);
   tabs.addEventListener("click", function(ev){
-    var b = ev.target.closest(".tab"); if (b) ROUTER.replace("#/" + name + "/" + b.dataset.sub);
+    var b = ev.target.closest(".tab"); if (!b) return;
+    if (cfg.top) window.scrollTo(0, 0);
+    ROUTER.replace("#/" + name + "/" + pre() + b.dataset.sub);
   });
   var m = {
     title: cfg.title, sub: cfg.sub,
     home: function(){
       var t = store.get(name, "tab");
-      return "#/" + name + "/" + (ids.indexOf(t) !== -1 ? t : ids[0]);
+      return "#/" + name + "/" + pre() + (ids.indexOf(t) !== -1 ? t : ids[0]);
     },
+    /* いまのサブタブのまま、前の区切り（テーマ）だけ変えたハッシュ */
+    hashFor: function(t){ return "#/" + name + "/" + pre() + (t || m.current || ids[0]); },
+    current: null,
     show: function(rest){
       var t = rest[rest.length - 1];
       if (ids.indexOf(t) === -1){ ROUTER.replace(m.home()); return false; }
+      if (cfg.onPath && cfg.onPath(rest.slice(0, -1)) === false){ ROUTER.replace(m.home()); return false; }
+      m.current = t;
       store.set(name, "tab", t);
       $$('.mhead[data-mod="' + name + '"] .tab').forEach(function(b){
         var on = b.dataset.sub === t;
@@ -701,35 +858,3331 @@ $("#q").addEventListener("input", function(){
 });
 renderList();
 })();
-/* ===== 証ナビモジュール（1日目：枠だけ。中身は4日目に移す） ===== */
-subtabModule("shou", {
-  title: "証ナビ",
-  sub: "所見から方剤を絞り込む",
-  subs: [["dx", "判定"], ["cmp", "比較表"], ["rx", "方剤詳細"], ["pt", "患者説明"]]
+/* ===== 証ナビのデータ（旧 証ナビ yatsu3-crypto/kampogairai の index.html から移したもの。4日目） =====
+   build.py は modules/shou/*.js を名前順に読むので、このファイル（data.js）が shou.js より先に入る。
+   - SHOU_D：方剤の解説（旧 F[*].d）。キーは旧 証ナビの表記（加味逍遥散・防己黄耆湯・竹茹温胆湯・附子理中湯）。
+     構成生薬（旧 F[*].h）は持たない。構成は共通の方剤データ DATA.formulas（entries の「構成」）から出す。
+   - SHOU_EXTRA：方剤ではない加味の説明（黄耆（加味））。原典に項目が無いので、構成の表示だけここに残す。
+   - SHOU_MODS：17テーマの所見・重み・証分類・判定・方剤詳細・比較表・患者説明（旧 MODS をそのまま）。
+     旧から変えたのは「生薬タブ」→「併用チェック」、芒硝の注意文（PMDA 添付文書の「その他の注意」に合わせた）、
+     直書きの色2つを変数にしたことだけ。出典の記載は旧 証ナビにも無い（院長確認待ち Q8）。 */
+var SHOU_D = {
+"真武湯": "附子で腎陽を温め、茯苓・朮で利水する。めまい・下痢を伴う冷えのむくみに。甘草を含まない。",
+"五苓散": "臓を問わず使える利水のベース。口渇＋尿不利に。甘草を含まない。",
+"黄耆（加味）": "気を補い、表の水を捌く。煎じ薬なら加味し、エキスなら黄耆を含む方剤の併用で代用。",
+"補中益気湯": "補気升陽。黄耆・朮で湿も捌く。",
+"防己黄耆湯": "黄耆で固表止汗、防己・朮で肌表の水を捌く。膝関節痛・多汗の水太りに。",
+"桂麻各半湯": "少しだけ発汗させて表の風寒を追い出す。汗が出ず、温まると痒い・顔面紅潮の「表鬱」、寒冷や温度差で出る蕁麻疹に。エキスが手に入らなければ桂枝湯＋麻黄湯で代用。",
+"消風散": "風湿熱を散らす。分泌物・痂皮を伴い、夏に悪化する慢性湿疹に。①と②の橋渡し。",
+"黄連解毒湯": "三焦の実熱を冷ます。のぼせ・顔面紅潮・イライラ、紅斑・熱感、飲酒で悪化する例に。甘草を含まない。",
+"白虎加人参湯": "気分の熱を冷まし、損なわれた津液を補う。口渇・ほてり・発汗、顔面の紅斑、夏季に悪化するアトピーに。",
+"茵蔯蒿湯": "清熱利湿。湿熱を尿と便から出す。蕁麻疹・胆汁うっ滞性の痒みにも。便秘傾向の例に。",
+"竜胆瀉肝湯": "肝経の湿熱を冷ます。陰部・鼠径・下半身の湿疹、帯下、排尿時の不快感に。エキスは薛氏方と一貫堂方で構成が異なる。",
+"防風通聖散": "表裏双解。肥満・便秘・腹満がある実証で、表の風と裏の熱を同時に除く。",
+"当帰飲子": "四物湯をベースに血を養って潤し、防風・荊芥・蒺藜子で内風を鎮める。老人性乾皮症・皮脂欠乏性湿疹に。",
+"六味丸": "腎陰を補う。ほてり・寝汗・口乾・腰膝のだるさを伴う高齢者に。甘草を含まない。",
+"温清飲": "四物湯＋黄連解毒湯。血熱と血虚（乾燥）が一緒にある慢性湿疹に。③と④の橋渡し。",
+"柴胡清肝湯": "一貫堂の解毒証体質向け。温清飲に疏肝・清熱解毒を加えたもの。小児〜思春期の慢性湿疹・扁桃炎を繰り返すタイプに。",
+"加味逍遥散": "疏肝解鬱＋清熱。月経前の悪化・のぼせ・イライラを伴う女性に。",
+"抑肝散": "肝気の昂ぶりを鎮める。イライラ・不眠・歯ぎしり・掻破行動（掻き癖）に。胃腸が弱ければ抑肝散加陳皮半夏。",
+"八味地黄丸": "腎陽を温め補う。腰膝の冷え・夜間頻尿・下半身の脱力に。地黄を含むので胃腸が丈夫な人向き。",
+"附子理中湯": "人参湯＋附子。中焦を強く温める。腹の冷え・水様の下痢・食欲不振に。エキスがなければ人参湯＋加工ブシ末で代用。",
+"人参湯": "脾陽を温めて補う（理中）。腹の冷え・下痢・唾液が多い。",
+"苓桂朮甘湯": "心脾の陽を通じさせ、水を捌く。動悸・めまい・立ちくらみ・胸の冷えに。",
+"麻黄湯": "表の寒邪を発汗させて追い出す。寒冷曝露後の悪寒・無汗・頭痛・節々の痛み。短期で使う。",
+"麻黄附子細辛湯": "陽虚に外寒が加わった状態（少陰の表寒）。高齢・虚弱で、寒気が強く元気がないかぜや冷えに。",
+"当帰四逆加呉茱萸生姜湯": "血虚＋寒凝経絡。手足の末端が痛いほど冷たい、しもやけ、冷えによる下腹部痛・頭痛・腰痛に。",
+"五積散": "寒・湿・気・血・痰の「五積」を散らす。冷房病、腰から下が重く冷える、冷えによる腰痛に。",
+"四逆散": "気の巡りを通じさせ、詰まった陽気を手足へ届ける。ストレスで手足が冷えるが体幹は温かい、腹直筋が緊張するタイプに。",
+"桂枝茯苓丸": "駆瘀血剤。冷えのぼせ、月経痛、下腹部の圧痛などの瘀血所見に。",
+"十全大補湯": "気血双補に桂皮・黄耆を加え、温めて補う。病後・術後・慢性疲労の冷えに。",
+"人参養栄湯": "十全大補湯から川芎を除き、陳皮・遠志・五味子を加えたもの。咳・息切れ・不眠・物忘れを伴う高齢者に。",
+"帰脾湯": "心脾両虚。不眠・不安・動悸・物忘れ、出血傾向を伴う気血両虚に。地黄を含まず胃にやさしい。",
+"当帰芍薬散": "血虚＋水滞。若い女性の冷え、めまい、むくみ、月経不順に。甘草を含まない。",
+"加味帰脾湯": "帰脾湯＋柴胡・山梔子。心脾両虚に、ほてり・イライラなど軽い熱を伴うときに。",
+"酸棗仁湯": "「虚労虚煩して眠るを得ず」。心肝の血を養い、知母で虚熱を冷ます。疲れているのに眠れない人の第一選択。就寝前の頓用も可。",
+"三黄瀉心湯": "心火・実熱を冷まし、大黄で下から抜く。のぼせ・顔面紅潮・便秘を伴う不眠に。",
+"柴胡加竜骨牡蛎湯": "疏肝＋重鎮安神。驚きやすい・動悸・胸脇苦満・臍上悸を伴う実証の不眠・不安に。メーカーによって大黄の有無が異なる。",
+"桂枝加竜骨牡蛎湯": "陰陽を調和し、竜骨・牡蛎で鎮める。虚証で夢が多い・不安・驚きやすい・寝汗に。",
+"竹茹温胆湯": "温胆湯の骨格に黄連・柴胡などを加えたもの。痰熱による不眠（黄連温胆湯の代用）。かぜの後の咳・痰で眠れない例が本来の適応。",
+"半夏瀉心湯": "辛開苦降で胃を和す。心下痞・腹鳴・下痢を伴う「胃不和」の不眠に。",
+"黄連湯": "上熱下寒を調える。黄連と桂皮を含むため、交泰丸（黄連・肉桂）の代わりに使われる。",
+"大承気湯": "峻下。腹満・硬痛・燥結（痞満燥実）の実熱の便秘に。短期で使う。",
+"調胃承気湯": "芒硝で潤し、大黄で下す。口渇・乾燥便の実熱の便秘に。大承気湯より穏やか。",
+"大黄甘草湯": "最小構成の瀉下剤。ほかの方剤に少量を足して使うことも多い。",
+"桂枝加芍薬大黄湯": "芍薬で腸の緊張と腹痛を和らげ、大黄で通便。腹痛・膨満を伴う便秘、IBSの便秘型に。",
+"大柴胡湯": "疏肝行気＋瀉下。胸脇苦満・肩こり・がっしりした体格の実証の便秘に。",
+"通導散": "行気・駆瘀血・通便。瘀血＋気滞の実証（月経痛・打撲後・のぼせ）に。",
+"大建中湯": "中焦を強く温め、腸の蠕動を整える。腹が冷えて張る・痛む、術後の腸管運動の不調に。",
+"潤腸湯": "養血潤燥＋通便。皮膚が乾燥した高齢者のコロコロ便に。",
+"麻子仁丸": "小承気湯＋潤腸薬。尿が多く便が硬い「脾約」、高齢者の兎糞状便に。",
+"小建中湯": "中焦を温めて補い、腹痛を和らげる。虚弱体質・小児の便秘や腹痛に。",
+"葛根湯": "風寒を発散し、項背のこわばりをゆるめる。かぜの引き始め、首肩のこりを伴う急性の頭痛に。短期で。",
+"川芎茶調散": "散風止痛。かぜの頭痛、風寒・風湿の頭痛に。頭痛が主のときに。",
+"桔梗石膏": "清熱・排膿。単独でより、他剤に加えて熱を冷ます（風熱の頭痛・咽頭痛）。",
+"清上防風湯": "上焦の風熱を散らして冷ます。顔の赤み・にきびを伴う風熱に。",
+"桂枝湯": "調和営衛。虚弱で自汗のある表寒に。",
+"釣藤散": "平肝熄風。中高年の早朝頭痛、高血圧傾向、肩こり・めまいに（天麻鈎藤飲の近似）。",
+"七物降下湯": "四物湯＋黄耆・釣藤鈎・黄柏。血虚を伴う高血圧（上実下虚）の頭痛・のぼせに。",
+"半夏白朮天麻湯": "健脾化痰熄風。胃腸虚弱で、頭重・めまい・悪心を伴う頭痛に。",
+"桃核承気湯": "駆瘀血＋瀉下。瘀血に便秘・のぼせ・精神不安を伴う実証に。",
+"呉茱萸湯": "温中降逆。冷え＋嘔吐を伴う発作性の頭痛・片頭痛に。発作時の頓用にも、予防の継続服用にも。",
+"桂枝人参湯": "人参湯＋桂皮。胃腸虚弱・下痢しやすい人の頭痛に（温中＋解表）。",
+"黄耆建中湯": "小建中湯＋黄耆。中焦を補って固表止汗。虚弱な小児の自汗・寝汗、疲れやすさに。",
+"桂枝加黄耆湯": "桂枝湯＋黄耆。営衛を調えて体表を固める。かぜをひきやすい人の自汗に（玉屏風散の代わり）。",
+"柴胡桂枝乾姜湯": "虚証の少陽病。寝汗・頭汗・動悸・口の乾き・神経過敏、更年期の寝汗に。",
+"二陳湯": "燥湿化痰の基本方。白く粘る痰・悪心に。",
+"六君子湯": "四君子湯＋二陳湯。脾を補って痰の源を断つ。胃腸虚弱・食欲不振・痰に。",
+"半夏厚朴湯": "行気降逆・化痰。喉のつかえ（梅核気）・不安・痰がからむ咳に。",
+"柴朴湯": "小柴胡湯＋半夏厚朴湯。ストレスで悪化する慢性の咳・気管支喘息に。",
+"麦門冬湯": "潤肺降逆。発作的な咳き込み、切れにくい少量の痰、喉の乾燥に。",
+"神秘湯": "宣肺平喘＋行気。喘鳴・呼吸困難、気鬱を伴う咳に。",
+"参蘇飲": "扶正解表・化痰。虚弱な人のかぜ、咳・痰に胃腸症状を伴うとき。",
+"小青竜湯": "外寒内飲。水様の痰・鼻水・くしゃみ・悪寒に（アレルギー性鼻炎でも頻用）。",
+"麻杏甘石湯": "肺熱を冷まして平喘。咳き込み・喘鳴・汗・口渇に。",
+"清肺湯": "清熱化痰・潤肺。黄色く粘る切れにくい痰、長引く咳に（清金化痰湯の代わり）。",
+"辛夷清肺湯": "肺熱を冷まし、鼻の通りをよくする。後鼻漏・鼻閉・副鼻腔炎・鼻茸に。",
+"小柴胡湯加桔梗石膏": "和解＋清熱排膿。扁桃の腫れ・咽頭痛に。",
+"苓甘姜味辛夏仁湯": "温肺化飲。小青竜湯から麻黄・桂皮を抜いた方意で、胃腸が弱く麻黄が合わない人の水様の痰・鼻水に。",
+"柴苓湯": "小柴胡湯＋五苓散。ストレス（柴胡証）を伴う水滞に。耳閉感・低音障害型感音難聴・メニエール病、むくみに。",
+"牛車腎気丸": "八味地黄丸＋牛膝・車前子。腎陽虚に下肢のむくみ・しびれを伴う高齢者に。",
+"女神散": "理気＋清熱＋養血。更年期ののぼせ・めまい・不安（血の道症）に。",
+"十味敗毒湯": "散風・排膿。化膿傾向の初期の湿疹・にきび・蕁麻疹に。体質改善として続けることも。",
+"排膿散及湯": "排膿。膿疱・硬結・化膿性の皮膚疾患に。他剤と併用しやすい。",
+"荊芥連翹湯": "一貫堂の解毒証体質向け。浅黒い肌で、慢性のにきび・副鼻腔炎・扁桃炎を繰り返すタイプに。",
+"四物湯": "補血の基本方。血虚の土台として、多くの方剤の骨格になる。",
+"二朮湯": "化痰祛湿・通絡。痰湿による肩・上腕の痛み、五十肩に。",
+"芍薬甘草湯": "急な筋肉のつり・こわばり・痛みを緩める。甘草の量が多いため頓用が基本。",
+"疎経活血湯": "活血・祛風湿。瘀血＋風湿による筋肉・関節の痛み、しびれ（肩・腰・下肢）に。",
+"桂枝加朮附湯": "桂枝湯＋朮・附子。冷えて悪化する関節痛・神経痛・筋肉のこわばりに。",
+"桂枝加葛根湯": "桂枝湯＋葛根。汗が出やすい虚弱な人の、項背のこわばりに。",
+"清暑益気湯": "夏バテの代表方。益気生津で、汗で失った気と潤いを補う（生脈散の人参・麦門冬・五味子を含む）。",
+"胃苓湯": "平胃散＋五苓散。湿が胃腸に停滞した、むくみ・軟便・食欲不振・口の粘りに。",
+"啓脾湯": "健脾止瀉。胃腸虚弱の軟便・下痢に（参苓白朮散に近い構成）。",
+"滋陰降火湯": "滋陰潤肺・降火。夜に悪化する乾いた咳、ほてり・寝汗を伴う陰虚に。",
+"甘麦大棗湯": "「婦人臓躁、喜悲傷して哭せんと欲す」。物悲しさ・涙もろさ・不安・ひきつけ・小児の夜泣きに。甘草の量が多い。",
+"香蘇散": "穏やかに気を巡らせる理気剤。胃腸が弱い人の軽い気鬱・かぜの初期に。",
+"桔梗湯": "利咽・排膿。咽頭痛・扁桃炎・声がれに。うがいをしながら飲むとよい。",
+"三物黄芩湯": "清熱涼血。「四肢煩熱に苦しむ」手足のほてり（布団から出したくなる）に。産後・更年期にも。",
+"温経湯": "温経散寒・養血・祛瘀。手のひらのほてり・唇の乾燥・下腹部の冷え、月経不順・冷えのぼせに。",
+"桂枝茯苓丸加薏苡仁": "駆瘀血剤。苔癬化・色素沈着・痒疹結節など慢性の瘀血所見に上乗せする。"
+};
+
+var SHOU_EXTRA = {"黄耆（加味）": {"h": "黄耆"}};
+
+var SHOU_MODS = {
+
+/* ---------- むくみ ---------- */
+mukumi:{
+  label:"むくみ", sub:"腎・脾・肺 × 方剤選択",
+  types:{
+    kidney:{no:"",name:"腎陽虚",bar:"腎陽虚",seg:"腎陽虚",color:"var(--ai)"},
+    spleen:{no:"",name:"脾気虚",bar:"脾気虚",seg:"脾気虚",color:"var(--kincha)"},
+    lung:{no:"",name:"肺気虚",bar:"肺気虚",seg:"肺気虚",color:"var(--matsuba)"}
+  },
+  groups:[
+    ["kidney","腎陽虚","下焦・火種","var(--ai)"],
+    ["spleen","脾気虚","中焦・運び屋","var(--kincha)"],
+    ["lung","肺気虚","上焦・通り道","var(--matsuba)"],
+    ["both","舌・共通所見","","var(--sumi2)"]
+  ],
+  // [id,label,displayGroup,{type:weight},tag]
+  sx:[
+    ["k1","足腰・下半身の強い冷え","kidney",{kidney:2}],
+    ["k2","下肢中心の著明なむくみ（圧痕）","kidney",{kidney:2}],
+    ["k3","腰膝のだるさ・脱力","kidney",{kidney:1}],
+    ["k4","夜間頻尿／尿量減少","kidney",{kidney:1}],
+    ["k5","寒がり・四肢厥冷・顔色蒼白","kidney",{kidney:1}],
+    ["k6","めまい・ふらつき（真武湯証）","kidney",{kidney:1}],
+    ["k7","脈 沈遅・尺弱","kidney",{kidney:1}],
+    ["s1","疲れやすい・倦怠感","spleen",{spleen:2}],
+    ["s2","食後の腹部膨満・眠気","spleen",{spleen:2}],
+    ["s3","軟便・下痢傾向","spleen",{spleen:1}],
+    ["s4","食欲不振・胃もたれ","spleen",{spleen:1}],
+    ["s5","手足が重だるい・夕方に悪化","spleen",{spleen:1}],
+    ["s6","脈 緩弱・無力","spleen",{spleen:1}],
+    ["l1","顔・まぶた・上半身のむくみ","lung",{lung:2}],
+    ["l2","汗をかきやすい（自汗）","lung",{lung:2}],
+    ["l3","風邪をひきやすい","lung",{lung:1}],
+    ["l4","色白・水太り・膝関節痛","lung",{lung:1}],
+    ["l5","息切れ・声に力がない","lung",{lung:1}],
+    ["l6","脈 浮虚・軟","lung",{lung:1}],
+    ["b1","舌 淡・胖大・歯痕","both",{kidney:1,spleen:1,lung:1}],
+    ["b2","舌苔 白滑・湿潤","both",{kidney:1,spleen:1}],
+    ["b3","口渇あるが尿不利（五苓散証）","both",{},"goreisan"]
+  ],
+  redTitle:"先に除外（西洋医学的レッドフラグ）",
+  red:[
+    ["r1","片側性の下肢浮腫・疼痛（DVT）"],
+    ["r2","労作時息切れ・起座呼吸（心不全）"],
+    ["r3","蛋白尿・腎機能低下"],
+    ["r4","肝疾患・低アルブミン"],
+    ["r5","甲状腺機能低下を疑う所見"],
+    ["r6","薬剤性（Ca拮抗薬・NSAIDs・ステロイド・プレガバリン・甘草含有方）"],
+    ["r7","急速な体重増加・全身浮腫"]
+  ],
+  redMsg:r=>"漢方治療の前に原因疾患・薬剤の精査を優先してください。"+(r.has("r6")?"<br>甘草を含む方剤を飲んでいれば、むくみ自体が偽アルドステロン症の可能性（K・血圧を確認）。":""),
+  recommend(k,has){
+    const m={
+      kidney:["真武湯 ＋ 五苓散（＋ 黄耆）","冷え・下半身のむくみ → 温陽利水"],
+      spleen:["補中益気湯 ＋ 五苓散","倦怠・食後の腹満 → 補気健脾＋利水"],
+      lung:["防己黄耆湯","上半身・肌表のむくみ・自汗 → 益気固表利水"]
+    }[k];
+    const why=[m[1]];
+    if(has("goreisan")) why.push("口渇＋尿不利あり → 五苓散の併用が合いやすい");
+    return {rx:m[0],why};
+  },
+  addons:()=>"",
+  combo:{
+    "kidney+spleen":"脾腎両虚 → 真武湯をベースに補中益気湯または人参湯を併用",
+    "kidney+lung":"真武湯＋防己黄耆湯（下半身の冷えと上半身・肌表の水）",
+    "lung+spleen":"補中益気湯＋五苓散（肺脾気虚をまとめてカバー）、または防己黄耆湯を主に"
+  },
+  rx:{
+    kidney:{
+      path:"温める「火種」（腎陽）が足りず気化が働かないため、水が下焦に停滞する。",
+      feat:"足腰の強い冷え、下半身の著明なむくみ、夜間頻尿、寒がり。",
+      tongue:"舌 淡胖・湿潤、苔白滑／脈 沈遅・尺弱",
+      main:"真武湯 ＋ 五苓散（＋ 黄耆）",
+      groups:[["温陽利水",["真武湯","五苓散","黄耆（加味）"]]],
+      alt:["牛車腎気丸・八味地黄丸：腰痛・下肢のしびれ・排尿症状が前面に出るとき","真武湯＋人参湯：脾腎両虚で下痢・腹の冷えが強いとき"],
+      caution:["附子：のぼせ・動悸・舌のしびれ。熱証・妊婦には慎重に","エキスで温まりが足りなければ加工ブシ末の追加を検討"]
+    },
+    spleen:{
+      path:"胃腸の運化（エネルギーと水の運搬）が弱り、湿が全身に停滞する。",
+      feat:"疲れ、食後の腹満・眠気、軟便、夕方に悪化するむくみ。",
+      tongue:"舌 淡胖・歯痕／脈 緩弱",
+      main:"補中益気湯 ＋ 五苓散",
+      groups:[["補気健脾＋利水",["補中益気湯","五苓散"]]],
+      alt:["六君子湯＋五苓散：食欲不振・胃もたれ・悪心が主のとき","啓脾湯：下痢・軟便が主体のとき"],
+      caution:["甘草：偽アルドステロン症。むくみの悪化自体が副作用のことがある","他の甘草含有方との重複に注意（併用チェック）"]
+    },
+    lung:{
+      path:"肺気の宣発粛降（通調水道）と衛気（体表バリア）が弱り、上焦・肌表に水が溢れる（表虚の水気）。",
+      feat:"顔・上半身・肌表のむくみ、自汗、風邪をひきやすい、色白の水太り。",
+      tongue:"舌 淡／脈 浮虚・軟",
+      main:"防己黄耆湯",
+      groups:[["益気固表利水",["防己黄耆湯"]]],
+      alt:["補中益気湯＋五苓散：気虚全般が強いとき","玉屏風散（黄耆・白朮・防風）：風邪をひきやすい・自汗が主。医療用エキスはなく一般用医薬品で","鑑別：急性の顔面浮腫・熱感がある実証（風水）なら越婢加朮湯（麻黄含有）"],
+      caution:["甘草：補中益気湯と併用すると甘草が重なる","越婢加朮湯は麻黄を含む。高齢・循環器疾患では慎重に"]
+    }
+  },
+  cmpTitle:"水液代謝の3臓 比較",
+  cmpExtra:`<h3>覚え方</h3><ul class="tight">
+    <li><b>肺</b>＝上焦・水の「通り道」（宣発粛降・通調水道）→ 上半身・顔・肌表</li>
+    <li><b>脾</b>＝中焦・水の「運び屋」（運化水湿）→ 全身の重だるさ・消化器症状</li>
+    <li><b>腎</b>＝下焦・水の「火種と蛇口」（主水・気化）→ 下半身・冷え・尿</li></ul>
+    <p class="hint">五苓散は臓を問わず「水の偏りを正す」共通の利水ベース。補う方剤（補中益気湯・真武湯・黄耆剤）と組み合わせる。</p>`,
+  pt:{
+    kidney:{t:"冷えからくるむくみ",b:"体を温める「火」が弱まって、水を動かす力が落ちている状態です。特に足腰の冷えと下半身のむくみが出やすくなります。<br><br>お薬で体の芯から温め、余分な水を尿として出していきます。<br><br><b>生活のポイント</b>：足首・腰を冷やさない／冷たい飲み物を控える／ふくらはぎを動かす"},
+    spleen:{t:"胃腸の疲れからくるむくみ",b:"胃腸は食べ物だけでなく「水」を運ぶ働きもしています。胃腸が疲れると水がうまく運ばれず、体が重だるく、むくみやすくなります。<br><br>お薬で胃腸の元気を補い、水の流れを整えます。<br><br><b>生活のポイント</b>：食べ過ぎ・甘いもの・冷たいものを控える／よく噛む／食後すぐ横にならない"},
+    lung:{t:"体の表面の水はけが悪いむくみ",b:"体の表面（皮膚）の水の通り道とバリアが弱っていて、顔や上半身がむくみやすく、汗をかきやすい状態です。<br><br>お薬で体の表面を引き締め、余分な水と汗を整えます。<br><br><b>生活のポイント</b>：汗をかいたらすぐ拭く・着替える／適度な運動で筋肉をつける／塩分を控える"}
+  },
+  formulas:["真武湯","五苓散","補中益気湯","防己黄耆湯"]
+},
+
+/* ---------- 痒み ---------- */
+kayumi:{
+  label:"痒み", sub:"風・湿熱・血虚・肝鬱 × 方剤選択",
+  types:{
+    wind:{no:"①",name:"外感風邪",bar:"①外感風邪",seg:"①風邪",color:"var(--ai)"},
+    damp:{no:"②",name:"湿熱内蘊",bar:"②湿熱内蘊",seg:"②湿熱",color:"var(--shu)"},
+    blood:{no:"③",name:"血虚風燥・陰虚",bar:"③血虚風燥",seg:"③血虚",color:"var(--kincha)"},
+    liver:{no:"④",name:"肝鬱化火・血熱",bar:"④肝鬱化火",seg:"④肝鬱",color:"var(--matsuba)"}
+  },
+  groups:[
+    ["wind","① 外感風邪","表証","var(--ai)"],
+    ["damp","② 湿熱内蘊","裏証・実熱","var(--shu)"],
+    ["blood","③ 血虚風燥・陰虚","虚証・内風","var(--kincha)"],
+    ["liver","④ 肝鬱化火・血熱","情動","var(--matsuba)"],
+    ["stasis","兼証：瘀血","慢性・難治","var(--oketsu)"]
+  ],
+  sx:[
+    ["w1","急性発症・出たり消えたり（膨疹）","wind",{wind:2}],
+    ["w2","痒む場所が移動する（遊走性）","wind",{wind:2}],
+    ["w3","風・寒冷・温度差で誘発","wind",{wind:1},"cold"],
+    ["w4","汗が出ず、温まると痒い・顔が赤らむ","wind",{wind:1},"cold"],
+    ["w5","顔・上半身・露出部に優位","wind",{wind:1}],
+    ["w6","悪寒・かぜ症状を伴う／脈 浮","wind",{wind:1}],
+    ["d1","紅斑が強い・熱感・灼熱感","damp",{damp:2},"heat"],
+    ["d2","湿潤・びらん・滲出液・漿液性丘疹","damp",{damp:2},"wet"],
+    ["d3","夏・高温多湿で悪化","damp",{damp:1},"summer"],
+    ["d4","飲酒・脂っこい食事で悪化","damp",{damp:1},"heat"],
+    ["d5","口渇・ほてり・汗が多い","damp",{damp:1},"thirst"],
+    ["d6","陰部・鼠径・下半身の湿疹","damp",{damp:1},"lower"],
+    ["d7","便秘・肥満・腹満（実証）","damp",{damp:1},"excess"],
+    ["d8","尿が濃い・口が苦い／粘る","damp",{damp:1},"wet"],
+    ["d9","舌 紅・苔黄膩／脈 滑数","damp",{damp:1}],
+    ["b1","皮膚乾燥・粉をふく鱗屑","blood",{blood:2}],
+    ["b2","皮疹が乏しく掻破痕が中心","blood",{blood:2}],
+    ["b3","夜間・入浴後・布団で温まると痒い","blood",{blood:1}],
+    ["b4","冬・空気の乾燥で悪化","blood",{blood:1}],
+    ["b5","高齢・慢性の経過","blood",{blood:1}],
+    ["b6","顔色不良・爪がもろい・髪が乾く","blood",{blood:1}],
+    ["b7","ほてり・寝汗・口や目の乾き（陰虚）","blood",{blood:1},"yin"],
+    ["b8","足腰の冷え・夜間頻尿（陽虚）","blood",{blood:1},"yang"],
+    ["b9","舌 淡 or 紅・少苔／脈 細","blood",{blood:1}],
+    ["l1","ストレス・緊張で悪化","liver",{liver:2}],
+    ["l2","無意識に掻く・掻き出すと止まらない","liver",{liver:2},"scratch"],
+    ["l3","イライラ・怒りっぽい・不眠","liver",{liver:1},"scratch"],
+    ["l4","月経前に悪化・のぼせ","liver",{liver:1},"menses"],
+    ["l5","顔・頸部の紅斑・赤ら顔","liver",{liver:1},"redface"],
+    ["l6","小児〜思春期・扁桃炎を繰り返す","liver",{liver:1},"youth"],
+    ["l7","口が苦い・脇腹の張り／脈 弦","liver",{liver:1}],
+    ["s1","苔癬化・皮膚の肥厚","stasis",{},"stasis"],
+    ["s2","色素沈着・暗紫色","stasis",{},"stasis"],
+    ["s3","痒疹結節・長期難治","stasis",{},"stasis"],
+    ["s4","月経痛・下腹部の圧痛（瘀血腹証）","stasis",{},"stasis"]
+  ],
+  redTitle:"先に確認（全身疾患・他疾患）",
+  red:[
+    ["r1","皮疹のない全身性の痒み"],
+    ["r2","黄疸・胆道系酵素上昇（胆汁うっ滞）"],
+    ["r3","腎不全・透析中"],
+    ["r4","体重減少・寝汗・リンパ節腫脹"],
+    ["r5","入浴後の刺すような痒み（真性多血症）"],
+    ["r6","家族内同症・夜間増悪・指間の丘疹（疥癬）"],
+    ["r7","高齢者の頑固な痒み＋紅斑（類天疱瘡の前駆期）"],
+    ["r8","新しい薬を始めた後（薬剤性・オピオイド等）"]
+  ],
+  redMsg:r=>"原因検索・西洋医学的治療を優先または並行してください。"+(r.has("r1")?"<br>皮疹のない全身性の痒み → 肝・腎・血算・甲状腺・血糖・フェリチンを確認。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="wind"){
+      const cold=has("cold"), wet=has("wet")+has("summer");
+      if(cold&&!wet){rx="桂麻各半湯";why.push("寒冷・温度差で誘発、汗が出にくい → 表の風寒を発散");}
+      else if(wet&&!cold){rx="消風散";why.push("湿潤・夏季増悪を伴う → 風湿熱として散風・清熱");}
+      else {rx="桂麻各半湯 または 消風散";why.push("寒の要素があれば桂麻各半湯、湿・熱の要素があれば消風散");}
+    }
+    if(k==="damp"){
+      const heat=has("heat")+has("thirst"), wet=has("wet")+has("lower");
+      if(has("excess")){rx="防風通聖散";why.push("肥満・便秘・腹満の実証 → 表裏双解");}
+      else if(has("lower")){rx="竜胆瀉肝湯";why.push("陰部・下半身の湿疹 → 肝経の湿熱");}
+      else if(has("thirst")&&heat>=wet){rx="白虎加人参湯";why.push("口渇・ほてり・発汗 → 気分の熱＋津液損傷");}
+      else if(wet>heat){rx="茵蔯蒿湯";why.push("湿潤・滲出が主体 → 清熱利湿（便秘がなければ竜胆瀉肝湯も候補）");}
+      else {rx="黄連解毒湯";why.push("紅斑・熱感が主体 → 三焦の実熱を清す");}
+      if(heat&&wet) why.push("熱重と湿重の両方あり → 黄連解毒湯＋茵蔯蒿湯なども");
+    }
+    if(k==="blood"){
+      rx="当帰飲子"; why.push("乾燥・掻破痕が中心 → 養血潤燥・熄風");
+      if(has("yin")){rx+=" ＋ 六味丸";why.push("ほてり・寝汗・口乾 → 腎陰を補う");}
+      if(has("yang")) why.push("冷え・夜間頻尿 → 六味丸ではなく八味地黄丸・牛車腎気丸");
+      if(!has("yin")&&!has("yang")) why.push("陰虚所見があれば六味丸を併用");
+    }
+    if(k==="liver"){
+      if(has("youth")){rx="柴胡清肝湯";why.push("小児〜思春期・扁桃炎を繰り返す → 解毒証体質");}
+      else if(has("menses")){rx="加味逍遥散";why.push("月経前の悪化・のぼせ → 疏肝清熱");}
+      else if(has("scratch")&&!has("redface")){rx="抑肝散";why.push("掻破行動・イライラ・不眠 → 平肝熄風");}
+      else {rx="温清飲";why.push("紅斑（血熱）＋乾燥（血虚） → 清熱涼血＋養血");}
+      if(has("scratch")&&rx!=="抑肝散") why.push("掻破行動が強ければ抑肝散の併用も");
+    }
+    return {rx,why};
+  },
+  addons:has=>has("stasis")?`<div class="addon"><b>瘀血あり</b>：桂枝茯苓丸加薏苡仁を上乗せ（便秘・実証なら通導散・桃核承気湯）</div>`:"",
+  combo:{
+    "damp+wind":"風湿熱 → 消風散を第一に",
+    "blood+damp":"乾燥＋赤み・湿潤 → 温清飲、または消風散（当帰・地黄を含む）",
+    "damp+liver":"熱が強くストレスも関わる → 柴胡清肝湯・温清飲",
+    "blood+liver":"乾燥＋ストレス → 温清飲。女性で月経と関連すれば加味逍遥散",
+    "blood+wind":"乾燥肌に風が乗る → 当帰飲子（防風・荊芥で散風）を主に",
+    "liver+wind":"情動や温度差で出没する → 四逆散・加味逍遥散などの柴胡剤を主にし、急性期に表剤を併用"
+  },
+  rx:{
+    wind:{
+      path:"衛表が弱ったところに風邪（＋寒・熱・湿）が入り、肌表で正邪が争う。風は「善行数変」で、痒みが出没し移動する。",
+      feat:"急性。出たり消えたりし、場所が移る。温度差・風・寒冷で誘発される。膨疹・淡紅斑が中心で、乾燥や湿潤は少ない。",
+      tongue:"舌 淡紅・苔薄白／脈 浮",
+      main:"桂麻各半湯／消風散",
+      groups:[["寒・表鬱",["桂麻各半湯"]],["風湿熱",["消風散"]]],
+      alt:["十味敗毒湯：初期の湿疹・蕁麻疹、化膿傾向","越婢加朮湯：浮腫性の膨疹・熱感が強い風熱（麻黄含有）","桂枝湯・玉屏風散系：衛気虚で繰り返す慢性蕁麻疹"],
+      caution:["麻黄：高齢・心疾患・前立腺肥大では慎重に。夕方以降の服用は不眠のもと","消風散：石膏・苦参で胃腸を冷やす。胃腸が弱い人は下痢に注意"]
+    },
+    damp:{
+      path:"飲食の不摂生（脂っこいもの・甘いもの・飲酒）などで臓腑に湿熱が生じ、皮膚へ溢れ出る。",
+      feat:"紅斑が強く熱感があり、丘疹・漿液性丘疹、湿潤・びらんを伴う。夏・高温多湿・飲酒で悪化する。",
+      tongue:"舌 紅・苔黄膩／脈 滑数",
+      main:"熱重→黄連解毒湯・白虎加人参湯／湿重→茵蔯蒿湯・竜胆瀉肝湯／表裏実→防風通聖散",
+      groups:[["熱重（紅斑・熱感・口渇）",["黄連解毒湯","白虎加人参湯"]],["湿重（湿潤・滲出・下半身）",["茵蔯蒿湯","竜胆瀉肝湯"]],["表裏実（肥満・便秘）",["防風通聖散"]]],
+      alt:["消風散：風の要素（遊走・出没）を伴う湿熱","治頭瘡一方：顔・頭部の湿潤性湿疹（小児に多い）","排膿散及湯：膿疱・化膿を伴う"],
+      caution:["苦寒薬を長く使うと胃腸を冷やす。脾胃が弱い例では短期・減量で","山梔子・黄芩を含む方剤が多い。併用による重複に注意（併用チェック）"]
+    },
+    blood:{
+      path:"血・陰（栄養と潤い）が足りず皮膚が養われない。乾燥から内風が生じる。高齢者や慢性化した例に多い。",
+      feat:"乾燥して粗く、粃糠様の鱗屑がある。皮疹は乏しく掻破痕が中心。夜間・入浴後・温まると痒い。冬に悪化する。",
+      tongue:"舌 淡（陰虚では紅・少苔・裂紋）／脈 細（陰虚では細数）",
+      main:"当帰飲子 ＋ 六味丸",
+      groups:[["養血潤燥・熄風",["当帰飲子"]],["滋陰（陰虚所見があれば）",["六味丸"]]],
+      alt:["八味地黄丸・牛車腎気丸：冷え・夜間頻尿など陽虚を伴う高齢者（附子含有）","温経湯：血虚＋瘀血。手掌や唇が乾く女性","温清飲：乾燥しつつ赤み・熱感が残る（血虚＋血熱）"],
+      caution:["地黄：胃もたれ・食欲低下・下痢。脾虚なら食後服用や六君子湯の併用を","漢方だけでは効きが遅い。保湿外用の徹底が前提"]
+    },
+    liver:{
+      path:"ストレスで肝の疏泄が乱れ、気滞が熱（火）に変わって血分に及ぶ。情動と掻破が悪循環（itch-scratch cycle）を作る。",
+      feat:"ストレス・緊張・月経前に悪化する。無意識に掻く。顔・頸部の紅斑や赤ら顔、不眠・イライラを伴う。",
+      tongue:"舌 紅（辺縁が紅い）・苔薄黄／脈 弦（数）",
+      main:"温清飲／柴胡清肝湯／柴胡剤",
+      groups:[["血熱＋乾燥",["温清飲"]],["解毒証体質・若年",["柴胡清肝湯"]],["柴胡剤",["加味逍遥散","抑肝散"]]],
+      alt:["四逆散：緊張が強く、腹直筋の緊張・手足の冷えがある","柴胡加竜骨牡蛎湯：不安・動悸・不眠を伴う実証","大柴胡湯：便秘・胸脇苦満が強い実証"],
+      caution:["黄芩を含む柴胡剤：間質性肺炎・肝障害。発熱・乾いた咳・息切れが出たら中止","抑肝散・加味逍遥散も甘草を含む。高齢者は低Kに注意"]
+    }
+  },
+  cmpTitle:"痒みの4証 比較",
+  cmpExtra:`<h3>橋渡しの方剤</h3><ul class="tight">
+    <li><b>消風散</b>：①風 × ②湿熱（風湿熱）。分泌物・夏季増悪を伴う慢性湿疹</li>
+    <li><b>温清飲</b>：③血虚 × ④血熱（四物湯＋黄連解毒湯）。乾燥しつつ赤みが残る</li>
+    <li><b>柴胡清肝湯</b>：④肝鬱 × ②熱毒。温清飲に疏肝・解毒を加えた一貫堂方</li>
+    <li><b>当帰飲子</b>：③血虚 × ①風。養血しつつ防風・荊芥で散風</li></ul>`,
+  pt:{
+    wind:{t:"外から入った「風」による痒み",b:"体の表面に、外からの刺激（風・寒さ・温度差）が入り込んで起きる痒みです。出たり消えたり、場所が移ったりするのが特徴です。<br><br>お薬で体の表面の巡りをよくして、刺激を外へ追い出します。<br><br><b>生活のポイント</b>：急な温度差を避ける／冷たい風に肌をさらさない／体調を崩したら早めに休む"},
+    damp:{t:"体の中の「こもった熱と湿気」による痒み",b:"食べ過ぎ・飲み過ぎ・脂っこいものなどで体の中に熱と湿気がたまり、皮膚にあふれ出ている状態です。赤み・熱っぽさ・じくじくが出やすくなります。<br><br>お薬で余分な熱と湿気を冷まし、尿やお通じから外へ出していきます。<br><br><b>生活のポイント</b>：お酒・脂もの・甘いもの・辛いものを控える／便通を整える／汗をかいたらすぐ流す"},
+    blood:{t:"潤い不足による「乾燥性」の痒み",b:"肌を養う栄養と潤い（血・陰）が足りず、皮膚が乾いて痒みが出ている状態です。夜や入浴後、温まったときに強くなりやすいのが特徴です。<br><br>お薬で内側から潤いを補い、痒みを鎮めます。塗り薬の保湿と一緒に続けることが大切です。<br><br><b>生活のポイント</b>：熱いお風呂・長湯を避ける／入浴後5分以内に保湿／ゴシゴシ洗わない／部屋の加湿"},
+    liver:{t:"ストレスと「熱」による痒み",b:"ストレスや緊張で体の巡りが滞り、それが熱に変わって皮膚に出ている状態です。イライラすると掻いてしまい、掻くとさらに痒くなる悪循環が起きやすくなります。<br><br>お薬で気持ちの張りと熱をゆるめ、悪循環を断ち切ります。<br><br><b>生活のポイント</b>：睡眠をしっかりとる／掻きたくなったら冷やす・押さえる／爪を短く／リラックスできる時間を作る"}
+  },
+  formulas:["桂麻各半湯","消風散","黄連解毒湯","白虎加人参湯","茵蔯蒿湯","竜胆瀉肝湯","防風通聖散","当帰飲子","六味丸","温清飲","柴胡清肝湯","加味逍遥散","抑肝散","桂枝茯苓丸加薏苡仁"]
+},
+/* ---------- 冷え症 ---------- */
+hie:{
+  label:"冷え症", sub:"陽虚・寒邪・気滞・気血両虚 × 方剤選択",
+  types:{
+    yang:{no:"①",name:"陽虚内寒",bar:"①陽虚内寒",seg:"①陽虚",color:"var(--shu)"},
+    cold:{no:"②",name:"外感寒邪・寒凝経絡",bar:"②寒邪寒凝",seg:"②寒邪",color:"var(--ai)"},
+    stag:{no:"③",name:"気滞血瘀・陽気鬱阻",bar:"③気滞四逆",seg:"③気滞",color:"var(--matsuba)"},
+    qb:{no:"④",name:"気血両虚",bar:"④気血両虚",seg:"④気血",color:"var(--kincha)"}
+  },
+  groups:[
+    ["yang","① 陽虚内寒","火種の不足・虚寒","var(--shu)"],
+    ["cold","② 外感寒邪・寒凝経絡","外からの寒・経絡の凝滞","var(--ai)"],
+    ["stag","③ 気滞血瘀・陽気鬱阻","巡りの詰まり・四逆","var(--matsuba)"],
+    ["qb","④ 気血両虚","栄養と温養物質の不足","var(--kincha)"]
+  ],
+  sx:[
+    ["y1","全身が冷える（体幹・お腹も冷たい）","yang",{yang:2},"trueCold"],
+    ["y2","温めると楽・温かい飲食を好む","yang",{yang:2}],
+    ["y3","顔色蒼白・元気がない・横になりたい","yang",{yang:1}],
+    ["y4","腰膝の冷え・夜間頻尿（腎）","yang",{yang:1},"kd"],
+    ["y5","むくみ・めまい・水様の下痢（腎・水）","yang",{yang:1},"kdWater"],
+    ["y6","腹の冷え・食後の下痢・食欲不振（脾）","yang",{yang:1},"sp"],
+    ["y7","動悸・息切れ・胸の冷え（心）","yang",{yang:1},"ht"],
+    ["y8","舌 淡胖・苔白滑／脈 沈遅・無力","yang",{yang:1}],
+
+    ["c1","寒冷曝露・冷房で急に冷えた","cold",{cold:2},"ext"],
+    ["c2","悪寒・無汗・頭痛・節々の痛み（表寒）","cold",{cold:1},"ext"],
+    ["c3","手足の指先が痛いほど冷たい・しもやけ","cold",{cold:2},"distal"],
+    ["c4","冷えで指の色が変わる・痛む","cold",{cold:1},"distal"],
+    ["c5","冷えで下腹部痛・腰痛・頭痛が出る","cold",{cold:1},"distal"],
+    ["c6","腰から下が重く冷える・冷房病","cold",{cold:1},"dampCold"],
+    ["c7","脈 浮緊（表寒）or 沈細（寒凝）","cold",{cold:1}],
+
+    ["q1","手足は冷たいが体幹・お腹は温かい","stag",{stag:2},"falseCold"],
+    ["q2","ストレス・緊張で手足が冷える","stag",{stag:2},"stress"],
+    ["q3","のぼせ・顔のほてりと足の冷え（冷えのぼせ）","stag",{stag:1},"upheat"],
+    ["q4","イライラ・抑うつ・胸脇の張り","stag",{stag:1},"stress"],
+    ["q5","月経前の悪化・月経不順","stag",{stag:1},"menses"],
+    ["q6","月経痛・舌の瘀点・下腹部の圧痛（瘀血）","stag",{stag:1},"stasis"],
+    ["q7","腹直筋の緊張・胸脇苦満／脈 弦","stag",{stag:1},"stress"],
+
+    ["v1","疲れやすい・気力がない","qb",{qb:2}],
+    ["v2","顔色が白い or 黄ばむ・爪や唇が白い","qb",{qb:2}],
+    ["v3","全体にじんわり冷え、温まりにくい","qb",{qb:1}],
+    ["v4","不眠・不安・動悸・物忘れ","qb",{qb:1},"spirit"],
+    ["v5","病後・術後・高齢、咳・息切れ","qb",{qb:1},"conval"],
+    ["v6","めまい・むくみ・月経不順（若い女性）","qb",{qb:1},"tokishaku"],
+    ["v7","食欲不振・胃腸が弱い","qb",{qb:1},"weakgut"],
+    ["v8","舌 淡・苔薄白／脈 細弱","qb",{qb:1}]
+  ],
+  redTitle:"先に除外（冷えの原因疾患）",
+  red:[
+    ["r1","甲状腺機能低下を疑う所見（倦怠・体重増加・便秘・浮腫）"],
+    ["r2","貧血（眼瞼結膜の蒼白・息切れ）"],
+    ["r3","レイノー現象＋皮膚硬化・関節痛（膠原病）"],
+    ["r4","間欠性跛行・足背動脈の触知不良（閉塞性動脈硬化症）"],
+    ["r5","糖尿病・足のしびれ（末梢神経障害）"],
+    ["r6","低体重・急な体重減少"],
+    ["r7","薬剤性（β遮断薬など）"]
+  ],
+  redMsg:r=>"原因疾患の検索を優先してください（TSH・血算・血糖など）。"+(r.has("r3")?"<br>レイノー＋皮膚硬化 → 抗核抗体・抗セントロメア抗体・爪郭毛細血管を確認。":"")+(r.has("r4")?"<br>ABIを測定。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="yang"){
+      const kd=has("kd")+has("kdWater"), sp=has("sp"), ht=has("ht");
+      if(ht){rx="真武湯";why.push("動悸・息切れ・胸の冷え → 心腎陽虚として真武湯（めまいが主なら苓桂朮甘湯）");if(sp)why.push("脾陽虚も伴えば人参湯を併用（附子の重複を避ける）");}
+      else if(sp&&kd){rx="真武湯 ＋ 人参湯";why.push("脾腎陽虚 → 腎を真武湯、脾を人参湯で（附子理中湯と併用すると附子が重なる）");}
+      else if(sp){rx="附子理中湯";why.push("腹の冷え・下痢・食欲不振 → 脾陽を温める（エキスがなければ人参湯＋加工ブシ末）");}
+      else if(kd){
+        if(has("kdWater")){rx="真武湯";why.push("むくみ・めまい・水様の下痢を伴う腎陽虚 → 温陽利水");}
+        else {rx="八味地黄丸";why.push("腰膝の冷え・夜間頻尿 → 腎陽を補う（胃腸が弱ければ真武湯）");}
+      }
+      else {rx="真武湯";why.push("まず腎陽を温める。腎・脾・心の所見を選ぶと方剤を絞り込めます");}
+    }
+    if(k==="cold"){
+      const ext=has("ext"), dis=has("distal"), dm=has("dampCold");
+      if(ext>dis&&ext>=dm){rx="麻黄湯";why.push("寒冷曝露後の悪寒・無汗 → 表寒を発散（短期で）");why.push("高齢・虚弱・もともと陽虚なら麻黄附子細辛湯");}
+      else if(dm>dis){rx="五積散";why.push("腰から下が重く冷える・冷房病 → 寒湿を散らす");}
+      else {rx="当帰四逆加呉茱萸生姜湯";why.push("末端が痛いほど冷える・しもやけ → 血虚＋寒凝経絡");}
+    }
+    if(k==="stag"){
+      if(has("upheat")||has("menses")){rx="加味逍遥散";why.push("冷えのぼせ・月経と関連 → 疏肝＋清熱（上熱下寒）");}
+      else if(has("stasis")&&!has("stress")){rx="桂枝茯苓丸";why.push("瘀血所見が主体 → 駆瘀血");}
+      else {rx="四逆散";why.push("ストレスで手足だけ冷える → 気の詰まりを通じさせ、陽気を末端へ");}
+      if(has("stasis")&&rx!=="桂枝茯苓丸") why.push("瘀血所見あり → 桂枝茯苓丸を併用");
+    }
+    if(k==="qb"){
+      if(has("tokishaku")){rx="当帰芍薬散";why.push("若い女性のめまい・むくみ・月経不順 → 血虚＋水滞");}
+      else if(has("spirit")){rx="帰脾湯";why.push("不眠・不安・動悸・物忘れ → 心脾両虚（ほてり・イライラがあれば加味帰脾湯）");}
+      else if(has("conval")){rx="人参養栄湯";why.push("病後・高齢・咳や息切れ → 気血双補＋肺・心神");}
+      else {rx="十全大補湯";why.push("疲労・顔色不良・全体の冷え → 気血を温めて補う");}
+      if(has("weakgut")&&(rx==="十全大補湯"||rx==="人参養栄湯")) why.push("胃腸が弱い → 地黄で胃もたれしやすい。帰脾湯・六君子湯から始める");
+    }
+    return {rx,why};
+  },
+  addons(has,top){
+    let h="";
+    if(has("falseCold")&&(top==="yang"||top==="cold")) h+=`<div class="alert">⚠ 体幹・お腹が温かい → <b>仮寒</b>の可能性。附子・乾姜で温めると、のぼせて悪化することがある。③気滞の方剤を優先して検討。</div>`;
+    if(has("trueCold")&&top==="stag") h+=`<div class="addon">体幹・お腹も冷たい → 真寒。陽虚の併存を考え、温補（人参湯・真武湯など）を加える。</div>`;
+    return h;
+  },
+  combo:{
+    "cold+yang":"陽虚＋外寒 → 麻黄附子細辛湯",
+    "qb+yang":"陽気・気血ともに不足 → 十全大補湯＋加工ブシ末、または人参養栄湯",
+    "cold+qb":"血虚寒凝 → 当帰四逆加呉茱萸生姜湯、または当帰芍薬散",
+    "qb+stag":"血虚＋肝鬱 → 加味逍遥散、または当帰芍薬散",
+    "stag+yang":"真寒か仮寒かを見極める。体幹も冷たければ陽虚を優先し、体幹が温かければ四逆散を",
+    "cold+stag":"寒凝＋瘀血 → 当帰四逆加呉茱萸生姜湯＋桂枝茯苓丸、または温経湯"
+  },
+  rx:{
+    yang:{
+      path:"温める「火種」（陽気）が足りず、内から寒が生じる（虚寒）。腎は全身の陽の根本、脾は中焦の火、心は血脈を温める。",
+      feat:"体幹・お腹まで冷え、温めると楽になる。顔色蒼白、元気がない。冷えは慢性で持続的。",
+      tongue:"舌 淡胖・苔白滑／脈 沈遅・無力",
+      main:"腎→真武湯・八味地黄丸／脾→附子理中湯／心→真武湯・苓桂朮甘湯",
+      groups:[["腎陽虚",["真武湯","八味地黄丸"]],["脾陽虚",["附子理中湯","人参湯"]],["心陽虚（心腎陽虚）",["苓桂朮甘湯"]]],
+      alt:["牛車腎気丸：下肢のしびれ・むくみを伴う腎陽虚","桂枝加朮附湯：冷えで関節・神経の痛みが出る","真武湯＋人参湯：脾腎陽虚（附子の重複を避ける組み方）"],
+      caution:["附子：のぼせ・動悸・舌のしびれ。熱証・妊婦は慎重に。量は少量から","八味地黄丸：地黄で胃もたれ・下痢。胃腸が弱ければ真武湯を","心陽虚の動悸・息切れは、心不全・不整脈を除外してから"]
+    },
+    cold:{
+      path:"外から寒邪が入り表を閉ざす（外感寒邪）。あるいは寒が経絡に凝滞し、血の巡りを止める（寒凝経絡）。",
+      feat:"寒冷曝露で急に冷え、悪寒がする。または手足の末端が痛いほど冷たく、しもやけや冷えによる腹痛・頭痛が出る。",
+      tongue:"舌 淡・苔白／脈 浮緊（表寒）・沈細（寒凝）",
+      main:"表寒→麻黄湯／寒凝経絡→当帰四逆加呉茱萸生姜湯",
+      groups:[["表寒（急性）",["麻黄湯","麻黄附子細辛湯"]],["寒凝経絡（末梢・しもやけ）",["当帰四逆加呉茱萸生姜湯"]],["寒湿（冷房病・下半身）",["五積散"]]],
+      alt:["桂枝湯：虚弱で自汗のある表寒","呉茱萸湯：冷えで頭痛・嘔気","温経湯：寒凝＋血虚＋瘀血（唇の乾燥・手のほてり）"],
+      caution:["麻黄：短期の頓用が基本。高齢・心疾患・前立腺肥大では慎重に","麻黄附子細辛湯は麻黄と附子の両方を含む"]
+    },
+    stag:{
+      path:"陽気は足りているのに、気滞（ストレス）や瘀血で巡りが詰まり、手足の末端まで届かない（陽気鬱阻＝四逆）。",
+      feat:"手足は冷たいが体幹は温かい。ストレス・緊張で悪化する。のぼせと足の冷えが同居する（冷えのぼせ）。",
+      tongue:"舌 紅〜暗紅・辺縁紅、瘀点／脈 弦（渋）",
+      main:"四逆散／加味逍遥散／桂枝茯苓丸（瘀血）",
+      groups:[["気滞（四逆）",["四逆散"]],["肝鬱＋血虚・上熱下寒",["加味逍遥散"]],["瘀血",["桂枝茯苓丸"]]],
+      alt:["温経湯：瘀血＋寒・血虚、手のほてり・唇の乾燥","抑肝散加陳皮半夏：イライラが強く胃腸が弱い","桃核承気湯：瘀血＋便秘・のぼせが強い実証"],
+      caution:["仮寒に附子・乾姜で温めると、のぼせて悪化しやすい","加味逍遥散は山梔子を含む。長期では腸間膜静脈硬化症に注意"]
+    },
+    qb:{
+      path:"気（温める力）と血（温めるものを運ぶ栄養）の両方が足りない。熱をつくれず、末端まで届けられない。",
+      feat:"疲れやすく、全体にじんわり冷える。顔色が悪い。病後・術後・高齢・過労・月経過多に多い。",
+      tongue:"舌 淡・苔薄白／脈 細弱",
+      main:"十全大補湯／人参養栄湯／帰脾湯",
+      groups:[["気血双補",["十全大補湯"]],["＋肺・心神（咳・不眠・高齢）",["人参養栄湯"]],["＋心脾（不眠・不安・出血）",["帰脾湯"]],["血虚＋水滞（若い女性）",["当帰芍薬散"]]],
+      alt:["加味帰脾湯：帰脾湯の証に、ほてり・イライラを伴う","補中益気湯：気虚が主体で血虚が目立たない","六君子湯：胃腸虚弱が強く、補剤が胃にもたれる"],
+      caution:["十全大補湯・人参養栄湯は地黄を含む → 胃もたれ・下痢","甘草を含む方剤が多い。他剤との重複に注意（併用チェック）"]
+    }
+  },
+  cmpTitle:"冷え症の4証 比較",
+  cmpExtra:`<h3>真寒と仮寒の見分け</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th></th><th>真寒（①④）</th><th>仮寒（③）</th></tr>
+      <tr><td>体幹・お腹</td><td>冷たい</td><td>温かい</td></tr>
+      <tr><td>温めると</td><td>楽になる</td><td>のぼせる・悪化</td></tr>
+      <tr><td>随伴症状</td><td>倦怠・下痢・顔色不良</td><td>イライラ・のぼせ・胸脇の張り</td></tr>
+      <tr><td>舌</td><td>淡・胖</td><td>紅〜暗紅・辺縁紅</td></tr>
+      <tr><td>方向性</td><td>温補（附子・乾姜・桂皮）</td><td>疏肝・理気・駆瘀血</td></tr>
+    </table></div>
+    <p class="hint">②は「外から来た寒」。急性なら発散（麻黄湯）、末梢に凝滞していれば温経散寒（当帰四逆加呉茱萸生姜湯）。</p>`,
+  pt:{
+    yang:{t:"体の「火種」が弱い冷え",b:"体を内側から温める力（陽気）が弱まっていて、お腹や体の芯まで冷えている状態です。温めると楽になるのが特徴です。<br><br>お薬で体の芯から火を起こし、冷えにくい体にしていきます。<br><br><b>生活のポイント</b>：冷たい飲食を控え、温かい汁物を／お腹・腰を冷やさない（腹巻き）／湯船に浸かる"},
+    cold:{t:"外からの「寒さ」が入り込んだ冷え",b:"寒さや冷房などで外から冷えが入り込み、体の表面や手足の血の巡りが止まっている状態です。指先が痛いほど冷えたり、しもやけができたりします。<br><br>お薬で入り込んだ冷えを追い出し、手足の先まで血を巡らせます。<br><br><b>生活のポイント</b>：手袋・靴下で末端を守る／冷房の風に直接当たらない／首・手首・足首を冷やさない"},
+    stag:{t:"巡りの「詰まり」による冷え",b:"体の中の熱は足りているのに、ストレスや緊張で巡りが詰まり、手足の先まで届いていない状態です。手足は冷たいのに、お腹は温かかったり、顔がほてったりします。<br><br>お薬で詰まりをほどき、熱を手足まで巡らせます。温めすぎるとかえってのぼせることがあります。<br><br><b>生活のポイント</b>：深呼吸・ストレッチで緊張をほどく／適度な運動で巡りをよくする／温めすぎない"},
+    qb:{t:"エネルギーと栄養の不足による冷え",b:"体を温める力（気）と、熱を運ぶ栄養（血）の両方が足りず、全体的に冷えやすくなっている状態です。疲れやすく、顔色がすぐれないことが多いです。<br><br>お薬で気と血を補い、自分で温まれる体に戻していきます。<br><br><b>生活のポイント</b>：しっかり食べる（たんぱく質・鉄）／睡眠をとる／無理をしすぎない"}
+  },
+  formulas:["真武湯","八味地黄丸","附子理中湯","人参湯","苓桂朮甘湯","麻黄湯","麻黄附子細辛湯","当帰四逆加呉茱萸生姜湯","五積散","四逆散","加味逍遥散","桂枝茯苓丸","十全大補湯","人参養栄湯","帰脾湯","当帰芍薬散"]
+},
+/* ---------- 不眠 ---------- */
+fumin:{
+  label:"不眠", sub:"心脾・陰虚・肝火・痰熱 × エキス剤",
+  types:{
+    xu:{no:"①",name:"心神失養・心脾両虚",bar:"①心脾両虚",seg:"①心脾",color:"var(--kincha)"},
+    yin:{no:"②",name:"陰虚火旺・心腎不交",bar:"②陰虚火旺",seg:"②陰虚",color:"var(--ai)"},
+    fire:{no:"③",name:"肝鬱化火・心火上炎",bar:"③肝火心火",seg:"③肝火",color:"var(--shu)"},
+    phlegm:{no:"④",name:"痰熱擾心・胃不和",bar:"④痰熱擾心",seg:"④痰熱",color:"var(--matsuba)"}
+  },
+  groups:[
+    ["xu","① 心神失養・心脾両虚","虚証","var(--kincha)"],
+    ["yin","② 陰虚火旺・心腎不交","虚熱証","var(--ai)"],
+    ["fire","③ 肝鬱化火・心火上炎","実熱証","var(--shu)"],
+    ["phlegm","④ 痰熱擾心・胃不和","実証・湿熱","var(--matsuba)"]
+  ],
+  sx:[
+    ["x1","眠りが浅く夢が多い・すぐ目が覚める","xu",{xu:2}],
+    ["x2","疲れているのに眠れない（虚労虚煩）","xu",{xu:2},"kyoro"],
+    ["x3","動悸・不安・物忘れ・考えすぎる","xu",{xu:1},"spirit"],
+    ["x4","食欲不振・軟便・疲れやすい（脾）","xu",{xu:1},"sp"],
+    ["x5","顔色不良・貧血傾向・出血しやすい","xu",{xu:1}],
+    ["x6","高齢・病後、咳や息切れ","xu",{xu:1},"conval"],
+    ["x7","ほてり・イライラも少しある（虚＋熱）","xu",{xu:1},"mildheat"],
+    ["x8","舌 淡・歯痕／脈 細弱","xu",{xu:1}],
+
+    ["y1","寝つけず、胸がざわざわする（心煩）","yin",{yin:2}],
+    ["y2","手足のほてり・寝汗・口や喉の乾き","yin",{yin:2},"yinsx"],
+    ["y3","夜中に何度も目覚める・早朝覚醒","yin",{yin:1}],
+    ["y4","動悸・耳鳴り・腰膝のだるさ（心腎不交）","yin",{yin:1},"kidney"],
+    ["y5","夢が多い・不安・驚きやすい（虚証・のぼせ少ない）","yin",{yin:1},"keiryu"],
+    ["y6","高齢・更年期・慢性疾患","yin",{yin:1}],
+    ["y7","舌 紅・少苔・裂紋／脈 細数","yin",{yin:1}],
+
+    ["z1","イライラ・怒りっぽくて寝つけない","fire",{fire:2},"anger"],
+    ["z2","のぼせ・顔面紅潮・目の充血","fire",{fire:2},"heartfire"],
+    ["z3","口が苦い・頭痛・耳鳴り（肝火）","fire",{fire:1},"liverfire"],
+    ["z4","便秘・口内炎（実熱）","fire",{fire:1},"constip"],
+    ["z5","月経前の悪化・肩こり・のぼせ（女性）","fire",{fire:1},"menses"],
+    ["z6","驚きやすい・動悸・胸脇苦満・臍上悸","fire",{fire:1},"saiko"],
+    ["z7","歯ぎしり・筋肉のこわばり・神経の昂ぶり","fire",{fire:1},"yokukan"],
+    ["z8","舌 紅・苔黄／脈 弦数","fire",{fire:1}],
+
+    ["p1","胃もたれ・胸やけ・悪心","phlegm",{phlegm:2},"stomach"],
+    ["p2","痰が多い・口が粘る・頭が重い","phlegm",{phlegm:2}],
+    ["p3","夢が多く、驚いて目が覚める","phlegm",{phlegm:1}],
+    ["p4","みぞおちのつかえ（心下痞）・腹鳴・下痢","phlegm",{phlegm:1},"shinkahi"],
+    ["p5","かぜの後、咳や痰が続いて眠れない","phlegm",{phlegm:1},"postcold"],
+    ["p6","夕食が遅い・食べ過ぎ・飲酒","phlegm",{phlegm:1}],
+    ["p7","舌 苔黄膩／脈 滑数","phlegm",{phlegm:1}]
+  ],
+  redTitle:"先に確認（二次性不眠・併存疾患）",
+  red:[
+    ["r1","いびき・無呼吸の指摘・日中の強い眠気（睡眠時無呼吸）"],
+    ["r2","抑うつ気分・興味の喪失・希死念慮（うつ病）"],
+    ["r3","脚のむずむず感で眠れない（むずむず脚症候群）"],
+    ["r4","痒み・痛み・頻尿・咳などの身体症状で眠れない"],
+    ["r5","カフェイン・アルコール・薬剤（ステロイド等）"],
+    ["r6","睡眠薬・ベンゾジアゼピンを長期に使用中"],
+    ["r7","交代勤務・昼夜逆転（概日リズム）"]
+  ],
+  redMsg:r=>"原因への対応を優先または並行してください。"
+    +(r.has("r2")?"<br>うつ病が疑われれば精神科・心療内科と連携。希死念慮があれば当日中に対応。":"")
+    +(r.has("r3")?"<br>フェリチンを確認（鉄欠乏）。":"")
+    +(r.has("r4")?"<br>痒みで眠れない場合は「痒み」テーマで原因の証も確認。":"")
+    +(r.has("r6")?"<br>睡眠薬は急にやめず、漢方を併用しながら段階的に減らす。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="xu"){
+      if(has("kyoro")&&!has("sp")&&!has("spirit")){rx="酸棗仁湯";why.push("疲れているのに眠れない（虚労虚煩）→ 心肝の血を養い、虚煩を鎮める");}
+      else if(has("mildheat")){rx="加味帰脾湯";why.push("心脾両虚に、ほてり・イライラの軽い熱 → 柴胡・山梔子を加えた帰脾湯");}
+      else if(has("conval")&&!has("spirit")){rx="人参養栄湯";why.push("高齢・病後、咳・息切れ → 気血双補＋心神を安定");}
+      else {rx="帰脾湯";why.push("考えすぎ・不安・動悸、食欲不振 → 心脾を補い心神を養う");}
+      if(has("kyoro")&&rx!=="酸棗仁湯") why.push("「疲れているのに眠れない」→ 酸棗仁湯の就寝前併用も");
+    }
+    if(k==="yin"){
+      if(has("keiryu")&&!has("yinsx")){rx="桂枝加竜骨牡蛎湯";why.push("虚証で夢が多く、驚きやすい → 陰陽を調和し、竜骨・牡蛎で鎮める");}
+      else if(has("kidney")){rx="酸棗仁湯 ＋ 六味丸";why.push("腎陰を補い心腎を交通 → 天王補心丹・知柏地黄丸の代わり");}
+      else {rx="酸棗仁湯";why.push("心煩を鎮め、知母で虚熱を冷ます → エキスでの第一選択");}
+      if(has("yinsx")) why.push("ほてり・心煩が強ければ、黄連解毒湯を少量・就寝前に追加（交泰丸・黄連阿膠湯の「黄連」の役割）");
+    }
+    if(k==="fire"){
+      if(has("heartfire")&&has("constip")){rx="三黄瀉心湯";why.push("のぼせ・顔面紅潮＋便秘 → 心火を大黄で下から抜く");}
+      else if(has("menses")){rx="加味逍遥散";why.push("月経前の悪化・のぼせ → 疏肝解鬱＋清熱");}
+      else if(has("saiko")){rx="柴胡加竜骨牡蛎湯";why.push("驚きやすい・動悸・胸脇苦満 → 疏肝＋重鎮安神");}
+      else if(has("liverfire")){rx="竜胆瀉肝湯";why.push("口が苦い・頭痛・目の充血 → 肝火を冷ます");}
+      else if(has("heartfire")){rx="黄連解毒湯";why.push("のぼせ・顔面紅潮（便秘なし）→ 心火を冷ます");}
+      else {rx="抑肝散";why.push("イライラ・歯ぎしり・神経の昂ぶり → 平肝熄風");}
+      if(rx==="抑肝散"&&has("stomach")) why.push("胃腸が弱ければ抑肝散加陳皮半夏");
+    }
+    if(k==="phlegm"){
+      if(has("shinkahi")&&!has("postcold")){rx="半夏瀉心湯";why.push("心下痞・腹鳴 → 「胃不和なれば臥安からず」。辛開苦降で胃を和す");}
+      else {rx="竹茹温胆湯";why.push("痰熱が心をかき乱す → 黄連温胆湯に最も近いエキス（温胆湯の骨格＋黄連）");}
+      if(has("postcold")&&rx==="竹茹温胆湯") why.push("かぜの後の咳・痰が残る不眠は本来の適応");
+      if(has("anger")) why.push("イライラを伴えば抑肝散加陳皮半夏も");
+    }
+    return {rx,why};
+  },
+  addons(has,top){
+    return top?`<div class="addon combo"><b>服用のコツ</b>：夕食後〜就寝前に寄せる（1日2回なら夕食後と就寝前）。酸棗仁湯・抑肝散は就寝前の頓用も可。</div>`:"";
+  },
+  combo:{
+    "xu+yin":"心の陰血がともに不足 → 酸棗仁湯＋帰脾湯（熱があれば加味帰脾湯）",
+    "fire+xu":"虚実錯雑 → 加味帰脾湯、または加味逍遥散",
+    "fire+yin":"虚火か実火かを見極める。舌紅・少苔なら陰虚を優先（酸棗仁湯＋六味丸）、苔黄・脈弦数なら清熱（黄連解毒湯）",
+    "fire+phlegm":"肝鬱＋痰熱 → 竹茹温胆湯（柴胡・香附子を含み疏肝も兼ねる）、または抑肝散加陳皮半夏",
+    "phlegm+xu":"脾虚から痰が生じる → 六君子湯を土台に、酸棗仁湯または帰脾湯を",
+    "phlegm+yin":"痰熱と陰虚が混在 → 竹茹温胆湯（麦門冬で潤す）を主に"
+  },
+  rx:{
+    xu:{
+      path:"思慮過度や過労で心脾が傷つき、気血が不足。心神が養われず、落ち着いて眠れない。",
+      feat:"眠りが浅く夢が多い、すぐ目が覚める。動悸・不安・物忘れ、食欲不振・疲れやすい。",
+      tongue:"舌 淡・歯痕／脈 細弱",
+      main:"帰脾湯／加味帰脾湯／酸棗仁湯／人参養栄湯",
+      groups:[["心脾両虚",["帰脾湯","加味帰脾湯"]],["虚労虚煩（疲れているのに眠れない）",["酸棗仁湯"]],["心血虚＋気虚（高齢・病後）",["人参養栄湯"]]],
+      tcm:[["帰脾湯","医療用エキスあり（そのまま）"],["人参養栄湯","医療用エキスあり（そのまま）"],["（追加）","酸棗仁湯：日本で最も使う虚証の不眠の方剤"]],
+      alt:["六君子湯：胃腸虚弱が強く、補剤が胃にもたれる","補中益気湯：日中の倦怠・気虚が主体","桂枝加竜骨牡蛎湯：虚証で不安・夢が多い"],
+      caution:["人参養栄湯は地黄を含む → 胃もたれ・下痢","加味帰脾湯は山梔子を含む。長期では腸間膜静脈硬化症に注意"]
+    },
+    yin:{
+      path:"陰（潤い）が不足して虚熱が生じ、心火を抑えられない。腎水と心火の交流が失われる（心腎不交）。",
+      feat:"寝つけず胸がざわつく（心煩）。手足のほてり・寝汗・口の乾き。中途覚醒・早朝覚醒。",
+      tongue:"舌 紅・少苔・裂紋／脈 細数",
+      main:"酸棗仁湯（＋六味丸）／桂枝加竜骨牡蛎湯",
+      groups:[["養心陰・清虚熱",["酸棗仁湯"]],["滋腎陰（心腎不交）",["六味丸"]],["虚火がのぼる（少量・頓用）",["黄連解毒湯"]],["虚証の不安・多夢",["桂枝加竜骨牡蛎湯"]]],
+      tcm:[["天王補心丹","医療用エキスなし（一般用医薬品あり）→ 酸棗仁湯＋六味丸で近似"],["交泰丸（黄連・肉桂）","医療用エキスなし → 黄連解毒湯を少量、または黄連湯（黄連と桂皮を含む）で近似"],["黄連阿膠湯","医療用エキスなし → 温清飲（芍薬・地黄で陰血を養い、黄連・黄芩で清熱）で近似"]],
+      alt:["温清飲：陰血虚＋熱、皮膚の乾燥や赤みも伴う（黄連阿膠湯の代わり）","黄連湯：黄連と桂皮を含む（交泰丸の代わり）","柴胡桂枝乾姜湯：虚証で寝汗・動悸・口の乾き、神経過敏"],
+      caution:["黄連解毒湯は苦寒で胃腸を冷やす。陰虚では少量・短期に","六味丸は地黄で胃もたれしやすい"]
+    },
+    fire:{
+      path:"ストレスで肝気が鬱し、熱（火）に変わって心神をかき乱す（肝火）。あるいは実熱が心に上る（心火）。",
+      feat:"イライラ・怒りっぽくて寝つけない。のぼせ・顔面紅潮・目の充血、口苦・頭痛、便秘。",
+      tongue:"舌 紅・苔黄／脈 弦数",
+      main:"抑肝散／柴胡加竜骨牡蛎湯／加味逍遥散／黄連解毒湯・三黄瀉心湯／竜胆瀉肝湯",
+      groups:[["肝鬱（柴胡剤）",["加味逍遥散","柴胡加竜骨牡蛎湯","抑肝散"]],["心火（清熱）",["黄連解毒湯","三黄瀉心湯"]],["肝火・肝経湿熱",["竜胆瀉肝湯"]]],
+      tcm:[["竜胆瀉肝湯","医療用エキスあり（薛氏方と一貫堂方で構成が異なる）"],["三黄瀉心湯","医療用エキスあり（便秘がなければ黄連解毒湯）"],["加味逍遙散・逍遙散","加味逍遙散は医療用エキスあり。逍遙散は加味逍遙散で代用"],["（追加）","柴胡加竜骨牡蛎湯・抑肝散：日本で頻用"]],
+      alt:["抑肝散加陳皮半夏：抑肝散の証で胃腸が弱い","大柴胡湯：胸脇苦満が強く便秘する実証","女神散：更年期ののぼせ・めまい・不眠"],
+      caution:["黄芩（柴胡加竜骨牡蛎湯・黄連解毒湯など）：間質性肺炎・肝障害","三黄瀉心湯は大黄を含む → 下痢","柴胡加竜骨牡蛎湯は、メーカーによって大黄の有無が異なる"]
+    },
+    phlegm:{
+      path:"飲食の不摂生で脾胃に痰湿が生じ、熱と結びついて心をかき乱す。「胃不和なれば臥安からず」。",
+      feat:"胃もたれ・胸やけ・悪心、痰が多い、口が粘る。夢が多く驚いて目が覚める。",
+      tongue:"舌 苔黄膩／脈 滑数",
+      main:"竹茹温胆湯（黄連温胆湯の代用）／半夏瀉心湯",
+      groups:[["痰熱擾心",["竹茹温胆湯"]],["胃不和（心下痞）",["半夏瀉心湯"]]],
+      tcm:[["黄連温胆湯","医療用エキスなし → 竹茹温胆湯（半夏・茯苓・陳皮・枳実・竹茹＋黄連・柴胡・人参・麦門冬）で近似"],["（追加）","半夏瀉心湯：みぞおちのつかえが主のとき"]],
+      alt:["抑肝散加陳皮半夏：痰＋肝の昂ぶり","六君子湯：痰湿はあるが熱がなく、胃腸虚弱","半夏厚朴湯：喉のつかえ・不安（気鬱）"],
+      caution:["半夏瀉心湯は黄芩を含む → 間質性肺炎・肝障害","夕食を早め・軽めにすることが治療の一部"]
+    }
+  },
+  cmpTitle:"不眠の4証 比較",
+  cmpExtra:`<h3>虚か実か、熱はあるか</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th></th><th>虚</th><th>実</th></tr>
+      <tr><td>熱なし</td><td>① 心脾両虚<br><small>帰脾湯・酸棗仁湯</small></td><td>④ 痰熱（胃不和）<br><small>竹茹温胆湯・半夏瀉心湯</small></td></tr>
+      <tr><td>熱あり</td><td>② 陰虚火旺<br><small>酸棗仁湯＋六味丸</small></td><td>③ 肝火・心火<br><small>抑肝散・柴胡加竜骨牡蛎湯・黄連解毒湯</small></td></tr>
+    </table></div>
+    <p class="hint">虚熱（舌紅・少苔）に苦寒薬を多く使うと陰を傷り、胃腸も冷やす。実熱（苔黄・脈弦数）に補剤を使うと熱がこもる。</p>`,
+  pt:{
+    xu:{t:"エネルギー不足で「心が休めない」不眠",b:"考えすぎや疲れで、心と胃腸を支えるエネルギーと栄養（気血）が不足し、心が落ち着いて休めない状態です。眠りが浅く、夢が多く、すぐ目が覚めやすくなります。<br><br>お薬で心と胃腸を補い、ぐっすり眠れる土台をつくります。<br><br><b>生活のポイント</b>：寝る前の考えごと・スマホを減らす／三食きちんと食べる／昼間に軽く体を動かす"},
+    yin:{t:"潤い不足で「熱がこもる」不眠",b:"体の潤いが足りず、夜になると内側に熱がこもって、胸がざわざわして眠れない状態です。手足のほてりや寝汗、口の乾きを伴いやすくなります。<br><br>お薬で潤いを補い、こもった熱を静めます。<br><br><b>生活のポイント</b>：夜更かしをしない（夜は潤いを養う時間）／辛いもの・お酒・熱すぎる風呂を控える"},
+    fire:{t:"ストレスの「熱」で頭が冴える不眠",b:"ストレスやイライラで気の巡りが詰まり、それが熱に変わって頭や心を興奮させている状態です。寝つけない、のぼせる、怒りっぽいといった症状が出ます。<br><br>お薬で気の詰まりをほどき、上った熱を冷まして気持ちを落ち着けます。<br><br><b>生活のポイント</b>：寝る1時間前は仕事や刺激を避ける／ぬるめのお風呂でゆっくり／腹式呼吸"},
+    phlegm:{t:"胃腸の「もたれ」で眠れない不眠",b:"食べ過ぎや遅い夕食で胃腸に余分なもの（痰湿）がたまり、それが熱をもって眠りを妨げている状態です。「胃が落ち着かないと眠れない」と昔から言われます。<br><br>お薬で胃腸の停滞を取り除き、心を静めます。<br><br><b>生活のポイント</b>：夕食は寝る3時間前までに、腹八分目で／脂っこいもの・甘いもの・夜のお酒を控える"}
+  },
+  formulas:["帰脾湯","加味帰脾湯","酸棗仁湯","人参養栄湯","六味丸","黄連解毒湯","温清飲","黄連湯","桂枝加竜骨牡蛎湯","加味逍遥散","柴胡加竜骨牡蛎湯","抑肝散","三黄瀉心湯","竜胆瀉肝湯","竹茹温胆湯","半夏瀉心湯"]
+},
+/* ---------- 便秘 ---------- */
+bempi:{
+  label:"便秘", sub:"実熱・気滞・寒・腸燥・気虚 × エキス剤",
+  types:{
+    shitsu:{no:"①",name:"大腸実熱・津傷腸燥",bar:"①実熱",seg:"①実熱",color:"var(--shu)"},
+    qi:{no:"②",name:"気機鬱滞",bar:"②気滞",seg:"②気滞",color:"var(--matsuba)"},
+    cold:{no:"③",name:"陰寒内盛",bar:"③寒秘",seg:"③寒",color:"var(--ai)"},
+    dry:{no:"④",name:"陰虚血少・腸枯便結",bar:"④腸燥",seg:"④腸燥",color:"var(--kincha)"},
+    weak:{no:"⑤",name:"陽虚気弱・推動無力",bar:"⑤気虚",seg:"⑤気虚",color:"var(--oketsu)"}
+  },
+  groups:[
+    ["shitsu","① 大腸実熱・津傷腸燥","実証・熱秘","var(--shu)"],
+    ["qi","② 気機鬱滞","実証・気秘","var(--matsuba)"],
+    ["cold","③ 陰寒内盛","実証・寒秘","var(--ai)"],
+    ["dry","④ 陰虚血少・腸枯便結","虚証・燥秘","var(--kincha)"],
+    ["weak","⑤ 陽虚気弱・推動無力","虚証・虚秘","var(--oketsu)"]
+  ],
+  sx:[
+    ["a1","硬く乾いた便・数日出ない","shitsu",{shitsu:2}],
+    ["a2","腹部膨満・腹痛・押すと痛い（腹満硬痛）","shitsu",{shitsu:2},"hardfull"],
+    ["a3","口渇・口臭・口内炎","shitsu",{shitsu:1},"thirst"],
+    ["a4","顔が赤い・のぼせ・イライラ","shitsu",{shitsu:1},"heat"],
+    ["a5","体格がよい・食欲旺盛・肥満","shitsu",{shitsu:1},"obese"],
+    ["a6","尿が濃く少ない","shitsu",{shitsu:1}],
+    ["a7","舌 紅・苔黄燥／脈 沈実","shitsu",{shitsu:1}],
+
+    ["b1","ストレス・緊張で悪化する","qi",{qi:2},"stress"],
+    ["b2","お腹が張る・ガスが多い・げっぷ","qi",{qi:2},"gas"],
+    ["b3","便意はあるが出にくい・残便感","qi",{qi:1}],
+    ["b4","腹痛を伴う・下痢と便秘を繰り返す（IBS）","qi",{qi:1},"ibs"],
+    ["b5","胸脇苦満・肩こり・がっしり体型","qi",{qi:1},"daisaiko"],
+    ["b6","月経前に悪化・のぼせ（女性）","qi",{qi:1},"menses"],
+    ["b7","月経痛・下腹部の圧痛（瘀血）","qi",{qi:1},"stasis"],
+    ["b8","脈 弦","qi",{qi:1}],
+
+    ["c1","お腹が冷えて痛む・温めると楽","cold",{cold:2},"coldpain"],
+    ["c2","腸がごろごろ動く・冷えるとガスで張る","cold",{cold:2},"daikenchu"],
+    ["c3","手足の冷え・寒がり","cold",{cold:1}],
+    ["c4","冷たい飲食・冬に悪化","cold",{cold:1}],
+    ["c5","開腹手術後・癒着・高齢","cold",{cold:1},"daikenchu"],
+    ["c6","舌 淡・苔白滑／脈 沈遅","cold",{cold:1}],
+
+    ["d1","コロコロ便・乾燥した便（兎糞状）","dry",{dry:2,qi:1},"rabbit"],
+    ["d2","皮膚・髪・爪の乾燥、顔色不良（血虚）","dry",{dry:2},"bloodxu"],
+    ["d3","口や喉の乾き・ほてり・寝汗（陰虚）","dry",{dry:1},"yinxu"],
+    ["d4","尿の回数が多く、便は硬い（脾約）","dry",{dry:1},"hinnyo"],
+    ["d5","高齢・病後・産後","dry",{dry:1,weak:1}],
+    ["d6","下剤で腹痛が出やすい","dry",{dry:1,weak:1}],
+    ["d7","舌 淡 or 紅・少苔／脈 細","dry",{dry:1}],
+
+    ["e1","便意はあるのにいきむ力がない","weak",{weak:2},"noforce"],
+    ["e2","便は硬くないのに出ない・出た後ぐったり","weak",{weak:2}],
+    ["e3","疲れやすい・息切れ・声に力がない","weak",{weak:1}],
+    ["e4","冷え・腰膝のだるさ・夜間頻尿（陽虚）","weak",{weak:1,cold:1},"yangxu"],
+    ["e5","胃下垂・内臓が下がる感じ・脱肛","weak",{weak:1}],
+    ["e6","虚弱体質・小児・腹痛を起こしやすい","weak",{weak:1},"child"],
+    ["e7","舌 淡胖・歯痕／脈 弱","weak",{weak:1}]
+  ],
+  redTitle:"先に除外（器質的疾患・薬剤性）",
+  red:[
+    ["r1","血便・黒色便・便潜血陽性"],
+    ["r2","50歳以上の新たな便通の変化・体重減少・貧血"],
+    ["r3","大腸癌・炎症性腸疾患の家族歴"],
+    ["r4","急な腹痛・嘔吐・排ガス停止（腸閉塞）"],
+    ["r5","薬剤性（オピオイド・抗コリン薬・鉄剤・Ca拮抗薬・抗精神病薬）"],
+    ["r6","甲状腺機能低下・糖尿病・パーキンソン病・高Ca血症"],
+    ["r7","妊娠中・授乳中"]
+  ],
+  redMsg:r=>"器質的疾患の除外を優先してください。"
+    +((r.has("r1")||r.has("r2")||r.has("r3"))?"<br>警告症状あり → 大腸内視鏡を検討。":"")
+    +(r.has("r4")?"<br>腸閉塞を疑えば下剤・大黄剤は使わず、至急対応。":"")
+    +(r.has("r7")?"<br>大黄・芒硝・桃仁・紅花は妊婦に慎重投与。潤下・補益を中心に。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="shitsu"){
+      if(has("hardfull")){rx="大承気湯";why.push("腹満硬痛・燥結（痞満燥実）→ 峻下。短期で");}
+      else if(has("obese")){rx="防風通聖散";why.push("肥満・体格がよい実証 → 表裏双解＋通便");}
+      else if(has("heat")){rx="三黄瀉心湯";why.push("のぼせ・イライラ＋便秘 → 清熱瀉下");}
+      else if(has("thirst")){rx="調胃承気湯";why.push("口渇・乾燥便 → 芒硝で潤し大黄で下す（大承気湯より穏やか）");}
+      else {rx="大黄甘草湯";why.push("実熱の便秘の基本形。まず最小構成から");}
+      if(has("rabbit")) why.push("乾燥が強ければ麻子仁丸（①と④の橋渡し）");
+    }
+    if(k==="qi"){
+      if(has("ibs")){rx="桂枝加芍薬大黄湯";why.push("腹痛・膨満、IBSの便秘型 → 芍薬で腸の緊張を緩め、大黄で通す");}
+      else if(has("daisaiko")){rx="大柴胡湯";why.push("胸脇苦満・実証 → 柴胡・枳実で行気、大黄で通便（六磨湯に近い）");}
+      else if(has("menses")){rx="加味逍遥散";why.push("月経前の悪化・のぼせ → 疏肝解鬱（出にくければ大黄甘草湯を追加）");}
+      else if(has("stasis")){rx="通導散";why.push("瘀血＋気滞 → 行気・駆瘀血・通便");}
+      else {rx="四逆散 ＋ 大黄甘草湯";why.push("気の詰まりを通じ、少量の大黄で通す → 六磨湯（行気導滞）の代わり");}
+      if(has("stasis")&&rx!=="通導散") why.push("瘀血あり → 通導散・桃核承気湯も");
+    }
+    if(k==="cold"){
+      if(has("daikenchu")||!has("coldpain")){rx="大建中湯";why.push("腹が冷えて張る・腸がごろごろ動く → 中焦を温め、蠕動を整える");why.push("出にくければ大黄甘草湯を少量追加");}
+      else {rx="大黄甘草湯 ＋ 加工ブシ末";why.push("冷えて痛む便秘 → 温下（大黄附子湯の近似）");}
+      why.push("麻黄附子細辛湯＋大黄甘草湯でも大黄附子湯（大黄・附子・細辛）を再現できるが、麻黄が入る");
+    }
+    if(k==="dry"){
+      if(has("hinnyo")){rx="麻子仁丸";why.push("尿が多く便が硬い（脾約）→ 潤腸＋行気");}
+      else if(has("bloodxu")||has("yinxu")){rx="潤腸湯";why.push("血虚・陰虚の乾燥 → 当帰・地黄で潤し、麻子仁・桃仁・杏仁で滑らせる");}
+      else {rx="麻子仁丸";why.push("コロコロ便・腸の乾燥 → 潤腸通便");}
+      why.push("どちらも大黄を含む。少量・就寝前から始める");
+    }
+    if(k==="weak"){
+      if(has("child")){rx="小建中湯";why.push("虚弱・小児・腹痛 → 中焦を温めて補う（膠飴で緩やかに）");}
+      else if(has("yangxu")){rx="補中益気湯 ＋ 八味地黄丸";why.push("脾気と腎陽をともに補う → 大補元煎（温陽益気）の代わり");}
+      else {rx="補中益気湯";why.push("いきむ力がない → 升陽益気で押し出す力を補う");}
+      why.push("刺激性下剤・大黄剤は避けるか最小量に。必要なら麻子仁丸を少量併用");
+    }
+    return {rx,why};
+  },
+  addons:()=>"",
+  combo:{
+    "dry+shitsu":"燥結＋熱 → 麻子仁丸（小承気湯＋潤腸）",
+    "qi+shitsu":"気滞＋実熱 → 大柴胡湯",
+    "cold+shitsu":"寒熱を見極める。腹が冷たく温めて楽なら寒秘（大建中湯）、口渇・苔黄なら熱秘",
+    "shitsu+weak":"虚実を見極める。いきむ力がない・便が硬くない → 虚秘。大黄剤は最小限に",
+    "cold+qi":"冷え＋ガス・腹痛 → 大建中湯＋桂枝加芍薬湯（＝中建中湯）",
+    "dry+qi":"気滞＋腸燥 → 麻子仁丸（枳実・厚朴で行気も兼ねる）",
+    "qi+weak":"気虚＋気滞 → 補中益気湯（柴胡・陳皮で巡らせる）、必要時に麻子仁丸",
+    "cold+dry":"冷え＋乾燥 → 大建中湯＋麻子仁丸（または潤腸湯）",
+    "cold+weak":"陽虚の冷え便秘 → 大建中湯＋補中益気湯、または八味地黄丸",
+    "dry+weak":"高齢者の虚秘 → 補中益気湯＋麻子仁丸・潤腸湯を少量"
+  },
+  rx:{
+    shitsu:{
+      path:"実熱が大腸に結び、津液を損なって便が乾燥・硬結する（熱秘）。",
+      feat:"硬く乾いた便、腹満・腹痛、口渇・口臭、顔が赤い。体力がある。",
+      tongue:"舌 紅・苔黄燥／脈 沈実・滑数",
+      main:"大承気湯／調胃承気湯／大黄甘草湯",
+      groups:[["峻下（痞満燥実）",["大承気湯"]],["緩下",["調胃承気湯","大黄甘草湯"]],["実熱＋のぼせ・肥満",["三黄瀉心湯","防風通聖散"]]],
+      tcm:[["大承気湯","医療用エキスあり（そのまま）"],["（追加）","調胃承気湯・大黄甘草湯：日常的な実熱の便秘に"]],
+      alt:["麻子仁丸：熱＋腸燥（①と④の橋渡し）","大柴胡湯：胸脇苦満を伴う","桃核承気湯：瘀血＋のぼせ＋便秘"],
+      caution:["芒硝（大承気湯・調胃承気湯）：無水ボウショウを含む。治療上食塩制限が必要な患者に継続投与する場合は注意<span class='ref'>PMDA 添付文書：ツムラ大承気湯・調胃承気湯 その他の注意</span>","大黄の長期連用：効き目の低下・大腸メラノーシス。妊婦は慎重に"]
+    },
+    qi:{
+      path:"情志の失調で気機が鬱滞し、大腸の伝導が滞る（気秘）。",
+      feat:"ストレスで悪化する。腹が張り、ガス・げっぷが多い。便意はあるが出にくく、残便感がある。IBSの便秘型。",
+      tongue:"舌 淡紅〜紅・苔薄／脈 弦",
+      main:"桂枝加芍薬大黄湯／大柴胡湯／四逆散＋大黄甘草湯",
+      groups:[["腹痛・膨満（IBS）",["桂枝加芍薬大黄湯"]],["行気＋通便",["大柴胡湯","四逆散","大黄甘草湯"]],["肝鬱（女性）",["加味逍遥散"]],["気滞＋瘀血",["通導散"]]],
+      tcm:[["六磨湯（沈香・木香・檳榔・烏薬・枳実・大黄）","医療用エキスなし → 大柴胡湯（柴胡・枳実・大黄）、または四逆散＋大黄甘草湯で近似"],["（追加）","桂枝加芍薬大黄湯：IBSの便秘型で頻用"]],
+      alt:["桂枝加芍薬湯：腹痛・膨満が主で便秘が軽い","半夏厚朴湯：喉のつかえ・気鬱を伴う","桃核承気湯：瘀血＋のぼせ・精神不安"],
+      caution:["大柴胡湯は黄芩を含む → 間質性肺炎・肝障害","通導散は芒硝・紅花を含む。妊婦は慎重に"]
+    },
+    cold:{
+      path:"陰寒が腸に凝結し、陽気が通じず伝導が止まる（寒秘・冷秘）。",
+      feat:"お腹が冷えて痛み、温めると楽になる。ガスで張る。冷たい飲食で悪化する。便は硬いとは限らない。",
+      tongue:"舌 淡・苔白滑／脈 沈遅・弦",
+      main:"大建中湯（＋大黄甘草湯）／大黄甘草湯＋加工ブシ末",
+      groups:[["温中散寒",["大建中湯"]],["温下（大黄附子湯の近似）",["大黄甘草湯"]]],
+      tcm:[["大黄附子湯（大黄・附子・細辛）","医療用エキスなし → 大黄甘草湯＋加工ブシ末、または麻黄附子細辛湯＋大黄甘草湯（麻黄を含む）"],["温脾湯","医療用エキスなし → 大建中湯＋大黄甘草湯（または人参湯＋大黄甘草湯）"]],
+      alt:["人参湯＋大黄甘草湯：胃腸虚弱・下痢しやすい体質の冷え便秘","桂枝加芍薬湯＋大建中湯（中建中湯）：冷え＋腹痛","八味地黄丸：腎陽虚（高齢・夜間頻尿）を伴う"],
+      caution:["大建中湯：腹部膨満の悪化や肝障害の報告あり","附子：のぼせ・動悸・舌のしびれ。少量から"]
+    },
+    dry:{
+      path:"陰血が不足し、腸が潤わず便が乾いて進まない（腸枯便結・燥秘）。高齢者・病後・産後に多い。",
+      feat:"コロコロした乾燥便。皮膚・髪の乾燥、顔色不良。口渇・ほてり。尿が多く便が硬い（脾約）。",
+      tongue:"舌 淡（血虚）or 紅・少苔（陰虚）／脈 細",
+      main:"潤腸湯／麻子仁丸",
+      groups:[["潤腸通便",["潤腸湯","麻子仁丸"]]],
+      tcm:[["潤腸丸","医療用は「潤腸湯」（構成は異なる：当帰・地黄で養血を強化）"],["麻子仁丸","医療用エキスあり（そのまま）"]],
+      alt:["六味丸：陰虚が強く、ほてり・寝汗・口乾を伴う（併用）","当帰芍薬散：血虚＋水滞、若い女性","補中益気湯：押し出す力も弱い（⑤の併存）"],
+      caution:["潤腸湯・麻子仁丸とも大黄を含む。高齢者は少量・就寝前から","潤腸湯は地黄で胃もたれしやすい"]
+    },
+    weak:{
+      path:"気虚・陽虚で腸を押し出す力（推動）が不足する（虚秘）。便が硬くなくても出ない。",
+      feat:"便意はあるのにいきむ力がない。出た後ぐったりする。疲れやすい・息切れ・冷え。",
+      tongue:"舌 淡胖・歯痕／脈 弱",
+      main:"補中益気湯（＋八味地黄丸）／小建中湯",
+      groups:[["升陽益気",["補中益気湯"]],["温陽（腎陽虚を伴う）",["八味地黄丸"]],["虚弱・小児・腹痛",["小建中湯"]]],
+      tcm:[["補中益気湯","医療用エキスあり（そのまま）"],["大補元煎","医療用エキスなし → 補中益気湯＋八味地黄丸、または十全大補湯で近似"]],
+      alt:["十全大補湯：気血両虚、病後・術後","大建中湯：腹の冷え・膨満を伴う（③の併存）","麻子仁丸（少量）：乾燥便が混じるとき"],
+      caution:["刺激性下剤・大黄剤で腹痛・脱力が悪化しやすい","補中益気湯・小建中湯は甘草を含む（小建中湯は膠飴も含み糖尿病に注意）"]
+    }
+  },
+  cmpTitle:"便秘の5証 比較",
+  cmpExtra:`<h3>治法と大黄の役割</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th>証</th><th>治法</th><th>大黄</th></tr>
+      <tr><td>① 実熱</td><td class="nw">寒下</td><td>主役（＋芒硝）</td></tr>
+      <tr><td>② 気滞</td><td class="nw">行気</td><td>少量の脇役</td></tr>
+      <tr><td>③ 寒</td><td class="nw">温下</td><td>附子・乾姜と組む／または使わない</td></tr>
+      <tr><td>④ 腸燥</td><td class="nw">潤下</td><td>少量（麻子仁・当帰が主）</td></tr>
+      <tr><td>⑤ 気虚</td><td class="nw">補益</td><td>避ける・最小限</td></tr>
+    </table></div>
+    <p class="hint">「大黄が効かない・腹痛が出る」は証の見直しのサイン。虚秘・寒秘に大黄を増量しても悪化しやすい。</p>`,
+  pt:{
+    shitsu:{t:"体の「熱」で便が乾く便秘",b:"体の中に熱がこもって腸の水分を奪い、便が硬く乾いている状態です。お腹の張りや口の渇きを伴いやすくなります。<br><br>お薬で熱を冷まし、腸を動かして便を出します。<br><br><b>生活のポイント</b>：水分をしっかりとる／辛いもの・脂っこいもの・お酒を控える／野菜・海藻をとる"},
+    qi:{t:"ストレスで腸が「詰まる」便秘",b:"ストレスや緊張で気の巡りが滞り、腸の動きが止まってしまう状態です。お腹が張り、ガスが多く、出てもすっきりしません。<br><br>お薬で気の巡りを整え、腸の動きを取り戻します。<br><br><b>生活のポイント</b>：朝食後にトイレに座る習慣をつける／散歩など軽い運動／ゆっくり深呼吸"},
+    cold:{t:"お腹の「冷え」で腸が固まる便秘",b:"お腹が冷えて腸の動きが鈍り、便がうまく進まない状態です。お腹が冷えて痛む、温めると楽になるのが特徴です。<br><br>お薬でお腹を内側から温め、腸を動かします。<br><br><b>生活のポイント</b>：冷たい飲食を控え、温かいものを／腹巻きでお腹を温める／朝に白湯を一杯"},
+    dry:{t:"潤い不足で便が「乾く」便秘",b:"体の潤いや栄養が不足し、腸が乾いて便がコロコロになっている状態です。高齢の方や産後、病後に多く見られます。<br><br>お薬で腸を潤し、便を柔らかくして出しやすくします。<br><br><b>生活のポイント</b>：水分をこまめにとる／良い油（オリーブ油・ごま・ナッツ）を少しとる／強い下剤に頼りすぎない"},
+    weak:{t:"「押し出す力」が足りない便秘",b:"便は硬くないのに、腸やお腹の力が弱くて押し出せない状態です。出たあとにぐったりすることもあります。<br><br>お薬で体の元気（気）を補い、押し出す力を取り戻します。強い下剤はかえって体力を奪うことがあります。<br><br><b>生活のポイント</b>：朝食をしっかり食べる／腹筋・足腰を無理なく鍛える／トイレで足台を使い前かがみの姿勢に"}
+  },
+  formulas:["大承気湯","調胃承気湯","大黄甘草湯","三黄瀉心湯","防風通聖散","桂枝加芍薬大黄湯","大柴胡湯","四逆散","加味逍遥散","通導散","大建中湯","潤腸湯","麻子仁丸","補中益気湯","八味地黄丸","小建中湯"]
+},
+/* ---------- 頭痛 ---------- */
+zutsu:{
+  label:"頭痛", sub:"外感＋内傷5証 × エキス剤",
+  types:{
+    gaikan:{no:"",name:"外感頭痛（風寒・風熱・風湿）",bar:"外感",seg:"外感",color:"var(--ai)"},
+    kanyo:{no:"①",name:"肝陽上亢・肝火上炎",bar:"①肝陽肝火",seg:"①肝陽",color:"var(--shu)"},
+    tan:{no:"②",name:"痰濁上擾",bar:"②痰濁",seg:"②痰濁",color:"var(--matsuba)"},
+    oketsu:{no:"③",name:"瘀血阻絡",bar:"③瘀血",seg:"③瘀血",color:"var(--oketsu)"},
+    kanin:{no:"④",name:"寒飲上逆・中寒",bar:"④寒飲",seg:"④寒飲",color:"var(--sh-kan)"},
+    kyo:{no:"⑤",name:"気血両虚・腎精不足",bar:"⑤虚",seg:"⑤虚",color:"var(--kincha)"}
+  },
+  groups:[
+    ["gaikan","外感頭痛","実証・不通則痛","var(--ai)"],
+    ["kanyo","① 肝陽上亢・肝火上炎","実証〜上実下虚","var(--shu)"],
+    ["tan","② 痰濁上擾","実証","var(--matsuba)"],
+    ["oketsu","③ 瘀血阻絡","実証","var(--oketsu)"],
+    ["kanin","④ 寒飲上逆・中寒","寒証","var(--sh-kan)"],
+    ["kyo","⑤ 気血両虚・腎精不足","虚証・不栄則痛","var(--kincha)"]
+  ],
+  sx:[
+    ["g1","急性発症・かぜの引き始め","gaikan",{gaikan:2},"acute"],
+    ["g2","悪寒・無汗・首筋や肩のこわばり（風寒）","gaikan",{gaikan:1},"windcold"],
+    ["g3","寒さ・冷房で悪化する","gaikan",{gaikan:1,kanin:1},"windcold"],
+    ["g4","発熱・咽頭痛・顔の熱感・口渇（風熱）","gaikan",{gaikan:1},"windheat"],
+    ["g5","布で締め付けられたように重い（風湿）","gaikan",{gaikan:1,tan:1},"winddamp"],
+    ["g6","雨の日・低気圧・湿気で悪化","gaikan",{gaikan:1,tan:1},"weather"],
+    ["g7","自汗・虚弱（表虚）","gaikan",{gaikan:1},"hyokyo"],
+    ["g8","脈 浮","gaikan",{gaikan:1}],
+
+    ["k1","ズキズキ・張るような痛み（側頭・頭頂）","kanyo",{kanyo:2}],
+    ["k2","イライラ・怒り・緊張で悪化","kanyo",{kanyo:2},"anger"],
+    ["k3","顔面紅潮・目の充血・口が苦い（肝火）","kanyo",{kanyo:1},"fire"],
+    ["k4","早朝の頭痛・高血圧傾向・中高年","kanyo",{kanyo:1},"chotosan"],
+    ["k5","耳鳴り・めまい・肩の張り","kanyo",{kanyo:1}],
+    ["k6","月経前後に悪化・のぼせ（女性）","kanyo",{kanyo:1},"menses"],
+    ["k7","足腰のだるさ（上実下虚）","kanyo",{kanyo:1,kyo:1},"jokyo"],
+    ["k8","舌 紅・苔黄／脈 弦数","kanyo",{kanyo:1}],
+
+    ["t1","頭が重だるい（頭重感）","tan",{tan:2}],
+    ["t2","悪心・吐き気・めまい","tan",{tan:2,kanin:1},"nausea"],
+    ["t3","胃腸が弱い・食後に眠い・手足がだるい","tan",{tan:1,kyo:1},"spxu"],
+    ["t4","痰が多い・体が重い・むくみ","tan",{tan:1}],
+    ["t5","口渇があるのに尿が少ない（水毒）","tan",{tan:1},"goreisan"],
+    ["t6","立ちくらみ・動悸","tan",{tan:1},"ryokei"],
+    ["t7","舌 胖大・苔白膩／脈 滑","tan",{tan:1}],
+
+    ["o1","痛む場所が決まっている・刺すような痛み","oketsu",{oketsu:2}],
+    ["o2","長く続く慢性の頭痛・夜間に悪化","oketsu",{oketsu:2}],
+    ["o3","頭部外傷の後から続く","oketsu",{oketsu:1},"trauma"],
+    ["o4","月経痛・月経時の頭痛・下腹部の圧痛","oketsu",{oketsu:1},"mensespain"],
+    ["o5","目の下のくま・唇や舌が暗紫色・細絡","oketsu",{oketsu:1}],
+    ["o6","便秘・のぼせ（実証）","oketsu",{oketsu:1},"constip"],
+    ["o7","舌 暗紫・瘀点／脈 渋","oketsu",{oketsu:1}],
+
+    ["w1","発作的な激しい頭痛（片頭痛様）","kanin",{kanin:2},"attack"],
+    ["w2","吐き気・嘔吐を伴う","kanin",{kanin:2},"vomit"],
+    ["w3","手足の冷え・お腹の冷え","kanin",{kanin:1}],
+    ["w4","後頸部〜肩の強いこり","kanin",{kanin:1,gaikan:1}],
+    ["w5","みぞおちのつかえ（心下痞）・胃もたれ","kanin",{kanin:1}],
+    ["w6","胃腸虚弱・下痢しやすい","kanin",{kanin:1},"keishininjin"],
+    ["w7","冷えで誘発・手足の末端が冷たい","kanin",{kanin:1},"toki4"],
+    ["w8","舌 淡・苔白滑／脈 沈弦・遅","kanin",{kanin:1}],
+
+    ["x1","疲れると悪化・持続的で比較的軽い痛み","kyo",{kyo:2}],
+    ["x2","頭がぼーっとする・空虚感","kyo",{kyo:2}],
+    ["x3","倦怠感・食欲不振・息切れ（気虚）","kyo",{kyo:1},"qixu"],
+    ["x4","顔色不良・月経後の頭痛・めまい（血虚）","kyo",{kyo:1},"bloodxu"],
+    ["x5","高齢・耳鳴り・腰膝のだるさ・物忘れ（腎精不足）","kyo",{kyo:1},"kidney"],
+    ["x6","手足のほてり・寝汗（陰虚）","kyo",{kyo:1},"yin"],
+    ["x7","冷え・夜間頻尿（陽虚）","kyo",{kyo:1},"yang"],
+    ["x8","舌 淡／脈 細弱","kyo",{kyo:1}]
+  ],
+  redTitle:"先に除外（二次性頭痛の危険サイン）",
+  red:[
+    ["r1","突然の激しい頭痛（雷鳴頭痛）・人生最悪の頭痛"],
+    ["r2","発熱・項部硬直・意識障害"],
+    ["r3","麻痺・しびれ・言語障害・視野障害"],
+    ["r4","50歳以上の新たな頭痛・進行性・朝の嘔吐"],
+    ["r5","側頭部の圧痛・顎跛行・視力低下（巨細胞性動脈炎）"],
+    ["r6","眼痛・充血・視力低下（急性緑内障）"],
+    ["r7","片側の額・頭皮のピリピリ痛（帯状疱疹）"],
+    ["r8","鎮痛薬を月10日以上使っている（薬物乱用頭痛）"],
+    ["r9","頭部外傷後・抗凝固薬を内服中"]
+  ],
+  redMsg:r=>"二次性頭痛の除外を優先してください。"
+    +(["r1","r2","r3","r4","r9"].some(x=>r.has(x))?"<br>至急の頭部画像検査・専門医への紹介を検討。":"")
+    +(r.has("r5")?"<br>赤沈・CRPを確認し、眼科・膠原病科と連携。":"")
+    +(r.has("r6")?"<br>眼科へ至急紹介。":"")
+    +(r.has("r7")?"<br>皮疹の出現前でも前駆痛の可能性。抗ウイルス薬の早期投与を検討。":"")
+    +(r.has("r8")?"<br>鎮痛薬の減量を並行し、漢方は予防薬として継続。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="gaikan"){
+      if(has("windheat")){rx="川芎茶調散 ＋ 桔梗石膏";why.push("風熱 → 散風止痛＋清熱（芎芷石膏湯の近似）");why.push("顔の赤み・にきびを伴う上焦の風熱なら清上防風湯");}
+      else if(has("winddamp")||has("weather")){rx="五苓散";why.push("湿邪・気象で悪化（天気痛）→ 利水で頭部の水を捌く");why.push("かぜ症状を伴えば川芎茶調散（羌活・白芷を含む）を併用");}
+      else if(has("hyokyo")){rx="桂枝湯";why.push("虚弱・自汗の表寒 → 調和営衛");why.push("高齢で寒気が強く元気がなければ麻黄附子細辛湯");}
+      else if(has("windcold")){rx="葛根湯";why.push("悪寒・無汗・首筋のこわばり → 風寒を発散（短期で）");why.push("頭痛が主で首こりが軽ければ川芎茶調散");}
+      else {rx="川芎茶調散";why.push("かぜの頭痛・風寒 → 散風止痛");}
+    }
+    if(k==="kanyo"){
+      if(has("menses")){rx="加味逍遥散";why.push("月経前後の悪化・のぼせ → 疏肝清熱");}
+      else if(has("chotosan")||has("jokyo")){rx="釣藤散";why.push("早朝の頭痛・高血圧傾向・中高年 → 平肝熄風（天麻鈎藤飲の近似）");why.push("血虚を伴う高血圧（顔色不良）なら七物降下湯");}
+      else if(has("fire")){rx="黄連解毒湯";why.push("顔面紅潮・目の充血 → 肝火・実熱を冷ます");why.push("口苦・脇痛・耳鳴りが強ければ竜胆瀉肝湯");}
+      else {rx="抑肝散";why.push("イライラ・緊張・食いしばり → 平肝熄風、筋緊張をゆるめる");}
+      if(has("spxu")&&rx==="抑肝散") why.push("胃腸が弱ければ抑肝散加陳皮半夏");
+    }
+    if(k==="tan"){
+      if(has("spxu")){rx="半夏白朮天麻湯";why.push("胃腸虚弱＋頭重・めまい・悪心 → 健脾化痰熄風");}
+      else if(has("goreisan")){rx="五苓散";why.push("口渇・尿不利（水毒）→ 利水");}
+      else if(has("ryokei")){rx="苓桂朮甘湯";why.push("立ちくらみ・動悸 → 温陽化飲");}
+      else {rx="半夏白朮天麻湯";why.push("頭重・めまい・悪心 → 化痰熄風");}
+      if(has("goreisan")&&rx!=="五苓散") why.push("口渇・尿不利があれば五苓散を併用");
+    }
+    if(k==="oketsu"){
+      if(has("trauma")){rx="通導散";why.push("頭部外傷後の頭痛 → 行気・駆瘀血（便秘がなければ治打撲一方も）");}
+      else if(has("constip")){rx="桃核承気湯";why.push("瘀血＋便秘・のぼせ → 駆瘀血＋瀉下");}
+      else if(has("anger")){rx="桂枝茯苓丸 ＋ 四逆散";why.push("気滞血瘀 → 血府逐瘀湯の近似");}
+      else {rx="桂枝茯苓丸";why.push("固定性の刺痛・慢性 → 駆瘀血");}
+      if(has("bloodxu")) why.push("血虚を伴い虚証なら当帰芍薬散");
+      if(rx==="桂枝茯苓丸") why.push("ストレスで悪化するなら四逆散を併用（血府逐瘀湯の近似）");
+    }
+    if(k==="kanin"){
+      if(has("toki4")&&!has("vomit")){rx="当帰四逆加呉茱萸生姜湯";why.push("末端の冷えで誘発 → 温経散寒");}
+      else if(has("keishininjin")&&!has("vomit")){rx="桂枝人参湯";why.push("胃腸虚弱・下痢しやすい人の頭痛 → 温中＋解表");}
+      else {rx="呉茱萸湯";why.push("冷え＋嘔吐を伴う発作性頭痛 → 温中降逆");why.push("発作時の頓用と、予防の継続服用の両方で使う");}
+      if(has("goreisan")||has("weather")) why.push("水滞・気象で悪化するなら五苓散を併用");
+    }
+    if(k==="kyo"){
+      if(has("kidney")){
+        if(has("yang")){rx="八味地黄丸";why.push("高齢・腎精不足＋冷え → 腎陽を補う");}
+        else {rx="六味丸";why.push("高齢・腎精不足、ほてり → 腎陰を補う（冷えがあれば八味地黄丸）");}
+      }
+      else if(has("qixu")&&has("bloodxu")){rx="十全大補湯";why.push("気血両虚 → 気血双補（八珍湯の代わり）");}
+      else if(has("bloodxu")){rx="当帰芍薬散";why.push("血虚・月経後の頭痛・めまい → 養血利水");}
+      else if(has("qixu")){rx="補中益気湯";why.push("疲れると悪化 → 升陽益気で清陽を頭へ");}
+      else {rx="十全大補湯";why.push("持続的で軽い痛み・空虚感 → 気血双補");}
+      if(has("spxu")) why.push("胃腸虚弱＋頭重・めまいなら半夏白朮天麻湯");
+    }
+    return {rx,why};
+  },
+  addons:()=>"",
+  combo:{
+    "gaikan+kanyo":"緊張型頭痛（首肩のこり＋ストレス）→ 急性は葛根湯、慢性は釣藤散・抑肝散",
+    "gaikan+kanin":"首肩のこりが強い片頭痛 → 呉茱萸湯＋葛根湯",
+    "gaikan+tan":"風湿＋痰湿（天気で悪化・頭重）→ 五苓散。胃腸虚弱なら半夏白朮天麻湯",
+    "kanin+kanyo":"寒熱を見極める。冷えて嘔吐する発作なら呉茱萸湯、顔が赤く怒りで悪化するなら釣藤散・抑肝散",
+    "kanin+kyo":"中寒＋気虚 → 桂枝人参湯、または呉茱萸湯＋六君子湯",
+    "kanin+tan":"寒飲＋痰濁（嘔気・めまい）→ 呉茱萸湯＋五苓散、または半夏白朮天麻湯",
+    "kanyo+kyo":"上実下虚 → 釣藤散。血虚を伴う高血圧なら七物降下湯",
+    "kanyo+oketsu":"気滞血瘀 → 桂枝茯苓丸＋四逆散（血府逐瘀湯の近似）。女性なら加味逍遥散＋桂枝茯苓丸",
+    "kanyo+tan":"肝風＋痰（めまい・頭重・イライラ）→ 抑肝散加陳皮半夏、または半夏白朮天麻湯＋釣藤散",
+    "kyo+oketsu":"血虚＋瘀血 → 当帰芍薬散（虚）、または温経湯",
+    "kyo+tan":"気虚＋痰 → 半夏白朮天麻湯（六君子湯の骨格に天麻を加えた構成）",
+    "oketsu+tan":"痰瘀互結（慢性・頭重＋刺痛）→ 半夏白朮天麻湯＋桂枝茯苓丸"
+  },
+  rx:{
+    gaikan:{
+      path:"風邪に寒・熱・湿が加わって頭部の経絡を塞ぐ（不通則痛）。風寒は収縮・凝固、風熱は上昇して熱痛、風湿は頭を覆って重く痛む。",
+      feat:"急性。風寒は悪寒・首肩のこわばり、風熱は発熱・咽頭痛・熱感、風湿は締め付けられるような頭重感や天気で悪化する。",
+      tongue:"舌 苔薄白（風寒）・薄黄（風熱）・白膩（風湿）／脈 浮",
+      main:"風寒→葛根湯・川芎茶調散／風熱→川芎茶調散＋桔梗石膏・清上防風湯／風湿→五苓散",
+      groups:[["風寒",["葛根湯","川芎茶調散","桂枝湯"]],["風熱",["桔梗石膏","清上防風湯"]],["風湿・気象",["五苓散"]]],
+      tcm:[["葛根湯・川芎茶調散","医療用エキスあり（そのまま）"],["芎芷石膏湯・桑菊飲・銀翹散（風熱）","医療用エキスなし → 川芎茶調散＋桔梗石膏、または清上防風湯（銀翹散は一般用医薬品あり）"],["羌活勝湿湯（風湿）","医療用エキスなし → 五苓散。川芎茶調散にも羌活・白芷が入る"]],
+      alt:["麻黄附子細辛湯：高齢・虚弱で寒気が強く、元気がない","葛根湯加川芎辛夷：鼻閉・副鼻腔炎を伴う頭痛","香蘇散：虚弱で麻黄が使えないかぜ・気鬱"],
+      caution:["葛根湯は麻黄を含む。高齢・心疾患・前立腺肥大では慎重に。短期で","清上防風湯は山梔子・黄芩を含む"]
+    },
+    kanyo:{
+      path:"肝気が鬱して化火し上に昇る（肝火上炎）。あるいは肝腎の陰が不足して肝陽を抑えられない（肝陽上亢＝上実下虚）。",
+      feat:"ズキズキ・張る痛み（側頭・頭頂）。脇の痛み、耳鳴り、顔面紅潮、目の充血。怒りや緊張で悪化する。",
+      tongue:"舌 紅・苔黄／脈 弦数",
+      main:"釣藤散／抑肝散／加味逍遥散／黄連解毒湯・竜胆瀉肝湯",
+      groups:[["肝陽上亢（上実下虚）",["釣藤散","七物降下湯"]],["肝鬱・肝風",["抑肝散","加味逍遥散"]],["肝火・実熱",["黄連解毒湯","竜胆瀉肝湯"]]],
+      tcm:[["天麻鈎藤飲","医療用エキスなし → 釣藤散（釣藤鈎・菊花・防風で平肝熄風）"],["竜胆瀉肝湯","医療用エキスあり（そのまま）"]],
+      alt:["抑肝散加陳皮半夏：抑肝散の証で胃腸が弱い","大柴胡湯：胸脇苦満・便秘の実証","柴胡加竜骨牡蛎湯：不安・動悸・不眠を伴う"],
+      caution:["黄連解毒湯・竜胆瀉肝湯は黄芩・山梔子を含む","高血圧が背景にあれば降圧治療を優先"]
+    },
+    tan:{
+      path:"脾の運化が弱って痰濁が生じ、清陽（頭へ昇る陽気）を覆う。",
+      feat:"頭が重だるい。悪心・めまい。胃腸虚弱、食後の眠気、体の重さ。",
+      tongue:"舌 胖大・苔白膩／脈 滑",
+      main:"半夏白朮天麻湯／五苓散／苓桂朮甘湯",
+      groups:[["健脾化痰熄風",["半夏白朮天麻湯"]],["利水（水毒）",["五苓散","苓桂朮甘湯"]]],
+      tcm:[["半夏白朮天麻湯","医療用エキスあり（そのまま）"]],
+      alt:["六君子湯：胃腸虚弱が主で頭痛は軽い","沢瀉湯系（五苓散で代用）：回転性めまい","抑肝散加陳皮半夏：痰＋イライラ"],
+      caution:["半夏白朮天麻湯は黄柏・乾姜を含む。甘草は含まない"]
+    },
+    oketsu:{
+      path:"慢性化や外傷で瘀血が脈絡を塞ぐ（久病入絡）。",
+      feat:"痛む場所が固定し、刺すような痛み。慢性で夜間に悪化する。外傷後、月経痛、暗紫色の舌。",
+      tongue:"舌 暗紫・瘀点／脈 渋",
+      main:"桂枝茯苓丸（＋四逆散）／通導散／桃核承気湯",
+      groups:[["駆瘀血",["桂枝茯苓丸"]],["気滞血瘀",["四逆散"]],["瘀血＋実証・外傷",["通導散","桃核承気湯"]]],
+      tcm:[["血府逐瘀湯","医療用エキスなし → 桂枝茯苓丸＋四逆散で近似"],["通竅活血湯","医療用エキスなし → 桂枝茯苓丸。外傷後は通導散・治打撲一方"]],
+      alt:["当帰芍薬散：血虚＋瘀血の虚証、月経関連","温経湯：瘀血＋寒・血虚","疎経活血湯：瘀血＋筋肉・関節の痛み"],
+      caution:["通導散・桃核承気湯は大黄・芒硝を含む。妊婦は慎重に","桂枝茯苓丸も妊娠中は慎重に"]
+    },
+    kanin:{
+      path:"中焦が冷え、寒飲が肝経に沿って上逆する（厥陰頭痛）。",
+      feat:"冷えとともに発作的な激しい頭痛。肩こり、吐き気・嘔吐を繰り返す。片頭痛に多い。",
+      tongue:"舌 淡・苔白滑／脈 沈弦・遅",
+      main:"呉茱萸湯／桂枝人参湯／当帰四逆加呉茱萸生姜湯",
+      groups:[["温中降逆",["呉茱萸湯"]],["胃腸虚弱＋頭痛",["桂枝人参湯"]],["末端の冷え",["当帰四逆加呉茱萸生姜湯"]]],
+      tcm:[["呉茱萸湯","医療用エキスあり（そのまま）。片頭痛で頻用"]],
+      alt:["呉茱萸湯＋五苓散：水滞・気象要因を伴う片頭痛","呉茱萸湯＋葛根湯：首肩のこりが強い","人参湯：頭痛より胃腸の冷えが主"],
+      caution:["呉茱萸湯はとても苦い。温服や、オブラートの工夫を","呉茱萸湯は甘草を含まない"]
+    },
+    kyo:{
+      path:"気血が不足して頭を養えない（不栄則痛）。あるいは腎精が不足して髄海（脳）が空虚になる。",
+      feat:"持続的で比較的軽い痛み。疲れると悪化する。頭の空虚感・ぼーっとする。めまい・耳鳴り・物忘れ。",
+      tongue:"舌 淡／脈 細弱",
+      main:"補中益気湯／十全大補湯／当帰芍薬散／六味丸・八味地黄丸",
+      groups:[["気虚",["補中益気湯"]],["気血両虚",["十全大補湯"]],["血虚",["当帰芍薬散"]],["腎精不足",["六味丸","八味地黄丸"]]],
+      tcm:[["八珍湯","医療用エキスなし → 十全大補湯"],["補中益気湯","医療用エキスあり（そのまま）"],["左帰丸・大補元煎","医療用エキスなし → 六味丸（陰虚）・八味地黄丸（陽虚）"]],
+      alt:["半夏白朮天麻湯：気虚＋痰、頭重・めまい","加味帰脾湯：血虚＋不眠・不安","七物降下湯：血虚＋高血圧（上実下虚）"],
+      caution:["十全大補湯・六味丸・八味地黄丸は地黄を含む → 胃もたれ","八味地黄丸は附子を含む"]
+    }
+  },
+  cmpTitle:"頭痛の6証 比較",
+  cmpExtra:`<h3>西洋の頭痛分類と漢方</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th>分類</th><th>よく使う方剤</th></tr>
+      <tr><td>片頭痛</td><td>呉茱萸湯（冷え・嘔吐）、五苓散（気象・水滞）、桂枝人参湯（胃腸虚弱）</td></tr>
+      <tr><td>緊張型</td><td>葛根湯（急性・首肩のこり）、釣藤散（慢性・中高年）、抑肝散（ストレス・食いしばり）、半夏白朮天麻湯（頭重・めまい）</td></tr>
+      <tr><td>気象病</td><td>五苓散</td></tr>
+      <tr><td>月経関連</td><td>当帰芍薬散・桂枝茯苓丸・加味逍遥散</td></tr>
+      <tr><td>薬物乱用</td><td>鎮痛薬を減らしながら、証に合わせて予防的に（呉茱萸湯・五苓散など）</td></tr>
+    </table></div>
+    <p class="hint">呉茱萸湯・桂枝人参湯・釣藤散・葛根湯・五苓散は、頭痛診療ガイドラインでも取り上げられている。</p>`,
+  pt:{
+    gaikan:{t:"かぜや天気など「外から」の頭痛",b:"寒さ・熱・湿気といった外からの影響で、頭の巡りが一時的に詰まって起きる頭痛です。かぜの引き始めや、雨の日・低気圧で悪化するのが特徴です。<br><br>お薬で外からの影響を追い出し、頭の巡りを回復させます。<br><br><b>生活のポイント</b>：首・肩を冷やさない／天気の崩れる前は早めに休む／かぜは引き始めに対処"},
+    kanyo:{t:"ストレスで「気がのぼる」頭痛",b:"ストレスやイライラで気が頭にのぼり、ズキズキ・張るように痛む状態です。顔のほてりや目の充血、耳鳴りを伴うことがあります。<br><br>お薬でのぼった気と熱を下ろし、緊張をゆるめます。<br><br><b>生活のポイント</b>：睡眠をしっかりとる／食いしばりに気づいたら力を抜く／お酒・辛いものを控える"},
+    tan:{t:"体の「余分な水」による重い頭痛",b:"胃腸の働きが弱って余分な水分（痰湿）がたまり、頭が重く、ぼんやりする状態です。吐き気やめまいを伴いやすくなります。<br><br>お薬で胃腸を整え、余分な水を捌きます。<br><br><b>生活のポイント</b>：冷たい飲み物・甘いもの・食べ過ぎを控える／水分は少しずつこまめに／軽く汗をかく運動を"},
+    oketsu:{t:"血の巡りの「滞り」による頭痛",b:"血の流れが滞って（瘀血）、同じ場所が刺すように痛む状態です。長く続く頭痛や、けがの後の頭痛に多く見られます。<br><br>お薬で血の巡りをよくし、滞りを流します。<br><br><b>生活のポイント</b>：長時間同じ姿勢を避ける／首・肩を動かす・温める／体を冷やさない"},
+    kanin:{t:"「冷え」から来る発作的な頭痛",b:"お腹や体の冷えが引き金になって、吐き気を伴う激しい頭痛が発作的に起きる状態です。片頭痛の方に多く見られます。<br><br>お薬で体を内側から温め、発作を起こしにくくします。発作時に飲むことも、予防として続けて飲むこともあります。<br><br><b>生活のポイント</b>：冷たい飲食を控える／首・お腹を温める／空腹・寝不足・寝すぎを避ける"},
+    kyo:{t:"エネルギー・栄養不足による頭痛",b:"体のエネルギー（気）や栄養（血）が足りず、頭が十分に養われていない状態です。疲れると痛み、頭がぼーっとするのが特徴です。<br><br>お薬で気と血を補い、頭をしっかり養います。<br><br><b>生活のポイント</b>：無理をせず休息をとる／三食しっかり食べる（たんぱく質・鉄）／規則正しい睡眠"}
+  },
+  formulas:["葛根湯","川芎茶調散","桂枝湯","桔梗石膏","清上防風湯","五苓散","釣藤散","七物降下湯","抑肝散","加味逍遥散","黄連解毒湯","竜胆瀉肝湯","半夏白朮天麻湯","苓桂朮甘湯","桂枝茯苓丸","四逆散","通導散","桃核承気湯","呉茱萸湯","桂枝人参湯","当帰四逆加呉茱萸生姜湯","補中益気湯","十全大補湯","当帰芍薬散","六味丸","八味地黄丸"]
+},
+/* ---------- 多汗 ---------- */
+tahan:{
+  label:"多汗", sub:"自汗・盗汗・実熱・肝鬱 × エキス剤",
+  types:{
+    jihan:{no:"①",name:"衛表不固・肺気虚（自汗）",bar:"①自汗",seg:"①自汗",color:"var(--kincha)"},
+    tohan:{no:"②",name:"陰虚火旺（盗汗）",bar:"②盗汗",seg:"②盗汗",color:"var(--ai)"},
+    netsu:{no:"③",name:"邪熱・裏熱・湿熱",bar:"③実熱",seg:"③実熱",color:"var(--shu)"},
+    kanutsu:{no:"④",name:"肝鬱化火・精神的緊張（局所多汗）",bar:"④肝鬱",seg:"④肝鬱",color:"var(--matsuba)"}
+  },
+  groups:[
+    ["jihan","① 衛表不固・肺気虚","自汗・日中に漏れる","var(--kincha)"],
+    ["tohan","② 陰虚火旺","盗汗・寝汗","var(--ai)"],
+    ["netsu","③ 邪熱・裏熱・湿熱","熱で押し出す","var(--shu)"],
+    ["kanutsu","④ 肝鬱化火・精神的緊張","手足・脇の局所汗","var(--matsuba)"]
+  ],
+  sx:[
+    ["a1","日中、少し動いただけで汗が出る（自汗）","jihan",{jihan:2}],
+    ["a2","疲れやすい・息切れ・声に力がない","jihan",{jihan:2},"qixu"],
+    ["a3","かぜをひきやすい・風に当たると寒い","jihan",{jihan:1},"eiki"],
+    ["a4","色白・水太り・膝痛・下半身のむくみ","jihan",{jihan:1},"boi"],
+    ["a5","汗が冷たい・汗の後に寒気","jihan",{jihan:1}],
+    ["a6","食欲不振・胃腸虚弱","jihan",{jihan:1},"qixu"],
+    ["a7","小児・虚弱体質・腹痛を起こしやすい","jihan",{jihan:1,tohan:1},"child"],
+    ["a8","舌 淡胖・歯痕／脈 虚弱","jihan",{jihan:1}],
+
+    ["b1","寝汗（目覚めると汗で濡れている）","tohan",{tohan:2}],
+    ["b2","手足のほてり・頬の紅潮・午後の微熱","tohan",{tohan:2}],
+    ["b3","口や喉の乾き・皮膚の乾燥","tohan",{tohan:1}],
+    ["b4","腰膝のだるさ・耳鳴り・高齢（腎陰虚）","tohan",{tohan:1},"kidney"],
+    ["b5","頭汗・動悸・神経過敏・口の乾き","tohan",{tohan:1,kanutsu:1},"saikokeishi"],
+    ["b6","更年期・ホットフラッシュ","tohan",{tohan:1,kanutsu:1},"meno"],
+    ["b7","のぼせ・尿が濃い（虚熱が強い）","tohan",{tohan:1},"heat"],
+    ["b8","舌 紅・少苔／脈 細数","tohan",{tohan:1}],
+
+    ["c1","暑がり・大量の汗・口渇（冷たいものを好む）","netsu",{netsu:2},"thirst"],
+    ["c2","べたつく汗・においが強い","netsu",{netsu:2},"damp"],
+    ["c3","頭や顔だけ汗をかく","netsu",{netsu:1},"headsweat"],
+    ["c4","顔が赤い・のぼせ・イライラ","netsu",{netsu:1},"faceheat"],
+    ["c5","肥満・便秘・食欲旺盛","netsu",{netsu:1},"obese"],
+    ["c6","脇・陰部の汗やにおい・湿疹","netsu",{netsu:1},"lower"],
+    ["c7","尿が濃く少ない・口が苦い","netsu",{netsu:1},"damp"],
+    ["c8","舌 紅・苔黄（膩）／脈 滑数・洪","netsu",{netsu:1}],
+
+    ["d1","手のひら・足の裏・脇の汗（局所）","kanutsu",{kanutsu:2},"local"],
+    ["d2","緊張・人前・ストレスで汗が出る","kanutsu",{kanutsu:2}],
+    ["d3","手足が冷たいのに汗ばむ","kanutsu",{kanutsu:1},"shigyaku"],
+    ["d4","イライラ・のぼせ・月経前に悪化","kanutsu",{kanutsu:1},"menses"],
+    ["d5","驚きやすい・動悸・不眠・胸脇苦満","kanutsu",{kanutsu:1},"ryukotsu"],
+    ["d6","虚弱・不安が強い・疲れやすい","kanutsu",{kanutsu:1,jihan:1},"keiryu"],
+    ["d7","腹直筋の緊張・肩こり","kanutsu",{kanutsu:1},"shigyaku"],
+    ["d8","舌 辺縁紅／脈 弦","kanutsu",{kanutsu:1}]
+  ],
+  redTitle:"先に除外（続発性多汗症）",
+  red:[
+    ["r1","成人になってから始まった全身性の多汗"],
+    ["r2","体重減少・動悸・手のふるえ（甲状腺機能亢進症）"],
+    ["r3","発熱・寝汗・体重減少・リンパ節腫脹（感染症・悪性リンパ腫）"],
+    ["r4","発作性の頭痛・動悸・高血圧（褐色細胞腫）"],
+    ["r5","冷や汗・空腹時の震え（低血糖）・糖尿病"],
+    ["r6","片側だけ・左右差のある発汗（神経疾患）"],
+    ["r7","薬剤性（SSRI・解熱鎮痛薬・インスリン・コリン作動薬など）"]
+  ],
+  redMsg:r=>"続発性多汗症の除外を優先してください。"
+    +(r.has("r2")?"<br>TSH・FT4を確認。":"")
+    +(r.has("r3")?"<br>血算・CRP・LDH・可溶性IL-2R・胸部X線を確認。":"")
+    +(r.has("r4")?"<br>血中・尿中カテコラミン（メタネフリン）を確認。":"")
+    +(r.has("r6")?"<br>神経内科と連携。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="jihan"){
+      if(has("child")){rx="黄耆建中湯";why.push("小児・虚弱・腹痛 → 小建中湯＋黄耆で、中焦を補って固表");}
+      else if(has("boi")){rx="防己黄耆湯";why.push("色白・水太り・下半身のむくみ → 益気固表＋利水");}
+      else if(has("eiki")){rx="桂枝加黄耆湯";why.push("かぜをひきやすい・悪風 → 営衛を調えて固表（玉屏風散の代わり）");}
+      else if(has("qixu")){rx="補中益気湯";why.push("疲労・食欲不振を伴う気虚の自汗 → 升陽益気");}
+      else {rx="防己黄耆湯";why.push("表虚の自汗 → 黄耆で固表止汗");}
+    }
+    if(k==="tohan"){
+      if(has("saikokeishi")||has("meno")){rx="柴胡桂枝乾姜湯";why.push("寝汗・頭汗・動悸・口の乾き・神経過敏 → 更年期の寝汗にも");if(has("meno"))why.push("のぼせ・イライラが強ければ加味逍遥散");}
+      else if(has("heat")){rx="温清飲";why.push("虚熱が強い寝汗 → 当帰六黄湯の近似（黄耆剤を足すとさらに近い）");}
+      else if(has("kidney")){rx="六味丸";why.push("腎陰虚（腰膝・耳鳴り・高齢）→ 滋陰");}
+      else if(has("child")){rx="黄耆建中湯";why.push("小児の寝汗 → 補中固表");}
+      else {rx="六味丸";why.push("陰虚の寝汗 → 滋陰して虚熱を抑える");}
+      if(has("heat")&&rx!=="温清飲") why.push("虚熱が強ければ温清飲を併用");
+    }
+    if(k==="netsu"){
+      if(has("lower")){rx="竜胆瀉肝湯";why.push("脇・陰部の汗・におい → 肝経の湿熱");}
+      else if(has("headsweat")){rx="茵蔯蒿湯";why.push("頭だけ汗をかく（但頭汗出）→ 湿熱を尿と便から出す");}
+      else if(has("obese")){rx="防風通聖散";why.push("肥満・便秘の実証 → 表裏双解");}
+      else if(has("thirst")){rx="白虎加人参湯";why.push("暑がり・大汗・口渇 → 気分の熱を冷まし、津液を補う");}
+      else if(has("faceheat")){rx="黄連解毒湯";why.push("顔の紅潮・のぼせ → 実熱を冷ます");}
+      else if(has("damp")){rx="茵蔯蒿湯";why.push("べたつく汗・尿不利 → 清熱利湿");}
+      else {rx="白虎加人参湯";why.push("実熱の多汗 → 清熱生津");}
+    }
+    if(k==="kanutsu"){
+      if(has("menses")){rx="加味逍遥散";why.push("のぼせ・月経前の悪化 → 疏肝解鬱＋清熱");}
+      else if(has("ryukotsu")){rx="柴胡加竜骨牡蛎湯";why.push("驚きやすい・動悸・不眠・胸脇苦満 → 疏肝＋重鎮安神");}
+      else if(has("keiryu")){rx="桂枝加竜骨牡蛎湯";why.push("虚弱・不安が強い → 陰陽を調和し、竜骨・牡蛎で鎮める");}
+      else if(has("shigyaku")||has("local")){rx="四逆散";why.push("手足が冷たいのに汗ばむ・腹直筋の緊張 → 気の詰まりを通じる");}
+      else {rx="加味逍遥散";why.push("緊張・ストレスによる汗 → 疏肝解鬱");}
+    }
+    return {rx,why};
+  },
+  addons(has,top){
+    let h="";
+    if(has("local")) h+=`<div class="addon combo"><b>局所多汗</b>：原発性局所多汗症なら、外用抗コリン薬・塩化アルミニウム・イオントフォレーシス・ボツリヌス注射と併用する（比較表タブ参照）。</div>`;
+    return h;
+  },
+  combo:{
+    "jihan+tohan":"気陰両虚（自汗＋盗汗）→ 温清飲＋補中益気湯（当帰六黄湯の近似）、または六味丸＋補中益気湯",
+    "jihan+kanutsu":"虚弱＋緊張 → 桂枝加竜骨牡蛎湯、または柴胡桂枝湯",
+    "jihan+netsu":"虚実を見極める。汗の後に寒気・疲労なら表虚、暑がり・口渇なら実熱。気と津液がともに傷れていれば白虎加人参湯（人参で補う）",
+    "kanutsu+netsu":"肝鬱化火＋実熱 → 加味逍遥散。実証なら柴胡加竜骨牡蛎湯・大柴胡湯",
+    "kanutsu+tohan":"更年期ののぼせ・寝汗 → 加味逍遥散、柴胡桂枝乾姜湯",
+    "netsu+tohan":"虚熱か実熱か。舌紅・少苔なら陰虚（温清飲・六味丸）、苔黄膩なら湿熱（茵蔯蒿湯・竜胆瀉肝湯）"
+  },
+  rx:{
+    jihan:{
+      path:"衛気（体表のバリア）が弱く腠理が緩んで、汗が漏れ出る（表虚自汗）。肺は皮毛を主り、衛気を体表へ行き渡らせる。",
+      feat:"日中、少し動いただけで汗が出る。汗の後に寒気がする。疲れやすい、かぜをひきやすい。",
+      tongue:"舌 淡胖・歯痕／脈 虚弱",
+      main:"防己黄耆湯／桂枝加黄耆湯／補中益気湯／黄耆建中湯",
+      groups:[["益気固表＋利水",["防己黄耆湯"]],["調和営衛＋固表",["桂枝加黄耆湯"]],["気虚",["補中益気湯"]],["小児・虚弱",["黄耆建中湯"]]],
+      tcm:[["防己黄耆湯","医療用エキスあり（そのまま）"],["玉屏風散（黄耆・白朮・防風）","医療用エキスなし（一般用医薬品あり）→ 桂枝加黄耆湯・補中益気湯・防己黄耆湯で近似"]],
+      alt:["桂枝湯：営衛不和の自汗（黄耆なし）","十全大補湯：気血両虚、病後の自汗","防己黄耆湯＋補中益気湯：水太り＋気虚が強い"],
+      caution:["桂枝加黄耆湯は取り扱うメーカーが限られる","防己黄耆湯・補中益気湯は甘草を含む"]
+    },
+    tohan:{
+      path:"陰液が不足して虚熱が生じ、睡眠中（衛気が内に入るとき）に津液を外へ押し出す（盗汗）。",
+      feat:"寝汗。手足のほてり、頬の紅潮、午後の微熱、口の乾き。更年期・高齢・慢性疾患に多い。",
+      tongue:"舌 紅・少苔／脈 細数",
+      main:"六味丸／温清飲（当帰六黄湯の近似）／柴胡桂枝乾姜湯",
+      groups:[["滋陰",["六味丸"]],["滋陰清熱",["温清飲"]],["寝汗・頭汗・神経過敏",["柴胡桂枝乾姜湯"]],["小児の寝汗",["黄耆建中湯"]]],
+      tcm:[["当帰六黄湯（当帰・生地黄・熟地黄・黄連・黄芩・黄柏・黄耆）","医療用エキスなし → 温清飲（当帰・地黄・黄連・黄芩・黄柏）＋黄耆剤（補中益気湯など）で近似"],["六味丸","医療用エキスあり（そのまま）"]],
+      alt:["加味逍遥散：更年期ののぼせ・イライラ","酸棗仁湯：寝汗に不眠・心煩を伴う","滋陰降火湯：陰虚の乾いた咳を伴う"],
+      caution:["温清飲は山梔子・黄芩を含む（長期投与の注意）","六味丸は地黄で胃もたれしやすい"]
+    },
+    netsu:{
+      path:"裏の実熱・湿熱が津液を外へ押し出す。熱が強いほど汗が多く、湿熱では汗がべたつき、においが強い。",
+      feat:"暑がり、大量の汗、口渇。べたつく汗・におい。頭や顔だけの汗（湿熱が上に昇る）。",
+      tongue:"舌 紅・苔黄（膩）／脈 滑数・洪",
+      main:"白虎加人参湯／茵蔯蒿湯／黄連解毒湯／防風通聖散／竜胆瀉肝湯",
+      groups:[["気分熱（大汗・口渇）",["白虎加人参湯"]],["湿熱",["茵蔯蒿湯","竜胆瀉肝湯"]],["実熱・のぼせ",["黄連解毒湯"]],["肥満・便秘の実証",["防風通聖散"]]],
+      tcm:[["白虎加人参湯・茵蔯蒿湯","医療用エキスあり（そのまま）"]],
+      alt:["越婢加朮湯：汗とともに浮腫・熱感","消風散：汗で悪化する湿疹（痒みテーマ）","三黄瀉心湯：のぼせ＋便秘"],
+      caution:["茵蔯蒿湯・防風通聖散は大黄を含む → 下痢","苦寒薬の長期は胃腸を冷やす"]
+    },
+    kanutsu:{
+      path:"緊張・ストレスで肝気が鬱し、気機が乱れて津液の開闔を失う。陽気が四末に届かず、手足は冷たいのに汗ばむ（四逆）。",
+      feat:"手のひら・足の裏・脇の汗。緊張や人前で悪化する。イライラ・のぼせ、動悸・不眠。",
+      tongue:"舌 辺縁紅／脈 弦",
+      main:"四逆散／加味逍遥散／柴胡加竜骨牡蛎湯／桂枝加竜骨牡蛎湯",
+      groups:[["四逆（手足の冷え＋汗）",["四逆散"]],["肝鬱化火",["加味逍遥散"]],["重鎮安神",["柴胡加竜骨牡蛎湯","桂枝加竜骨牡蛎湯"]]],
+      tcm:[["加味逍遙散・柴胡加竜骨牡蛎湯","医療用エキスあり（そのまま）"],["（追加）","四逆散：手掌多汗＋手足の冷え・腹直筋の緊張に"]],
+      alt:["抑肝散：イライラ・食いしばり","半夏厚朴湯：不安・喉のつかえ","柴胡桂枝湯：緊張＋胃腸症状・虚実中間"],
+      caution:["柴胡剤（黄芩を含むもの）：間質性肺炎・肝障害","抗コリン外用薬と併用可。漢方単独より、西洋治療＋漢方で"]
+    }
+  },
+  cmpTitle:"多汗症の4証 比較",
+  cmpExtra:`<h3>部位別：西洋治療と漢方</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th>部位</th><th>西洋治療</th><th>漢方の視点</th></tr>
+      <tr><td>腋窩</td><td>外用抗コリン薬（ソフピロニウム・グリコピロニウム）、塩化アルミニウム、ボツリヌス注射</td><td>④ 肝鬱／③ 湿熱（におい）</td></tr>
+      <tr><td>手掌</td><td>外用抗コリン薬（オキシブチニン）、塩化アルミニウム、イオントフォレーシス</td><td>④ 四逆散・加味逍遥散</td></tr>
+      <tr><td>足底</td><td>塩化アルミニウム、イオントフォレーシス</td><td>④／③</td></tr>
+      <tr><td>頭部・顔面</td><td>塩化アルミニウム</td><td>③ 茵蔯蒿湯・黄連解毒湯／② 柴胡桂枝乾姜湯</td></tr>
+      <tr><td>全身</td><td>続発性の除外が先</td><td>① 自汗／② 盗汗／③ 実熱</td></tr>
+    </table></div>
+    <p class="hint">自汗＝日中・動くと出る（気虚）、盗汗＝寝ている間（陰虚）、局所汗＝緊張で出る（肝鬱）。汗疱・コリン性蕁麻疹・汗で悪化するアトピーは「痒み」テーマと合わせて。</p>`,
+  pt:{
+    jihan:{t:"体の「バリア」が弱くて漏れる汗",b:"体の表面を守る力（衛気）が弱まっていて、少し動いただけで汗が漏れ出てしまう状態です。汗の後に寒気がしたり、かぜをひきやすかったりします。<br><br>お薬で体の表面を引き締め、汗が漏れにくい体にしていきます。<br><br><b>生活のポイント</b>：汗をかいたらすぐ拭く・着替える／無理のない運動で体力をつける／よく眠る"},
+    tohan:{t:"潤い不足による「寝汗」",b:"体の潤いが不足して内側に熱がこもり、眠っている間に汗が出てしまう状態です。手足のほてりや口の乾きを伴いやすくなります。<br><br>お薬で潤いを補い、こもった熱を静めます。<br><br><b>生活のポイント</b>：夜更かしを避ける／辛いもの・お酒を控える／寝室を暑くしすぎない"},
+    netsu:{t:"体の「熱」が汗を押し出す多汗",b:"体の中に熱や湿気がこもり、それが汗として押し出されている状態です。暑がりで汗が多く、汗がべたついたり、においが気になったりします。<br><br>お薬で体の中の熱と湿気を冷まし、外へ出していきます。<br><br><b>生活のポイント</b>：脂っこいもの・甘いもの・辛いもの・お酒を控える／通気性のよい服を／こまめにシャワー"},
+    kanutsu:{t:"緊張やストレスで出る汗",b:"緊張やストレスで気の巡りが乱れ、手のひら・足の裏・脇などに汗が出やすくなっている状態です。手足は冷たいのに汗ばむこともあります。<br><br>お薬で気の巡りを整え、緊張をゆるめます。塗り薬などの治療と一緒に行うと効果的です。<br><br><b>生活のポイント</b>：深呼吸で緊張をほどく／カフェインを控えめに／汗を気にしすぎない工夫（ハンカチ・制汗剤）"}
+  },
+  formulas:["防己黄耆湯","桂枝加黄耆湯","補中益気湯","黄耆建中湯","六味丸","温清飲","柴胡桂枝乾姜湯","白虎加人参湯","茵蔯蒿湯","竜胆瀉肝湯","黄連解毒湯","防風通聖散","四逆散","加味逍遥散","柴胡加竜骨牡蛎湯","桂枝加竜骨牡蛎湯"]
+},
+/* ---------- 痰・咳 ---------- */
+tan2:{
+  label:"痰・咳", sub:"脾・肺・痰熱・腎 × エキス剤",
+  types:{
+    hi:{no:"①",name:"脾虚生痰",bar:"①脾虚生痰",seg:"①脾虚",color:"var(--kincha)"},
+    hai:{no:"②",name:"肺失宣降",bar:"②肺失宣降",seg:"②肺",color:"var(--matsuba)"},
+    netsu:{no:"③",name:"熱灼津液・痰熱",bar:"③痰熱",seg:"③痰熱",color:"var(--shu)"},
+    jin:{no:"④",name:"腎陽不足・水飲上逆",bar:"④腎陽・水飲",seg:"④水飲",color:"var(--ai)"}
+  },
+  groups:[
+    ["hi","① 脾虚生痰","脾は生痰の源","var(--kincha)"],
+    ["hai","② 肺失宣降","肺は貯痰の器","var(--matsuba)"],
+    ["netsu","③ 熱灼津液・痰熱","熱で煮詰まる","var(--shu)"],
+    ["jin","④ 腎陽不足・水飲上逆","下焦の不化","var(--ai)"]
+  ],
+  sx:[
+    ["a1","白く粘る痰が多い（特に朝・食後）","hi",{hi:2}],
+    ["a2","胃腸が弱い・食欲不振・胃もたれ","hi",{hi:2},"spxu"],
+    ["a3","疲れやすい・手足がだるい・食後に眠い","hi",{hi:1},"spxu"],
+    ["a4","軟便・下痢しやすい","hi",{hi:1}],
+    ["a5","悪心・吐き気・口が粘る","hi",{hi:1},"nausea"],
+    ["a6","甘いもの・乳製品・冷たいもので悪化","hi",{hi:1}],
+    ["a7","舌 胖大・歯痕・苔白膩／脈 滑緩","hi",{hi:1}],
+
+    ["b1","咳が主で、痰が喉にからむ","hai",{hai:2}],
+    ["b2","喉に何かが引っかかる感じ（梅核気）・不安","hai",{hai:2},"baikaku"],
+    ["b3","胸苦しさ・息切れ・喘鳴","hai",{hai:1},"wheeze"],
+    ["b4","発作的に咳き込む・痰が切れにくい・喉が乾く","hai",{hai:1},"bakumon"],
+    ["b5","ストレスで悪化する慢性の咳・喘息","hai",{hai:1},"saiboku"],
+    ["b6","かぜの後に咳が残る・虚弱で胃腸症状も","hai",{hai:1,hi:1},"sanso"],
+    ["b7","悪寒・くしゃみ・水様の鼻水（風寒）","hai",{hai:1,jin:1},"gaihan"],
+    ["b8","脈 浮 or 弦","hai",{hai:1}],
+
+    ["c1","黄色く粘る痰・切れにくい","netsu",{netsu:2}],
+    ["c2","口渇・咽頭痛・発熱・熱感","netsu",{netsu:1},"heat"],
+    ["c3","咳き込みが強い・喘鳴・汗が出る","netsu",{netsu:1,hai:1},"makyo"],
+    ["c4","長引く慢性の咳と痰","netsu",{netsu:1},"seihai"],
+    ["c5","かぜの後の咳・痰・眠れない","netsu",{netsu:1},"chikujo"],
+    ["c6","鼻の奥の黄色い痰・後鼻漏・鼻閉","netsu",{netsu:1},"nose"],
+    ["c7","扁桃の腫れ・喉の強い痛み","netsu",{netsu:1},"tonsil"],
+    ["c8","舌 紅・苔黄膩／脈 滑数","netsu",{netsu:1}],
+
+    ["d1","水っぽい・泡状の白い痰や鼻水","jin",{jin:2},"watery"],
+    ["d2","冷え・寒がり・温めると楽","jin",{jin:2}],
+    ["d3","胃腸が弱く麻黄が合わない","jin",{jin:1},"ryokan"],
+    ["d4","高齢・元気がない・寒気が強い","jin",{jin:1},"mafusai"],
+    ["d5","むくみ・めまい・動悸・下痢","jin",{jin:1},"shinbu"],
+    ["d6","夜間頻尿・腰膝の冷え・動くと息切れ（腎不納気）","jin",{jin:1},"hachimi"],
+    ["d7","舌 淡胖・苔白滑／脈 沈遅","jin",{jin:1}]
+  ],
+  redTitle:"先に除外（器質的疾患・他の原因）",
+  red:[
+    ["r1","血痰・喀血"],
+    ["r2","3週間以上続く咳・体重減少・寝汗・微熱（結核・肺癌）"],
+    ["r3","喫煙歴・50歳以上の新たな咳（肺癌・COPD）"],
+    ["r4","発熱・呼吸困難・SpO2低下（肺炎）"],
+    ["r5","喘鳴・夜間の呼吸困難（喘息・心不全）"],
+    ["r6","ACE阻害薬を内服中（薬剤性の咳）"],
+    ["r7","胸やけ・呑酸（逆流性食道炎による咳）"]
+  ],
+  redMsg:r=>"器質的疾患の除外を優先してください。"
+    +((r.has("r1")||r.has("r2")||r.has("r3"))?"<br>胸部X線（必要ならCT）・喀痰検査を。":"")
+    +(r.has("r4")?"<br>抗菌薬など西洋治療を優先。":"")
+    +(r.has("r5")?"<br>呼吸機能検査・心エコー・BNPを検討。":"")
+    +(r.has("r6")?"<br>ARBなど他剤への変更を検討。":"")
+    +(r.has("r7")?"<br>PPIの診断的投与も選択肢。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="hi"){
+      if(has("spxu")){rx="六君子湯";why.push("胃腸虚弱＋痰 → 二陳湯＋四君子湯で、生痰の源（脾）を補う");}
+      else {rx="二陳湯";why.push("白く粘る痰・悪心 → 燥湿化痰の基本方");}
+      if(has("baikaku")) why.push("喉のつかえ（梅核気）があれば半夏厚朴湯を併用");
+    }
+    if(k==="hai"){
+      if(has("gaihan")){rx="小青竜湯";why.push("悪寒・くしゃみ・水様の痰 → 外寒内飲を宣肺・温化");}
+      else if(has("saiboku")){rx="柴朴湯";why.push("ストレスで悪化する慢性の咳・喘息 → 小柴胡湯＋半夏厚朴湯");}
+      else if(has("baikaku")){rx="半夏厚朴湯";why.push("喉のつかえ・胸苦しさ・不安 → 行気降逆・化痰");}
+      else if(has("bakumon")){rx="麦門冬湯";why.push("発作的な咳き込み・痰が切れにくい・喉の乾き → 潤肺降逆");}
+      else if(has("wheeze")){rx="神秘湯";why.push("喘鳴・呼吸困難 → 宣肺平喘（麻黄を含む）");}
+      else if(has("sanso")){rx="参蘇飲";why.push("虚弱な人のかぜ後の咳・痰、胃腸症状 → 扶正解表・化痰");}
+      else {rx="半夏厚朴湯";why.push("痰が喉にからむ咳 → 降気化痰");}
+    }
+    if(k==="netsu"){
+      if(has("nose")){rx="辛夷清肺湯";why.push("後鼻漏・鼻閉・黄色い鼻汁 → 肺熱を冷まし鼻竅を通じる");why.push("にきび体質・慢性副鼻腔炎なら荊芥連翹湯");}
+      else if(has("tonsil")){rx="小柴胡湯加桔梗石膏";why.push("扁桃の腫れ・咽頭痛 → 和解＋清熱排膿");}
+      else if(has("makyo")){rx="麻杏甘石湯";why.push("咳き込み・喘鳴・汗・口渇 → 肺熱を冷まして平喘（咳が主なら五虎湯）");}
+      else if(has("chikujo")){rx="竹茹温胆湯";why.push("かぜの後の咳・痰・不眠 → 清熱化痰（黄連温胆湯の代わり）");}
+      else {rx="清肺湯";why.push("黄色く粘る痰・長引く咳 → 清熱化痰・潤肺（清金化痰湯の代わり）");}
+    }
+    if(k==="jin"){
+      if(has("ryokan")){rx="苓甘姜味辛夏仁湯";why.push("胃腸が弱く麻黄が合わない寒飲 → 小青竜湯から麻黄を抜いた方意");}
+      else if(has("mafusai")){rx="麻黄附子細辛湯";why.push("高齢・元気がない・寒気 → 陽虚＋外寒");}
+      else if(has("gaihan")){rx="小青竜湯";why.push("悪寒・くしゃみ・水様の痰 → 外寒内飲");}
+      else if(has("hachimi")){rx="八味地黄丸";why.push("夜間頻尿・腰膝の冷え・動くと息切れ → 腎陽を補い納気");}
+      else if(has("shinbu")){rx="真武湯";why.push("むくみ・めまい・動悸・下痢 → 温陽利水（腎陽虚の水泛）");}
+      else if(has("watery")){rx="小青竜湯";why.push("水様の痰・鼻水 → 温肺化飲");}
+      else {rx="真武湯";why.push("冷えを伴う水飲 → 腎陽を温めて水を捌く");}
+    }
+    return {rx,why};
+  },
+  addons:()=>"",
+  combo:{
+    "hai+hi":"脾肺両虚の痰 → 六君子湯＋半夏厚朴湯。虚弱のかぜなら参蘇飲",
+    "hi+jin":"脾腎陽虚の水飲 → 真武湯＋六君子湯（または人参湯）、苓甘姜味辛夏仁湯",
+    "hi+netsu":"脾虚＋痰熱 → 竹茹温胆湯（人参を含む）、または六君子湯＋清肺湯を短期で",
+    "hai+jin":"外寒内飲 → 小青竜湯。麻黄が合わなければ苓甘姜味辛夏仁湯",
+    "hai+netsu":"寒熱を見極める。白く薄い痰なら寒（小青竜湯）、黄色く粘る痰なら熱（麻杏甘石湯・清肺湯）。混在すれば小青竜湯＋桔梗石膏",
+    "jin+netsu":"寒熱錯雑 → 小青竜湯＋桔梗石膏、または麻杏甘石湯。下焦が冷えて上焦に熱があるときは寒薬の使いすぎに注意"
+  },
+  rx:{
+    hi:{
+      path:"脾の運化が弱り、水湿が停滞して痰となる（脾は生痰の源）。痰は肺へ上り、胃にも停滞する。",
+      feat:"白く粘る痰が多く、朝や食後に多い。胃腸虚弱・食欲不振・悪心・軟便・倦怠感。",
+      tongue:"舌 胖大・歯痕・苔白膩／脈 滑緩",
+      main:"六君子湯／二陳湯",
+      groups:[["燥湿化痰",["二陳湯"]],["健脾化痰",["六君子湯"]]],
+      tcm:[["二陳湯・六君子湯","医療用エキスあり（そのまま）"]],
+      alt:["半夏厚朴湯：喉のつかえ（梅核気）を伴う","参蘇飲：虚弱な人のかぜ＋胃腸症状","香砂六君子湯（六君子湯で代用）：胃の張り・食欲不振が強い"],
+      caution:["六君子湯は甘草を含む","甘いもの・乳製品・冷たい飲食を控えるのが治療の一部"]
+    },
+    hai:{
+      path:"肺の宣発（外へ散らす）と粛降（下へ降ろす）が失われ、痰が肺に貯まり気が上逆する（肺は貯痰の器）。",
+      feat:"咳が主で、痰が喉にからむ。胸苦しさ・息切れ・喘鳴。喉のつかえ（梅核気）。",
+      tongue:"舌 苔白／脈 浮 or 弦",
+      main:"宣肺→小青竜湯／降気→半夏厚朴湯・柴朴湯／潤肺→麦門冬湯",
+      groups:[["宣肺",["小青竜湯","神秘湯"]],["降気化痰",["半夏厚朴湯","柴朴湯"]],["潤肺降逆",["麦門冬湯"]],["扶正解表",["参蘇飲"]]],
+      tcm:[["（原案に方剤なし）","エキスでは 宣肺：小青竜湯・麻杏甘石湯／降気：半夏厚朴湯・柴朴湯・神秘湯／潤肺：麦門冬湯"],["止嗽散・杏蘇散など","医療用エキスなし → 方意の近い参蘇飲・半夏厚朴湯"]],
+      alt:["麻杏甘石湯：熱を伴う咳・喘鳴（③）","滋陰降火湯：痰が少なく乾いた咳が夜に悪化（陰虚）","竹茹温胆湯：かぜ後の咳・痰・不眠"],
+      caution:["小青竜湯・神秘湯は麻黄を含む。高齢・心疾患・前立腺肥大では慎重に","柴朴湯は黄芩を含む → 間質性肺炎の報告あり（咳の悪化・発熱に注意）"]
+    },
+    netsu:{
+      path:"熱が津液を煮詰めて痰とし、痰と熱が結びついて肺を塞ぐ（痰熱壅肺）。",
+      feat:"黄色く粘る痰が切れにくい。口渇・咽頭痛・熱感。長引く咳、後鼻漏、扁桃の腫れ。",
+      tongue:"舌 紅・苔黄膩／脈 滑数",
+      main:"清肺湯（清金化痰湯の代用）／竹茹温胆湯／麻杏甘石湯／辛夷清肺湯",
+      groups:[["清熱化痰・潤肺",["清肺湯"]],["痰熱（かぜの後）",["竹茹温胆湯"]],["肺熱の喘咳",["麻杏甘石湯"]],["鼻・咽喉",["辛夷清肺湯","小柴胡湯加桔梗石膏"]]],
+      tcm:[["清金化痰湯","医療用エキスなし → 構成が近い清肺湯（黄芩・山梔子・桑白皮・貝母・桔梗・麦門冬など）"],["黄連温胆湯","医療用エキスなし → 竹茹温胆湯（温胆湯の骨格＋黄連）"]],
+      alt:["五虎湯：麻杏甘石湯＋桑白皮、咳が主","荊芥連翹湯：慢性副鼻腔炎・にきび体質（解毒証）","排膿散及湯：膿性の痰・鼻汁"],
+      caution:["清肺湯・辛夷清肺湯は黄芩・山梔子を含む → 長期投与の注意（併用チェック）","麻杏甘石湯は麻黄を含む"]
+    },
+    jin:{
+      path:"腎陽（下焦のボイラー）が冷えて水を気化できず、水飲が上逆して肺に溢れる。外寒が加わると外寒内飲となる。",
+      feat:"水っぽい・泡状の白い痰や鼻水。冷え・寒がり。むくみ・動悸・夜間頻尿、動くと息切れ。",
+      tongue:"舌 淡胖・苔白滑／脈 沈遅",
+      main:"真武湯／小青竜湯／苓甘姜味辛夏仁湯／八味地黄丸",
+      groups:[["温陽利水",["真武湯"]],["外寒内飲",["小青竜湯","麻黄附子細辛湯"]],["寒飲（麻黄なし）",["苓甘姜味辛夏仁湯"]],["腎不納気",["八味地黄丸"]]],
+      tcm:[["真武湯・小青竜湯","医療用エキスあり（そのまま）"],["（追加）","苓甘姜味辛夏仁湯（麻黄が使えない寒飲）・麻黄附子細辛湯（高齢の陽虚＋外寒）・八味地黄丸（腎不納気）"]],
+      alt:["苓桂朮甘湯：めまい・動悸を伴う水飲","人参湯：中焦の冷えが主","牛車腎気丸：下肢のむくみ・しびれを伴う腎陽虚"],
+      caution:["小青竜湯・麻黄附子細辛湯は麻黄を含む","真武湯・八味地黄丸・麻黄附子細辛湯は附子を含む"]
+    }
+  },
+  cmpTitle:"痰の4証 比較",
+  cmpExtra:`<h3>痰の色と性状で見る</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th>痰の性状</th><th>証と方剤</th></tr>
+      <tr><td>白く薄い・水様・泡状</td><td>寒飲（④）小青竜湯・苓甘姜味辛夏仁湯</td></tr>
+      <tr><td>白く粘る・量が多い</td><td>湿痰（①）二陳湯・六君子湯</td></tr>
+      <tr><td>黄色く粘る・切れにくい</td><td>痰熱（③）清肺湯・竹茹温胆湯</td></tr>
+      <tr><td>少なく切れにくい・乾いた咳</td><td>燥痰・陰虚（②）麦門冬湯</td></tr>
+      <tr><td>喉に引っかかって出ない</td><td>気滞痰・梅核気（②）半夏厚朴湯</td></tr>
+    </table></div>
+    <p class="hint">脾は生痰の源、肺は貯痰の器、腎は生痰の本。形のない痰（めまい・頭重・不眠）は「頭痛」②痰濁、「不眠」④痰熱のテーマで。</p>`,
+  pt:{
+    hi:{t:"胃腸の弱りから生まれる痰",b:"胃腸の働きが弱ると、体の中の水分がうまく処理されずに痰になります。白くて粘る痰が多く、胃もたれや疲れやすさを伴うのが特徴です。<br><br>お薬で胃腸を元気にし、痰のもとを断ちます。<br><br><b>生活のポイント</b>：甘いもの・乳製品・冷たいもの・食べ過ぎを控える／よく噛む／温かい食事を"},
+    hai:{t:"呼吸の通り道が詰まる痰・咳",b:"肺の、空気や水を外へ散らしたり下へ降ろしたりする働きが乱れ、痰が喉にからんだり、咳が出たりしている状態です。喉に何かが引っかかる感じがすることもあります。<br><br>お薬で呼吸の通り道を整え、痰を出しやすくします。<br><br><b>生活のポイント</b>：部屋を乾燥させない／首元を冷やさない／ストレスをためない"},
+    netsu:{t:"「熱」で煮詰まった黄色い痰",b:"体の中の熱で水分が煮詰まり、黄色く粘る、切れにくい痰になっている状態です。喉の痛みや口の渇きを伴いやすくなります。<br><br>お薬で熱を冷まし、痰を溶かして出しやすくします。<br><br><b>生活のポイント</b>：辛いもの・揚げ物・お酒・タバコを控える／水分をこまめにとる／十分な睡眠"},
+    jin:{t:"体の「冷え」から来る水っぽい痰",b:"体を温めるボイラー（腎）が弱り、水分を温めて処理できず、水っぽい痰や鼻水になって上がってきている状態です。冷えや寒がりを伴います。<br><br>お薬で体の芯を温め、余分な水を捌きます。<br><br><b>生活のポイント</b>：冷たい飲食を控える／腰・お腹・首を温める／湯船に浸かる"}
+  },
+  formulas:["二陳湯","六君子湯","半夏厚朴湯","柴朴湯","麦門冬湯","神秘湯","参蘇飲","小青竜湯","麻杏甘石湯","清肺湯","竹茹温胆湯","辛夷清肺湯","小柴胡湯加桔梗石膏","苓甘姜味辛夏仁湯","麻黄附子細辛湯","真武湯","八味地黄丸"]
+},
+/* ---------- 耳鳴り ---------- */
+jimei:{
+  label:"耳鳴り", sub:"腎虚・肝火・気虚・痰火 × エキス剤",
+  types:{
+    jin:{no:"①",name:"腎精不足・腎陰虚",bar:"①腎虚",seg:"①腎虚",color:"var(--ai)"},
+    kanka:{no:"②",name:"肝火上炎・肝陽上亢",bar:"②肝火",seg:"②肝火",color:"var(--shu)"},
+    kyo:{no:"③",name:"脾胃気虚・清陽不昇",bar:"③気虚",seg:"③気虚",color:"var(--kincha)"},
+    tanka:{no:"④",name:"痰火上擾・湿熱閉塞",bar:"④痰火",seg:"④痰火",color:"var(--matsuba)"}
+  },
+  groups:[
+    ["jin","① 腎精不足・腎陰虚","虚証・精気が上に届かない","var(--ai)"],
+    ["kanka","② 肝火上炎・肝陽上亢","実証・突き上げ","var(--shu)"],
+    ["kyo","③ 脾胃気虚・清陽不昇","虚証・持ち上げられない","var(--kincha)"],
+    ["tanka","④ 痰火上擾・湿熱閉塞","実証・閉塞","var(--matsuba)"]
+  ],
+  sx:[
+    ["a1","キーンという細い高音が持続する","jin",{jin:2}],
+    ["a2","夜間・静かな場所で気になる","jin",{jin:1}],
+    ["a3","腰膝のだるさ・足腰の衰え（腰膝酸軟）","jin",{jin:2},"kidney"],
+    ["a4","手足のほてり・寝汗・口の乾き（陰虚）","jin",{jin:1},"yin"],
+    ["a5","冷え・夜間頻尿・下肢のむくみやしびれ（陽虚）","jin",{jin:1},"yang"],
+    ["a6","高齢・徐々に進む聴力低下","jin",{jin:1}],
+    ["a7","耳を手で押さえると小さくなる（虚）","jin",{jin:1,kyo:1}],
+    ["a8","舌 紅・少苔 or 淡胖／脈 沈細","jin",{jin:1}],
+
+    ["b1","突発的で大きな音（ゴー・ザー）","kanka",{kanka:2}],
+    ["b2","イライラ・怒り・ストレスで悪化","kanka",{kanka:2},"anger"],
+    ["b3","口が苦い・目の充血・顔面紅潮","kanka",{kanka:1},"fire"],
+    ["b4","頭痛・めまい・高血圧傾向・中高年","kanka",{kanka:1},"chotosan"],
+    ["b5","不安・動悸・不眠・驚きやすい","kanka",{kanka:1},"ryukotsu"],
+    ["b6","胸脇苦満・便秘（実証）","kanka",{kanka:1},"daisaiko"],
+    ["b7","月経・更年期と関連（女性）","kanka",{kanka:1},"meno"],
+    ["b8","耳を押さえても変わらない・響く（実）","kanka",{kanka:1,tanka:1}],
+    ["b9","舌 紅・苔黄／脈 弦数","kanka",{kanka:1}],
+
+    ["c1","疲れたとき・空腹時に悪化","kyo",{kyo:2}],
+    ["c2","全身の倦怠感・食欲不振","kyo",{kyo:2},"qixu"],
+    ["c3","低めの音・軽い耳閉感","kyo",{kyo:1}],
+    ["c4","頭がボーッとする・頭重感","kyo",{kyo:1}],
+    ["c5","立ちくらみ・起立時に悪化","kyo",{kyo:1},"ryokei"],
+    ["c6","不眠・不安・考えすぎる","kyo",{kyo:1},"kihi"],
+    ["c7","胃腸虚弱＋めまい・悪心","kyo",{kyo:1,tanka:1},"hange"],
+    ["c8","舌 淡・歯痕／脈 弱","kyo",{kyo:1}],
+
+    ["d1","耳に水が入ったような強い詰まり感","tanka",{tanka:2},"fullness"],
+    ["d2","頭が重だるい・めまい","tanka",{tanka:2},"dizzy"],
+    ["d3","喉に粘る痰がからむ・口が粘る","tanka",{tanka:1}],
+    ["d4","口渇があるのに尿が少ない・むくみ","tanka",{tanka:1},"goreisan"],
+    ["d5","ストレスで悪化・口が苦い（柴胡証）","tanka",{tanka:1,kanka:1},"saiko"],
+    ["d6","黄色い痰・イライラ・不眠（痰熱）","tanka",{tanka:1},"tannetsu"],
+    ["d7","耳だれ・外耳道の湿疹やかゆみ（湿熱）","tanka",{tanka:1},"earwet"],
+    ["d8","舌 苔膩（黄膩）／脈 滑","tanka",{tanka:1}]
+  ],
+  redTitle:"先に確認（耳鼻咽喉科的な除外）",
+  red:[
+    ["r1","突然の難聴を伴う（突発性難聴）"],
+    ["r2","片側だけの耳鳴り・難聴が進行する（聴神経腫瘍）"],
+    ["r3","脈に一致する拍動性の耳鳴り（血管性）"],
+    ["r4","回転性めまい＋難聴＋耳閉感を繰り返す（メニエール病）"],
+    ["r5","耳痛・耳漏・発熱（中耳炎・外耳炎）"],
+    ["r6","顔面神経麻痺・耳介の水疱（ハント症候群）"],
+    ["r7","薬剤性（アミノグリコシド・ループ利尿薬・シスプラチン・大量アスピリン）"],
+    ["r8","騒音曝露・音響外傷の後"]
+  ],
+  redMsg:r=>"耳鼻咽喉科での聴力検査・診断を並行してください。"
+    +(r.has("r1")?"<br>突発性難聴は早期治療（ステロイド）が予後を左右する → 至急耳鼻科へ。":"")
+    +(r.has("r2")?"<br>聴神経腫瘍の除外にMRIを。":"")
+    +(r.has("r3")?"<br>血管性（動静脈瘻・高血圧・貧血など）の精査を。":"")
+    +(r.has("r4")?"<br>耳鼻科で診断のうえ、五苓散・柴苓湯などを併用。":"")
+    +(r.has("r6")?"<br>抗ウイルス薬＋ステロイドを早期に。耳鼻科と連携。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="jin"){
+      if(has("yang")){rx="八味地黄丸";why.push("冷え・夜間頻尿を伴う腎虚 → 腎陽を補う（下肢のむくみ・しびれがあれば牛車腎気丸）");}
+      else {rx="六味丸";why.push("高音が持続・腰膝のだるさ → 腎陰を補う（耳聾左慈丸の代わり）");}
+      if(has("yin")&&has("fire")) why.push("のぼせ・ほてりが強ければ黄連解毒湯を少量（知柏地黄丸の近似）");
+    }
+    if(k==="kanka"){
+      if(has("fire")){rx="竜胆瀉肝湯";why.push("口が苦い・目の充血・突発的な大きな音 → 肝火を冷ます");}
+      else if(has("ryukotsu")){rx="柴胡加竜骨牡蛎湯";why.push("不安・動悸・不眠・驚きやすい → 疏肝＋重鎮安神（耳鳴りで頻用）");}
+      else if(has("daisaiko")){rx="大柴胡湯";why.push("胸脇苦満・便秘の実証 → 疏肝＋瀉下");}
+      else if(has("meno")){rx="加味逍遥散";why.push("月経・更年期と関連 → 疏肝清熱");}
+      else if(has("chotosan")){rx="釣藤散";why.push("中高年・高血圧・頭痛・めまい → 平肝熄風（天麻鈎藤飲の近似）");}
+      else {rx="竜胆瀉肝湯";why.push("ストレスで悪化する大きな音 → 肝火を冷ます");why.push("口苦・充血がなければ柴胡加竜骨牡蛎湯・抑肝散も");}
+    }
+    if(k==="kyo"){
+      if(has("hange")){rx="半夏白朮天麻湯";why.push("胃腸虚弱＋めまい・悪心 → 健脾化痰熄風");}
+      else if(has("kihi")){rx="加味帰脾湯";why.push("不眠・不安・考えすぎ → 心脾を補う");}
+      else if(has("ryokei")){rx="苓桂朮甘湯";why.push("立ちくらみ・起立時に悪化 → 温陽化飲");}
+      else {rx="補中益気湯";why.push("疲労・空腹で悪化 → 升陽益気で清陽を耳へ（益気聡明湯の代わり）");}
+    }
+    if(k==="tanka"){
+      if(has("earwet")){rx="竜胆瀉肝湯";why.push("耳だれ・外耳道の湿疹 → 肝胆経の湿熱");}
+      else if(has("fullness")||has("goreisan")){
+        if(has("saiko")){rx="柴苓湯";why.push("耳閉感＋ストレス・口苦 → 小柴胡湯＋五苓散");}
+        else {rx="五苓散";why.push("水が入ったような耳閉感・口渇・尿不利 → 利水（低音障害型感音難聴・メニエール病でも頻用）");}
+      }
+      else if(has("tannetsu")){rx="竹茹温胆湯";why.push("黄色い痰・イライラ・不眠 → 清熱化痰（黄連温胆湯の代わり）");}
+      else if(has("dizzy")){rx="半夏白朮天麻湯";why.push("頭重・めまい → 化痰熄風");}
+      else {rx="竹茹温胆湯";why.push("痰火が耳を塞ぐ → 清熱化痰（黄連温胆湯の代わり）");}
+    }
+    return {rx,why};
+  },
+  addons:(has,top)=>top?`<div class="addon combo"><b>評価の目安</b>：慢性の耳鳴りは難治なことが多い。3か月程度を目安に効果を判定し、音の大きさより「気にならなくなったか」も指標に。</div>`:"",
+  combo:{
+    "jin+kanka":"上実下虚（腎陰虚で肝陽が昇る）→ 六味丸＋釣藤散、または七物降下湯",
+    "jin+kyo":"脾腎両虚 → 補中益気湯＋六味丸（冷えがあれば八味地黄丸）",
+    "jin+tanka":"腎虚＋水滞 → 牛車腎気丸・八味地黄丸（利水も兼ねる）、または＋五苓散",
+    "kanka+kyo":"虚実錯雑 → 加味帰脾湯、または加味逍遥散",
+    "kanka+tanka":"肝鬱＋水滞・痰 → 柴苓湯（小柴胡湯＋五苓散）。痰熱なら竹茹温胆湯",
+    "kyo+tanka":"気虚＋痰湿 → 半夏白朮天麻湯（六君子湯の骨格＋天麻）"
+  },
+  rx:{
+    jin:{
+      path:"腎は耳に開竅する。腎精・腎陰が不足して精気が耳へ届かず、虚熱も上る。",
+      feat:"キーンという細い高音が持続し、夜間や静かな場所で気になる。腰膝のだるさ・めまい・ほてり。耳を押さえると小さくなる。",
+      tongue:"舌 紅・少苔（陰虚）or 淡胖（陽虚）／脈 沈細",
+      main:"六味丸／八味地黄丸・牛車腎気丸",
+      groups:[["滋腎陰",["六味丸"]],["温腎陽",["八味地黄丸","牛車腎気丸"]]],
+      tcm:[["六味丸","医療用エキスあり（そのまま）"],["耳聾左慈丸","医療用エキスなし（一般用医薬品あり）→ 六味丸で代用（六味丸に磁石などを加えた処方）"]],
+      alt:["釣藤散：上実下虚で、頭痛・めまい・高血圧を伴う","七物降下湯：血虚＋高血圧","滋陰降火湯：陰虚で、乾いた咳・ほてりを伴う"],
+      caution:["地黄で胃もたれ・下痢しやすい。胃腸が弱ければ食後に","八味地黄丸・牛車腎気丸は附子を含む"]
+    },
+    kanka:{
+      path:"肝胆の経絡は耳を巡る。肝鬱化火や肝陽上亢が、耳へ激しく突き上げる。",
+      feat:"突発的で大きな音（ゴー・ザー）。耳を押さえても変わらない、むしろ響く。イライラ・頭痛・目の充血・口の苦み。",
+      tongue:"舌 紅・苔黄／脈 弦数",
+      main:"竜胆瀉肝湯／柴胡加竜骨牡蛎湯／釣藤散／大柴胡湯／加味逍遥散",
+      groups:[["肝火・肝胆湿熱",["竜胆瀉肝湯"]],["肝鬱＋神志不安",["柴胡加竜骨牡蛎湯","加味逍遥散"]],["肝陽上亢",["釣藤散"]],["実証・便秘",["大柴胡湯"]]],
+      tcm:[["竜胆瀉肝湯","医療用エキスあり（薛氏方と一貫堂方で構成が異なる）"],["天麻鈎藤飲（肝陽上亢）","医療用エキスなし → 釣藤散"]],
+      alt:["抑肝散：イライラ・食いしばり・筋緊張","黄連解毒湯・三黄瀉心湯：のぼせ・顔面紅潮が強い","七物降下湯：血虚を伴う高血圧"],
+      caution:["竜胆瀉肝湯・柴胡加竜骨牡蛎湯・大柴胡湯は黄芩を含む → 間質性肺炎・肝障害","高血圧が背景にあれば降圧治療を優先"]
+    },
+    kyo:{
+      path:"脾胃の気が虚して、清陽（澄んだ陽気）を頭や耳へ持ち上げられない。",
+      feat:"疲れたときや空腹時に悪化する低めの音。軽い耳閉感。倦怠感・食欲不振・頭がボーッとする。",
+      tongue:"舌 淡・歯痕／脈 弱",
+      main:"補中益気湯（益気聡明湯の代用）／半夏白朮天麻湯／加味帰脾湯",
+      groups:[["升陽益気",["補中益気湯"]],["気虚＋痰",["半夏白朮天麻湯"]],["心脾両虚",["加味帰脾湯"]],["起立性・水飲",["苓桂朮甘湯"]]],
+      tcm:[["益気聡明湯（黄耆・人参・升麻・葛根・蔓荊子・芍薬・黄柏・甘草）","医療用エキスなし → 補中益気湯（黄耆・人参・升麻で清陽を昇らせる方意が近い）"],["補中益気湯","医療用エキスあり（そのまま）"]],
+      alt:["十全大補湯：気血両虚、病後","六君子湯：胃腸症状が主","人参養栄湯：高齢・物忘れ・不眠"],
+      caution:["補中益気湯・加味帰脾湯は甘草を含む","加味帰脾湯は山梔子を含む"]
+    },
+    tanka:{
+      path:"痰湿（や湿熱）が上って清竅（耳）を塞ぐ。痰が熱を帯びると痰火となる。",
+      feat:"耳に水が入ったような強い詰まり感。頭が重だるい・めまい。喉に粘る痰。耳だれ・外耳道の湿疹。",
+      tongue:"舌 苔膩（黄膩）／脈 滑",
+      main:"竹茹温胆湯（黄連温胆湯の代用）／五苓散・柴苓湯／半夏白朮天麻湯",
+      groups:[["痰火・痰熱",["竹茹温胆湯"]],["水滞・耳閉感",["五苓散","柴苓湯"]],["痰濁・めまい",["半夏白朮天麻湯"]],["肝胆湿熱",["竜胆瀉肝湯"]]],
+      tcm:[["黄連温胆湯","医療用エキスなし → 竹茹温胆湯"],["（追加）","五苓散・柴苓湯：耳閉感・低音障害型感音難聴・メニエール病で頻用"]],
+      alt:["苓桂朮甘湯：めまい・立ちくらみ・動悸","半夏厚朴湯：喉のつかえ・気鬱を伴う","抑肝散加陳皮半夏：痰＋イライラ"],
+      caution:["柴苓湯は黄芩を含む → 間質性肺炎・膀胱炎様症状の報告あり","竜胆瀉肝湯は黄芩・山梔子を含む"]
+    }
+  },
+  cmpTitle:"耳鳴りの4証 比較",
+  cmpExtra:`<h3>音と性状で見る</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th>音・性状</th><th>証と方剤</th></tr>
+      <tr><td>キーン・細い高音・持続・夜に目立つ</td><td>① 腎虚：六味丸・八味地黄丸</td></tr>
+      <tr><td>ゴー・ザー・大きい・突発的</td><td>② 肝火：竜胆瀉肝湯・柴胡加竜骨牡蛎湯・釣藤散</td></tr>
+      <tr><td>低音・疲れや空腹で悪化</td><td>③ 気虚：補中益気湯</td></tr>
+      <tr><td>水が入った詰まり感・めまい・頭重</td><td>④ 痰湿：五苓散・柴苓湯・竹茹温胆湯</td></tr>
+    </table></div>
+    <p class="hint">「按じて減ずるは虚、減ぜざるは実」。耳を手で押さえて小さくなれば虚（①③）、変わらない・響くなら実（②④）。</p>`,
+  pt:{
+    jin:{t:"「腎」の衰えによる耳鳴り",b:"東洋医学では、耳は「腎」とつながっていると考えます。年齢や疲れで腎の力（精・潤い）が不足し、耳に十分な栄養が届かず、キーンという細い音が続いている状態です。<br><br>お薬で腎を補い、耳を内側から養います。<br><br><b>生活のポイント</b>：夜更かし・過労を避ける／足腰を冷やさない／黒い食材（黒豆・黒ごま）や山芋を"},
+    kanka:{t:"ストレスの「熱」が突き上げる耳鳴り",b:"ストレスやイライラで体に熱がこもり、それが耳に激しく突き上げて、ゴーッという大きな音が出ている状態です。頭痛や目の充血を伴うこともあります。<br><br>お薬でのぼった熱を冷まし、気持ちを落ち着けます。<br><br><b>生活のポイント</b>：十分な睡眠／お酒・辛いもの・カフェインを控える／深呼吸・散歩でストレスを発散"},
+    kyo:{t:"エネルギー不足で「持ち上げられない」耳鳴り",b:"胃腸が弱って体のエネルギー（気）が不足し、頭や耳まで持ち上げられない状態です。疲れたときやお腹がすいたときに悪化するのが特徴です。<br><br>お薬で胃腸を元気にし、エネルギーを頭まで届けます。<br><br><b>生活のポイント</b>：食事を抜かない／休息をしっかりとる／冷たいもの・甘いものを控える"},
+    tanka:{t:"「余分な水・痰」が耳を塞ぐ耳鳴り",b:"体の中の余分な水分や痰が上って耳を塞いでいる状態です。水が入ったような詰まり感や、頭の重さ・めまいを伴いやすくなります。<br><br>お薬で余分な水と痰を捌き、耳の詰まりを取ります。<br><br><b>生活のポイント</b>：水分のとりすぎ・冷たい飲み物を控える／甘いもの・脂っこいもの・お酒を控える／軽い運動で汗をかく"}
+  },
+  formulas:["六味丸","八味地黄丸","牛車腎気丸","竜胆瀉肝湯","柴胡加竜骨牡蛎湯","大柴胡湯","加味逍遥散","釣藤散","補中益気湯","半夏白朮天麻湯","加味帰脾湯","苓桂朮甘湯","竹茹温胆湯","五苓散","柴苓湯"]
+},
+/* ---------- めまい ---------- */
+memai:{
+  label:"めまい", sub:"痰濁・肝陽・気血虚・腎精 × エキス剤",
+  types:{
+    tan:{no:"①",name:"痰濁中阻・痰湿化火",bar:"①痰濁",seg:"①痰濁",color:"var(--matsuba)"},
+    kan:{no:"②",name:"肝陽上亢・肝風内動",bar:"②肝陽",seg:"②肝陽",color:"var(--shu)"},
+    kyo:{no:"③",name:"脾気虚・気血両虚",bar:"③気血虚",seg:"③気血",color:"var(--kincha)"},
+    jin:{no:"④",name:"腎精不足・髄海空虚",bar:"④腎精",seg:"④腎精",color:"var(--ai)"}
+  },
+  groups:[
+    ["tan","① 痰濁中阻・痰湿化火","無痰不作眩","var(--matsuba)"],
+    ["kan","② 肝陽上亢・肝風内動","諸風掉眩、皆属於肝","var(--shu)"],
+    ["kyo","③ 脾気虚・気血両虚","清陽不昇・上竅失養","var(--kincha)"],
+    ["jin","④ 腎精不足・髄海空虚","無虚不作眩","var(--ai)"]
+  ],
+  sx:[
+    ["a1","頭が重く、ふわふわ・ぐるぐる回る","tan",{tan:2}],
+    ["a2","悪心・嘔吐・胸のつかえ","tan",{tan:2},"nausea"],
+    ["a3","立ちくらみ・起立時に悪化・動悸・のぼせ（気上衝）","tan",{tan:1},"ryokei"],
+    ["a4","胃腸が弱い・食後に眠い・手足がだるい","tan",{tan:1,kyo:1},"spxu"],
+    ["a5","口渇があるのに尿が少ない・むくみ・耳閉感","tan",{tan:1},"goreisan"],
+    ["a6","ストレスで悪化・口が苦い（柴胡証）","tan",{tan:1,kan:1},"saiko"],
+    ["a7","イライラ・不眠・黄色い痰（痰熱）","tan",{tan:1},"tannetsu"],
+    ["a8","冷え・下痢・ふらついて倒れそう（陽虚水泛）","tan",{tan:1,jin:1},"shinbu"],
+    ["a9","若い女性・月経不順・貧血傾向・むくみ","tan",{tan:1,kyo:1},"tokishaku"],
+    ["a10","舌 胖大・歯痕・苔白膩／脈 滑","tan",{tan:1}],
+
+    ["b1","頭が張る・頭痛を伴うめまい","kan",{kan:2}],
+    ["b2","怒り・イライラ・緊張で悪化","kan",{kan:2},"anger"],
+    ["b3","顔面紅潮・目の充血・口が苦い（肝火）","kan",{kan:1},"fire"],
+    ["b4","中高年・高血圧・肩こり・早朝の頭痛","kan",{kan:1},"chotosan"],
+    ["b5","顔色不良・のぼせ＋高血圧（血虚）","kan",{kan:1,kyo:1},"shichimotsu"],
+    ["b6","手足のふるえ・筋のこわばり・食いしばり（肝風）","kan",{kan:1},"yokukan"],
+    ["b7","更年期・のぼせ・発汗","kan",{kan:1},"meno"],
+    ["b8","不安・動悸・不眠・驚きやすい","kan",{kan:1},"ryukotsu"],
+    ["b9","舌 紅・苔黄／脈 弦数","kan",{kan:1}],
+
+    ["c1","疲れると悪化・頭がぼーっとする","kyo",{kyo:2}],
+    ["c2","顔色が悪い・唇や爪が白い","kyo",{kyo:2},"bloodxu"],
+    ["c3","倦怠感・食欲不振・息切れ（気虚）","kyo",{kyo:1},"qixu"],
+    ["c4","起立性低血圧・内臓が下がる感じ","kyo",{kyo:1},"hochu"],
+    ["c5","不眠・不安・動悸・物忘れ（心脾両虚）","kyo",{kyo:1},"kihi"],
+    ["c6","ほてり・イライラも少しある（虚＋熱）","kyo",{kyo:1},"mildheat"],
+    ["c7","月経過多・出血傾向・病後","kyo",{kyo:1},"bloodxu"],
+    ["c8","舌 淡／脈 細弱","kyo",{kyo:1}],
+
+    ["d1","高齢・慢性的で持続的なふらつき","jin",{jin:2}],
+    ["d2","耳鳴り・難聴・腰膝のだるさ","jin",{jin:2}],
+    ["d3","物忘れ・足腰の衰え・抜け毛・白髪","jin",{jin:1}],
+    ["d4","目のかすみ・目の乾き・疲れ目","jin",{jin:1},"eye"],
+    ["d5","手足のほてり・寝汗・口の乾き（陰虚）","jin",{jin:1},"yin"],
+    ["d6","冷え・夜間頻尿・下肢のむくみ（陽虚）","jin",{jin:1},"yang"],
+    ["d7","舌 紅・少苔 or 淡胖／脈 沈細","jin",{jin:1}]
+  ],
+  redTitle:"先に除外（中枢性・心血管性めまい）",
+  red:[
+    ["r1","突然の激しいめまい＋頭痛・構音障害・複視・麻痺・歩行不能"],
+    ["r2","高齢・高血圧・糖尿病・心房細動のある急性めまい"],
+    ["r3","失神・動悸・胸痛（不整脈・心疾患）"],
+    ["r4","難聴・耳鳴り・耳閉感を伴う回転性めまい"],
+    ["r5","頭の向きを変えると数十秒の回転性めまい（BPPV）"],
+    ["r6","貧血・低血圧・脱水・低血糖"],
+    ["r7","薬剤性（降圧薬・抗てんかん薬・睡眠薬・アミノグリコシドなど）"]
+  ],
+  redMsg:r=>"中枢性めまいの除外を最優先にしてください。"
+    +((r.has("r1")||r.has("r2"))?"<br>脳卒中（特に小脳・脳幹）を疑えば、至急救急・脳神経内科／外科へ。":"")
+    +(r.has("r3")?"<br>心電図・ホルター心電図を。":"")
+    +(r.has("r4")?"<br>耳鼻科で聴力検査（メニエール病・突発性難聴）。":"")
+    +(r.has("r5")?"<br>頭位治療（Epley法など）が第一選択。":"")
+    +(r.has("r6")?"<br>血算・血糖・脱水の評価を。":"")
+    +(r.has("r7")?"<br>内服薬を見直す。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="tan"){
+      if(has("shinbu")){rx="真武湯";why.push("冷え・下痢・ふらついて倒れそう → 温陽利水（振振欲擗地）");}
+      else if(has("goreisan")){
+        if(has("saiko")){rx="柴苓湯";why.push("水滞＋ストレス・口苦 → 小柴胡湯＋五苓散");}
+        else {rx="五苓散";why.push("回転性・口渇・尿不利・耳閉感 → 利水（沢瀉湯の方意を含む）");}
+      }
+      else if(has("ryokei")){rx="苓桂朮甘湯";why.push("立ちくらみ・動悸・のぼせ（気上衝）→ 温陽化飲・降逆");}
+      else if(has("tannetsu")){rx="竹茹温胆湯";why.push("イライラ・不眠・黄色い痰 → 痰湿化火を清す（黄連温胆湯の代わり）");}
+      else if(has("tokishaku")){rx="当帰芍薬散";why.push("若い女性の血虚＋水滞 → 養血利水");}
+      else {rx="半夏白朮天麻湯";why.push("頭重・悪心・胃腸虚弱 → 健脾化痰熄風");}
+      if(has("spxu")&&rx!=="半夏白朮天麻湯") why.push("胃腸虚弱が強ければ半夏白朮天麻湯を併用");
+    }
+    if(k==="kan"){
+      if(has("fire")){rx="竜胆瀉肝湯";why.push("顔面紅潮・目の充血・口苦 → 肝火を冷ます");}
+      else if(has("shichimotsu")){rx="七物降下湯";why.push("血虚を伴う高血圧 → 養血＋平肝");}
+      else if(has("meno")){rx="女神散";why.push("更年期ののぼせ・めまい → 理気＋清熱（加味逍遥散も候補）");}
+      else if(has("ryukotsu")){rx="柴胡加竜骨牡蛎湯";why.push("不安・動悸・不眠 → 疏肝＋重鎮安神");}
+      else if(has("yokukan")){rx="抑肝散";why.push("ふるえ・筋のこわばり・食いしばり（肝風）→ 平肝熄風");}
+      else {rx="釣藤散";why.push("頭痛・高血圧・肩こりを伴うめまい → 平肝熄風（天麻鈎藤飲の代わり）");}
+      if(has("spxu")&&rx==="抑肝散") why.push("胃腸が弱ければ抑肝散加陳皮半夏");
+    }
+    if(k==="kyo"){
+      if(has("kihi")){rx=has("mildheat")?"加味帰脾湯":"帰脾湯";why.push("不眠・不安・動悸・物忘れ → 心脾を補う"+(has("mildheat")?"（ほてり・イライラ → 柴胡・山梔子を加えた加味帰脾湯）":""));}
+      else if(has("bloodxu")){rx="十全大補湯";why.push("顔色不良・出血傾向・病後 → 気血双補（八珍湯の代わり）");}
+      else {rx="補中益気湯";why.push("疲労で悪化・起立性低血圧 → 升陽益気で清陽を頭へ");}
+    }
+    if(k==="jin"){
+      if(has("shinbu")){rx="真武湯";why.push("冷え・下痢・倒れそうなふらつき → 腎陽虚の水泛を温陽利水");}
+      else if(has("yang")){rx="八味地黄丸";why.push("冷え・夜間頻尿 → 腎陽を補う（右帰丸の代わり）");why.push("水様の下痢・ふらつきが強ければ真武湯");}
+      else {rx="六味丸";why.push("腎精・腎陰の不足 → 滋腎（左帰丸・杞菊地黄丸の代わり）");}
+      if(has("eye")) why.push("目のかすみ＋頭痛・高血圧があれば釣藤散（菊花を含む）を併用 → 杞菊地黄丸の方意に近づく");
+    }
+    return {rx,why};
+  },
+  addons:()=>"",
+  combo:{
+    "jin+kan":"上実下虚 → 六味丸＋釣藤散（杞菊地黄丸・天麻鈎藤飲の方意）。血虚なら七物降下湯",
+    "jin+kyo":"脾腎両虚 → 補中益気湯＋六味丸（冷えがあれば八味地黄丸）",
+    "jin+tan":"腎陽虚の水泛 → 真武湯（めまい・ふらつき・下痢・冷え）",
+    "kan+kyo":"血虚で肝が昂ぶる（血虚肝旺）→ 七物降下湯・抑肝散。女性なら加味逍遥散",
+    "kan+tan":"肝風＋痰（風痰上擾）→ 半夏白朮天麻湯＋釣藤散、または抑肝散加陳皮半夏",
+    "kyo+tan":"気虚＋痰 → 半夏白朮天麻湯。血虚＋水滞なら当帰芍薬散"
+  },
+  rx:{
+    tan:{
+      path:"脾の運化が失われて痰濁・水飲が中焦に停滞し、清陽の上昇を阻む。痰が熱を帯びると痰湿化火となる。",
+      feat:"頭が重く、ふわふわ・ぐるぐる回る。悪心・嘔吐・胸のつかえ。立ちくらみ・動悸。胃腸虚弱・むくみ。",
+      tongue:"舌 胖大・歯痕・苔白膩（黄膩）／脈 滑",
+      main:"半夏白朮天麻湯／苓桂朮甘湯／五苓散・柴苓湯",
+      groups:[["健脾化痰熄風",["半夏白朮天麻湯"]],["温陽化飲・降逆",["苓桂朮甘湯"]],["利水",["五苓散","柴苓湯"]],["痰湿化火",["竹茹温胆湯"]],["陽虚水泛",["真武湯"]],["血虚＋水滞",["当帰芍薬散"]]],
+      tcm:[["半夏白朮天麻湯・苓桂朮甘湯","医療用エキスあり（そのまま）"],["沢瀉湯（沢瀉・白朮）","医療用エキスなし → 五苓散（沢瀉を主薬とし、方意が近い）"],["黄連温胆湯（痰湿化火）","医療用エキスなし → 竹茹温胆湯"]],
+      alt:["六君子湯：胃腸虚弱が主で、めまいは軽い","半夏厚朴湯：不安・喉のつかえ（心因性めまい）","抑肝散加陳皮半夏：痰＋イライラ"],
+      caution:["柴苓湯は黄芩を含む","真武湯は附子を含む"]
+    },
+    kan:{
+      path:"肝陰の不足や情志の失調で肝陽が上に昂ぶり、ひどくなると肝風が内に動く。",
+      feat:"頭が張る・頭痛を伴うめまい。怒りや緊張で悪化する。顔面紅潮・目の充血、ふるえ・筋のこわばり。",
+      tongue:"舌 紅・苔黄／脈 弦数",
+      main:"釣藤散（天麻鈎藤飲の代用）／竜胆瀉肝湯／抑肝散／七物降下湯",
+      groups:[["平肝熄風",["釣藤散","抑肝散"]],["肝火",["竜胆瀉肝湯"]],["血虚＋高血圧",["七物降下湯"]],["更年期・神志",["女神散","加味逍遥散","柴胡加竜骨牡蛎湯"]]],
+      tcm:[["竜胆瀉肝湯","医療用エキスあり（そのまま）"],["天麻鈎藤飲","医療用エキスなし → 釣藤散（釣藤鈎・菊花・防風で平肝熄風）"]],
+      alt:["黄連解毒湯：のぼせ・顔面紅潮が強い","大柴胡湯：胸脇苦満・便秘の実証","抑肝散加陳皮半夏：抑肝散の証で胃腸が弱い"],
+      caution:["竜胆瀉肝湯・女神散・柴胡加竜骨牡蛎湯は黄芩を含む","高血圧が背景にあれば降圧治療を優先"]
+    },
+    kyo:{
+      path:"脾気が虚して清陽が昇らない。気血が不足して頭（上竅）を養えない。",
+      feat:"疲れると悪化し、ぼーっとする。顔色不良、唇や爪が白い。倦怠感・食欲不振。起立性低血圧。",
+      tongue:"舌 淡／脈 細弱",
+      main:"補中益気湯／帰脾湯・加味帰脾湯／十全大補湯",
+      groups:[["升陽益気",["補中益気湯"]],["心脾両虚",["帰脾湯","加味帰脾湯"]],["気血双補",["十全大補湯"]]],
+      tcm:[["補中益気湯・帰脾湯","医療用エキスあり（そのまま）"],["八珍湯","医療用エキスなし → 十全大補湯"]],
+      alt:["人参養栄湯：高齢・物忘れ・咳","当帰芍薬散：血虚＋水滞（若い女性）","半夏白朮天麻湯：気虚＋痰で頭重・悪心"],
+      caution:["十全大補湯は地黄を含む → 胃もたれ","加味帰脾湯は山梔子を含む"]
+    },
+    jin:{
+      path:"腎精が不足すると髄海（脳）が空虚になり、めまいが起こる。高齢や慢性疾患に多い。",
+      feat:"慢性的・持続的なふらつき。耳鳴り・難聴、腰膝のだるさ、物忘れ、目のかすみ。",
+      tongue:"舌 紅・少苔（陰虚）or 淡胖（陽虚）／脈 沈細",
+      main:"六味丸（左帰丸・杞菊地黄丸の代用）／八味地黄丸（右帰丸の代用）",
+      groups:[["滋腎陰",["六味丸"]],["温腎陽",["八味地黄丸","牛車腎気丸"]],["陽虚水泛",["真武湯"]]],
+      tcm:[["左帰丸","医療用エキスなし → 六味丸"],["右帰丸","医療用エキスなし → 八味地黄丸"],["杞菊地黄丸（六味丸＋枸杞子・菊花）","医療用エキスなし（一般用医薬品あり）→ 六味丸。目の症状・頭痛があれば釣藤散（菊花を含む）を併用"]],
+      alt:["釣藤散：上実下虚で頭痛・高血圧","七物降下湯：血虚＋高血圧","人参養栄湯：気血両虚＋物忘れ"],
+      caution:["地黄で胃もたれしやすい","八味地黄丸・牛車腎気丸・真武湯は附子を含む"]
+    }
+  },
+  cmpTitle:"めまいの4証 比較",
+  cmpExtra:`<h3>めまいの性状と西洋分類</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th>性状・分類</th><th>証と方剤</th></tr>
+      <tr><td>回転性・嘔吐</td><td>① 痰飲：五苓散・半夏白朮天麻湯</td></tr>
+      <tr><td>浮動性・頭重</td><td>① 半夏白朮天麻湯</td></tr>
+      <tr><td>立ちくらみ・起立時</td><td>① 苓桂朮甘湯／③ 補中益気湯</td></tr>
+      <tr><td>頭痛・のぼせ・怒りで悪化</td><td>② 釣藤散・抑肝散</td></tr>
+      <tr><td>疲れると悪化・顔色不良</td><td>③ 補中益気湯・帰脾湯</td></tr>
+      <tr><td>高齢・持続的・耳鳴り</td><td>④ 六味丸・八味地黄丸</td></tr>
+      <tr><td>メニエール病</td><td>五苓散・柴苓湯を西洋治療と併用</td></tr>
+      <tr><td>BPPV</td><td>頭位治療が第一選択</td></tr>
+      <tr><td>更年期</td><td>女神散・加味逍遥散</td></tr>
+      <tr><td>心因性（PPPDなど）</td><td>半夏厚朴湯・抑肝散</td></tr>
+    </table></div>
+    <p class="hint">朱丹渓「無痰不作眩」（①）、『素問』「諸風掉眩、皆属於肝」（②）、張景岳「無虚不作眩」（③④）。</p>`,
+  pt:{
+    tan:{t:"体の「余分な水・痰」によるめまい",b:"胃腸の働きが弱って余分な水分（痰）がたまり、頭へ上って、ふわふわ・ぐるぐるするめまいを起こしている状態です。吐き気や頭の重さを伴いやすくなります。<br><br>お薬で胃腸を整え、余分な水を捌きます。<br><br><b>生活のポイント</b>：冷たい飲み物・水分のとりすぎを控える／甘いもの・脂っこいものを控える／急に立ち上がらない"},
+    kan:{t:"ストレスで「気がのぼる」めまい",b:"ストレスやイライラで気が頭へ突き上げ、頭が張るような痛みとともにめまいが起きている状態です。血圧が高めの方や、更年期の方にも多く見られます。<br><br>お薬でのぼった気を鎮め、頭の昂ぶりを落ち着けます。<br><br><b>生活のポイント</b>：十分な睡眠／塩分・お酒を控える／深呼吸・ストレッチで緊張をほどく"},
+    kyo:{t:"エネルギー・栄養不足によるめまい",b:"体のエネルギー（気）や栄養（血）が不足し、頭まで十分に届いていない状態です。疲れたときや立ち上がったときに、ふらっとしやすくなります。<br><br>お薬で気と血を補い、頭をしっかり養います。<br><br><b>生活のポイント</b>：食事を抜かない（たんぱく質・鉄）／睡眠をしっかりとる／立ち上がるときはゆっくり"},
+    jin:{t:"「腎」の衰えによるめまい",b:"東洋医学では、脳は「髄の海」と呼ばれ、腎が養っていると考えます。年齢とともに腎の力が弱まり、脳が十分に養われず、持続的なふらつきが起きている状態です。<br><br>お薬で腎を補い、体の土台から整えます。<br><br><b>生活のポイント</b>：足腰を冷やさない／適度な運動で足腰を鍛える／夜更かし・過労を避ける"}
+  },
+  formulas:["半夏白朮天麻湯","苓桂朮甘湯","五苓散","柴苓湯","竹茹温胆湯","当帰芍薬散","真武湯","釣藤散","竜胆瀉肝湯","抑肝散","七物降下湯","女神散","加味逍遥散","柴胡加竜骨牡蛎湯","補中益気湯","帰脾湯","加味帰脾湯","十全大補湯","六味丸","八味地黄丸","牛車腎気丸"]
+},
+/* ---------- ニキビ ---------- */
+nikibi:{
+  label:"ニキビ", sub:"肺経風熱・脾胃湿熱・血熱血瘀 × エキス剤",
+  types:{
+    hai:{no:"①",name:"肺経風熱",bar:"①肺経風熱",seg:"①風熱",color:"var(--shu)"},
+    shitsu:{no:"②",name:"脾胃湿熱",bar:"②脾胃湿熱",seg:"②湿熱",color:"var(--kincha)"},
+    netsu:{no:"③",name:"血熱・血瘀",bar:"③血熱血瘀",seg:"③血瘀",color:"var(--oketsu)"}
+  },
+  groups:[
+    ["hai","① 肺経風熱","上焦の熱・急性の炎症","var(--shu)"],
+    ["shitsu","② 脾胃湿熱","胃腸の停滞・化膿","var(--kincha)"],
+    ["netsu","③ 血熱・血瘀","慢性・痕・月経周期","var(--oketsu)"]
+  ],
+  sx:[
+    ["a1","赤く炎症のある丘疹・膿疱（急性）","hai",{hai:2}],
+    ["a2","額・鼻・頬など顔の上部が中心","hai",{hai:2}],
+    ["a3","顔のほてり・赤ら顔・のぼせ","hai",{hai:1},"faceheat"],
+    ["a4","10代・若年・脂性肌","hai",{hai:1}],
+    ["a5","口渇・冷たいものを好む・暑がり","hai",{hai:1},"thirst"],
+    ["a6","喉の痛み・鼻炎・かぜで悪化","hai",{hai:1}],
+    ["a7","舌 尖紅・苔薄黄／脈 浮数","hai",{hai:1}],
+
+    ["b1","膿疱・化膿しやすい・硬結","shitsu",{shitsu:2},"pus"],
+    ["b2","脂っこいもの・甘いもの・飲酒で悪化","shitsu",{shitsu:2}],
+    ["b3","口周り・あご・背中にも出る","shitsu",{shitsu:1}],
+    ["b4","便秘・肥満・腹満（実証）","shitsu",{shitsu:1},"obese"],
+    ["b5","胃もたれ・口内炎・口臭","shitsu",{shitsu:1},"gastric"],
+    ["b6","浅黒い肌・慢性・鼻炎や扁桃炎を繰り返す（解毒証）","shitsu",{shitsu:1,netsu:1},"keigai"],
+    ["b7","初期・化膿傾向・体質改善を図りたい","shitsu",{shitsu:1},"jumi"],
+    ["b8","舌 紅・苔黄膩／脈 滑数","shitsu",{shitsu:1}],
+
+    ["c1","暗赤色・紫がかったニキビ・色素沈着が残る","netsu",{netsu:2}],
+    ["c2","慢性化・硬いしこり・瘢痕","netsu",{netsu:2},"chronic"],
+    ["c3","月経前に悪化・月経不順・月経痛","netsu",{netsu:1},"menses"],
+    ["c4","下顎・フェイスライン（成人女性）","netsu",{netsu:1}],
+    ["c5","イライラ・のぼせ・肩こり（肝鬱）","netsu",{netsu:1},"stress"],
+    ["c6","冷え・色白・むくみ・虚弱","netsu",{netsu:1},"tokishaku"],
+    ["c7","便秘・のぼせ（実証の瘀血）","netsu",{netsu:1},"toukaku"],
+    ["c8","皮膚の乾燥＋赤み","netsu",{netsu:1},"unsei"],
+    ["c9","舌 暗紅・瘀点／脈 渋","netsu",{netsu:1}]
+  ],
+  redTitle:"先に確認（鑑別・背景疾患）",
+  red:[
+    ["r1","赤ら顔・ほてり・毛細血管拡張（酒皶）"],
+    ["r2","口の周りの細かい丘疹・ステロイド外用歴（口囲皮膚炎・ステロイドざ瘡）"],
+    ["r3","胸や背中の均一な痒い丘疹（マラセチア毛包炎）"],
+    ["r4","月経不順・多毛・体重増加（多嚢胞性卵巣症候群）"],
+    ["r5","薬剤性（ステロイド・抗てんかん薬・EGFR阻害薬・JAK阻害薬など）"],
+    ["r6","腋窩・鼠径の硬結・瘻孔を繰り返す（化膿性汗腺炎）"],
+    ["r7","妊娠中・妊娠の可能性"]
+  ],
+  redMsg:r=>"鑑別と背景要因の確認を並行してください。"
+    +(r.has("r1")?"<br>酒皶なら治療方針が異なる（メトロニダゾール外用など）。漢方では黄連解毒湯・白虎加人参湯・加味逍遥散などを。":"")
+    +(r.has("r2")?"<br>ステロイド外用の中止・漸減を。":"")
+    +(r.has("r3")?"<br>抗真菌薬を。":"")
+    +(r.has("r4")?"<br>婦人科・内分泌の評価を。":"")
+    +(r.has("r6")?"<br>抗菌薬・外科的治療・生物学的製剤を検討。":"")
+    +(r.has("r7")?"<br>桃核承気湯（大黄・芒硝・桃仁）・桂枝茯苓丸加薏苡仁（桃仁・牡丹皮）は慎重に。アダパレン・内服テトラサイクリン系も避ける。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="hai"){
+      rx="清上防風湯";why.push("顔の上部の赤い丘疹 → 上焦の風熱を散らして冷ます（にきびの代表方）");
+      if(has("thirst")) why.push("口渇・ほてりが強ければ白虎加人参湯を併用");
+      if(has("faceheat")&&!has("thirst")) why.push("赤み・熱感が強ければ黄連解毒湯を併用");
+      if(has("pus")) why.push("膿疱が多ければ排膿散及湯を併用");
+    }
+    if(k==="shitsu"){
+      if(has("obese")){rx="防風通聖散";why.push("肥満・便秘の実証 → 表裏双解");}
+      else if(has("keigai")){rx="荊芥連翹湯";why.push("浅黒い肌・慢性・鼻炎や扁桃炎 → 解毒証体質を改善");}
+      else if(has("pus")&&has("jumi")){rx="十味敗毒湯";why.push("化膿傾向の初期 → 散風・排膿（体質改善）");why.push("膿疱・硬結が強ければ排膿散及湯を併用");}
+      else if(has("pus")){rx="排膿散及湯";why.push("膿疱・硬結 → 排膿（十味敗毒湯・荊芥連翹湯と併用も）");}
+      else if(has("jumi")){rx="十味敗毒湯";why.push("化膿傾向・体質改善 → 散風・排膿");}
+      else if(has("gastric")){rx="半夏瀉心湯";why.push("胃もたれ・口内炎 → 脾胃の湿熱を和す");}
+      else {rx="荊芥連翹湯";why.push("湿熱・化膿しやすいニキビ → 解毒・清熱");}
+    }
+    if(k==="netsu"){
+      if(has("tokishaku")){rx="当帰芍薬散";why.push("冷え・色白・むくみ・虚弱 → 虚証の血虚・瘀血＋水滞");}
+      else if(has("toukaku")){rx="桃核承気湯";why.push("便秘・のぼせの実証 → 駆瘀血＋瀉下");}
+      else if(has("stress")){rx="加味逍遥散";why.push("月経前の悪化・イライラ・のぼせ → 疏肝清熱");}
+      else if(has("unsei")){rx="温清飲";why.push("乾燥＋赤み → 血熱と血虚を同時に");}
+      else {rx="桂枝茯苓丸加薏苡仁";why.push("暗赤色・色素沈着・月経との関連 → 駆瘀血＋薏苡仁で肌を整える");}
+      if(has("chronic")&&rx!=="桂枝茯苓丸加薏苡仁") why.push("硬結・瘢痕には桂枝茯苓丸加薏苡仁を併用");
+    }
+    return {rx,why};
+  },
+  addons:(has,top)=>top?`<div class="addon combo"><b>併用の基本</b>：外用（アダパレン・過酸化ベンゾイル・配合剤）を土台に、炎症が強い時期は内服抗菌薬も。漢方は体質面から補い、再発予防・ニキビ痕の改善を狙う。</div>`:"",
+  combo:{
+    "hai+shitsu":"上焦の風熱＋湿熱・化膿 → 清上防風湯＋排膿散及湯、または十味敗毒湯",
+    "hai+netsu":"炎症（赤み）＋瘀血（痕）→ 清上防風湯＋桂枝茯苓丸加薏苡仁",
+    "netsu+shitsu":"湿熱＋血熱（解毒証）→ 荊芥連翹湯。月経と関連すれば＋桂枝茯苓丸加薏苡仁"
+  },
+  rx:{
+    hai:{
+      path:"肺は皮毛を主る。上焦（顔・頭部）に風熱がこもり、毛穴で炎症を起こす。",
+      feat:"赤く炎症のある丘疹・膿疱。額・鼻・頬など顔の上部が中心。のぼせ・赤ら顔。10代・脂性肌に多い。",
+      tongue:"舌 尖紅・苔薄黄／脈 浮数",
+      main:"清上防風湯",
+      groups:[["清熱散風",["清上防風湯"]],["熱・赤みが強い",["黄連解毒湯","白虎加人参湯"]]],
+      tcm:[["清上防風湯","医療用エキスあり（そのまま）"],["枇杷清肺飲（中医の代表方）","医療用エキスなし → 清上防風湯（必要なら桔梗石膏を追加）"]],
+      alt:["十味敗毒湯：化膿傾向・初期","桔梗石膏：熱・膿を冷ます追加薬","葛根湯：肩こりを伴う初期（短期）"],
+      caution:["清上防風湯は黄芩・山梔子を含む → 長期投与の注意（併用チェック）","苦寒薬が多く、胃腸が弱い人は胃もたれ・下痢に注意"]
+    },
+    shitsu:{
+      path:"飲食の不摂生（脂っこいもの・甘いもの・飲酒）で脾胃に湿熱が生じ、皮膚へ溢れて化膿する。",
+      feat:"膿疱・化膿しやすい・硬結。口周り・あご・背中にも出る。便秘・胃もたれ・口内炎。",
+      tongue:"舌 紅・苔黄膩／脈 滑数",
+      main:"荊芥連翹湯／十味敗毒湯／排膿散及湯／防風通聖散",
+      groups:[["解毒証体質",["荊芥連翹湯"]],["化膿・体質改善",["十味敗毒湯"]],["排膿",["排膿散及湯"]],["肥満・便秘",["防風通聖散"]],["胃腸",["半夏瀉心湯"]]],
+      tcm:[["荊芥連翹湯","医療用エキスあり（一貫堂の解毒証体質向け。中医分類では血熱に入れることも）"],["（追加）","十味敗毒湯（化膿傾向）・排膿散及湯（膿疱・硬結）・防風通聖散（肥満・便秘）"]],
+      alt:["茵蔯蒿湯：便秘・湿熱が強い","黄連解毒湯：炎症・赤みが強い","温清飲：湿熱が引いた後の乾燥＋赤み"],
+      caution:["荊芥連翹湯は黄芩・山梔子を含む","防風通聖散は麻黄・大黄・山梔子・黄芩を含む"]
+    },
+    netsu:{
+      path:"熱が血分に入り（血熱）、慢性化で血の巡りが滞る（血瘀）。女性ではホルモン周期（月経）と関連する。",
+      feat:"暗赤色・紫がかったニキビ、色素沈着・硬結・瘢痕。月経前に悪化。下顎・フェイスライン（成人女性）。",
+      tongue:"舌 暗紅・瘀点／脈 渋",
+      main:"桂枝茯苓丸加薏苡仁／加味逍遥散／当帰芍薬散／桃核承気湯",
+      groups:[["駆瘀血（実〜中間）",["桂枝茯苓丸加薏苡仁"]],["肝鬱・月経前",["加味逍遥散"]],["虚証・冷え",["当帰芍薬散"]],["実証・便秘",["桃核承気湯"]],["血熱＋乾燥",["温清飲"]]],
+      tcm:[["桂枝茯苓丸加薏苡仁","医療用エキスあり（そのまま）"],["桃紅四物湯・涼血四物湯","医療用エキスなし → 桂枝茯苓丸加薏苡仁、または温清飲（血熱）・当帰芍薬散（血虚）"]],
+      alt:["温経湯：冷え＋唇の乾燥・30代以降","通導散：瘀血＋気滞・便秘の実証","荊芥連翹湯：解毒証体質で慢性化"],
+      caution:["桂枝茯苓丸加薏苡仁・桃核承気湯は妊娠中は慎重に","加味逍遥散・温清飲は山梔子を含む"]
+    }
+  },
+  cmpTitle:"ニキビの3証 比較",
+  cmpExtra:`<h3>皮疹と部位で見る</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th>皮疹・部位</th><th>証と方剤</th></tr>
+      <tr><td>赤い丘疹・額や頬（上焦）</td><td>① 清上防風湯</td></tr>
+      <tr><td>膿疱・化膿・脂っこい食事で悪化</td><td>② 十味敗毒湯・排膿散及湯・荊芥連翹湯</td></tr>
+      <tr><td>口周り・あご・背中</td><td>② 脾胃湿熱</td></tr>
+      <tr><td>下顎・フェイスライン・月経前</td><td>③ 加味逍遥散・桂枝茯苓丸加薏苡仁</td></tr>
+      <tr><td>暗赤色・色素沈着・硬結・瘢痕</td><td>③ 桂枝茯苓丸加薏苡仁</td></tr>
+    </table></div>
+    <p class="hint">急性の炎症期は①②、慢性化・痕は③。漢方は外用・内服の標準治療と併用し、体質面から補う位置づけ。</p>`,
+  pt:{
+    hai:{t:"顔にこもった「熱」によるニキビ",b:"顔や頭など体の上のほうに熱がこもり、赤く炎症を起こしたニキビができている状態です。額・鼻・頬に出やすく、顔のほてりを伴うこともあります。<br><br>お薬で顔の熱を冷まし、炎症を鎮めます。塗り薬と一緒に続けることが大切です。<br><br><b>生活のポイント</b>：辛いもの・揚げ物・甘いものを控える／睡眠をしっかりとる／洗顔は優しく1日2回"},
+    shitsu:{t:"胃腸の「湿気と熱」による化膿しやすいニキビ",b:"脂っこいものや甘いもの、お酒などで胃腸に湿気と熱がたまり、それが肌にあふれて、膿をもちやすいニキビになっている状態です。口の周りやあご、背中にも出やすくなります。<br><br>お薬で体の中の湿気と熱を取り除き、化膿しにくい肌にします。<br><br><b>生活のポイント</b>：脂っこいもの・甘いもの・乳製品・お酒を控える／便通を整える／夜遅い食事を避ける"},
+    netsu:{t:"血の巡りの「滞り」によるニキビ",b:"血の流れが滞り（瘀血）、赤黒いニキビや跡が残りやすくなっている状態です。月経前に悪化したり、あごやフェイスラインに出やすかったりするのが特徴です。<br><br>お薬で血の巡りをよくし、ニキビ跡や繰り返すニキビを改善します。<br><br><b>生活のポイント</b>：体を冷やさない／適度な運動で巡りをよくする／ストレスをためない／ニキビを触らない・つぶさない"}
+  },
+  formulas:["清上防風湯","黄連解毒湯","白虎加人参湯","荊芥連翹湯","十味敗毒湯","排膿散及湯","防風通聖散","半夏瀉心湯","桂枝茯苓丸加薏苡仁","加味逍遥散","当帰芍薬散","桃核承気湯","温清飲"]
+},
+/* ---------- 円形脱毛症 ---------- */
+datsumou:{
+  label:"円形脱毛", sub:"肝鬱・血虚・血熱・肝腎 × エキス剤",
+  types:{
+    utsu:{no:"①",name:"肝気鬱結・気滞血瘀",bar:"①肝鬱",seg:"①肝鬱",color:"var(--matsuba)"},
+    kyo:{no:"②",name:"血虚生風・血不養発",bar:"②血虚",seg:"②血虚",color:"var(--kincha)"},
+    netsu:{no:"③",name:"血熱生風",bar:"③血熱",seg:"③血熱",color:"var(--shu)"},
+    jin:{no:"④",name:"肝腎不足・精血空虚",bar:"④肝腎",seg:"④肝腎",color:"var(--ai)"}
+  },
+  groups:[
+    ["utsu","① 肝気鬱結・気滞血瘀","ストレス・突発型","var(--matsuba)"],
+    ["kyo","② 血虚生風・血不養発","栄養不足・内風","var(--kincha)"],
+    ["netsu","③ 血熱生風","急性・進行型","var(--shu)"],
+    ["jin","④ 肝腎不足・精血空虚","慢性・再発型","var(--ai)"]
+  ],
+  sx:[
+    ["a1","精神的ショック・ストレスの後に急に抜けた","utsu",{utsu:2}],
+    ["a2","イライラ・怒りっぽい・脇の張り","utsu",{utsu:2}],
+    ["a3","頭皮の張り・肩こり・緊張","utsu",{utsu:1}],
+    ["a4","不安・不眠・動悸・驚きやすい","utsu",{utsu:1},"ryukotsu"],
+    ["a5","月経前の悪化・のぼせ（女性）","utsu",{utsu:1},"meno"],
+    ["a6","胸脇苦満・便秘（実証）","utsu",{utsu:1},"daisaiko"],
+    ["a7","虚弱・神経過敏・寝汗（虚証の不安）","utsu",{utsu:1,kyo:1},"keiryu"],
+    ["a8","舌の瘀点・月経痛（瘀血）","utsu",{utsu:1},"stasis"],
+    ["a9","脈 弦（渋）","utsu",{utsu:1}],
+
+    ["b1","境界のはっきりした脱毛・生える毛が細く弱い","kyo",{kyo:2}],
+    ["b2","顔色が白い・つやがない・爪がもろい","kyo",{kyo:2}],
+    ["b3","頭皮の乾燥・フケ・軽いかゆみ","kyo",{kyo:1},"dryscalp"],
+    ["b4","立ちくらみ・疲れやすい（気血両虚）","kyo",{kyo:1},"qixu"],
+    ["b5","冷え・むくみ・月経不順（若い女性）","kyo",{kyo:1},"tokishaku"],
+    ["b6","不眠・不安・考えすぎ（心脾両虚）","kyo",{kyo:1},"kihi"],
+    ["b7","産後・病後・ダイエット後","kyo",{kyo:1},"qixu"],
+    ["b8","舌 淡／脈 細","kyo",{kyo:1}],
+
+    ["c1","急速に進行する・多発する","netsu",{netsu:2},"rapid"],
+    ["c2","頭皮の赤み・熱感","netsu",{netsu:2},"red"],
+    ["c3","かゆみを伴う・脂っぽい頭皮","netsu",{netsu:1},"itch"],
+    ["c4","口の渇き・のぼせ・イライラ","netsu",{netsu:1},"heat"],
+    ["c5","アトピー素因・湿疹を合併","netsu",{netsu:1},"itch"],
+    ["c6","小児〜思春期・扁桃炎を繰り返す","netsu",{netsu:1},"youth"],
+    ["c7","舌 紅絳・苔黄／脈 数","netsu",{netsu:1}],
+
+    ["d1","脱毛部が徐々に広がる・発毛が遅い","jin",{jin:2}],
+    ["d2","慢性化・再発を繰り返す","jin",{jin:2}],
+    ["d3","腰膝の重だるさ・めまい・耳鳴り","jin",{jin:1}],
+    ["d4","白髪・髪が細い・老化が早い","jin",{jin:1}],
+    ["d5","手足のほてり・寝汗・口の乾き（陰虚）","jin",{jin:1},"yin"],
+    ["d6","冷え・夜間頻尿（陽虚）","jin",{jin:1},"yang"],
+    ["d7","気力・体力も落ちている","jin",{jin:1,kyo:1},"qixu"],
+    ["d8","舌 淡 or 紅・少苔／脈 沈細","jin",{jin:1}]
+  ],
+  redTitle:"先に確認（重症度・鑑別）",
+  red:[
+    ["r1","急速に進行・多発・全頭型・汎発型（重症）"],
+    ["r2","虫食い状の脱毛（梅毒）"],
+    ["r3","小児の脱毛＋鱗屑・膿疱（頭部白癬）"],
+    ["r4","瘢痕・毛孔の消失（瘢痕性脱毛）"],
+    ["r5","自分で抜いている・不整形の脱毛（抜毛症）"],
+    ["r6","甲状腺疾患・白斑など自己免疫疾患の合併"],
+    ["r7","産後・高熱・ダイエット・薬剤の2〜3か月後のびまん性脱毛（休止期脱毛）"],
+    ["r8","鉄欠乏・亜鉛欠乏"]
+  ],
+  redMsg:r=>"鑑別と重症度の評価を優先してください。"
+    +(r.has("r1")?"<br>ステロイド局注・パルス、局所免疫療法、JAK阻害薬などの標準治療を検討。漢方は併用で。":"")
+    +(r.has("r2")?"<br>梅毒血清反応（RPR・TP抗体）を。":"")
+    +(r.has("r3")?"<br>真菌検査（KOH）を。":"")
+    +(r.has("r4")?"<br>皮膚生検を検討（DLE・毛孔性扁平苔癬など）。":"")
+    +(r.has("r5")?"<br>心理面からのアプローチを。":"")
+    +(r.has("r6")?"<br>TSH・抗甲状腺抗体を確認。":"")
+    +(r.has("r7")?"<br>原因を取り除けば自然に回復することが多い。":"")
+    +(r.has("r8")?"<br>フェリチン・亜鉛を確認。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="utsu"){
+      if(has("keiryu")){rx="桂枝加竜骨牡蛎湯";why.push("虚弱・神経過敏・寝汗 → 陰陽を調和し、竜骨・牡蛎で鎮める");}
+      else if(has("ryukotsu")){rx="柴胡加竜骨牡蛎湯";why.push("不安・不眠・動悸 → 疏肝＋重鎮安神");}
+      else if(has("meno")){rx="加味逍遥散";why.push("月経前の悪化・のぼせ → 疏肝清熱＋養血");}
+      else if(has("daisaiko")){rx="大柴胡湯";why.push("胸脇苦満・便秘の実証 → 疏肝＋瀉下");}
+      else {rx="柴胡加竜骨牡蛎湯";why.push("ストレス・ショック後の脱毛 → 疏肝＋安神（円形脱毛症で頻用）");}
+      if(has("stasis")) why.push("瘀血所見あり → 桂枝茯苓丸を併用");
+    }
+    if(k==="kyo"){
+      if(has("kihi")){rx="加味帰脾湯";why.push("不眠・不安・考えすぎ → 心脾を補い、血を養う");}
+      else if(has("tokishaku")){rx="当帰芍薬散";why.push("冷え・むくみ・月経不順 → 養血利水");}
+      else if(has("dryscalp")){rx="当帰飲子";why.push("頭皮の乾燥・フケ・かゆみ → 養血潤燥・熄風（何首烏を含む）");}
+      else {rx="十全大補湯";why.push("顔色不良・疲れやすい → 気血双補（髪は血の余り）");}
+      if(has("qixu")&&rx!=="十全大補湯") why.push("疲労・産後・病後の要素が強ければ十全大補湯を併用");
+    }
+    if(k==="netsu"){
+      if(has("youth")){rx="柴胡清肝湯";why.push("小児〜思春期・扁桃炎を繰り返す → 解毒証体質");}
+      else if(has("itch")){rx="消風散";why.push("かゆみ・脂っぽい頭皮・アトピー合併 → 散風・清熱・燥湿");}
+      else if(has("heat")){rx="黄連解毒湯";why.push("のぼせ・口渇・赤み → 清熱瀉火");}
+      else {rx="温清飲";why.push("頭皮の赤み＋乾燥 → 清熱涼血＋養血（涼血消風散の代わり）");}
+      if(has("rapid")) why.push("急速進行・多発は標準治療を優先し、漢方は併用で");
+    }
+    if(k==="jin"){
+      if(has("yang")){rx="八味地黄丸";why.push("冷え・夜間頻尿 → 腎陽を補う");}
+      else {rx="六味丸";why.push("慢性・再発・白髪 → 肝腎の精血を補う（七宝美髯丹の代わり）");}
+      if(has("qixu")) why.push("気力・体力も低下 → 十全大補湯（または人参養栄湯）を併用");
+      why.push("何首烏を含む当帰飲子の併用も（七宝美髯丹の方意に近づく）");
+    }
+    return {rx,why};
+  },
+  addons:(has,top)=>top?`<div class="addon combo"><b>併用の基本</b>：病型・重症度に応じて標準治療（ステロイド外用・局注、局所免疫療法、冷却療法、JAK阻害薬など）を選び、漢方は体質面から併用。効果判定は3〜6か月を目安に。</div>`:"",
+  combo:{
+    "jin+kyo":"精血両虚 → 十全大補湯＋六味丸、または人参養栄湯",
+    "kyo+utsu":"血虚＋肝鬱 → 加味逍遥散、または加味帰脾湯",
+    "netsu+utsu":"肝鬱化火 → 加味逍遥散、柴胡清肝湯、または柴胡加竜骨牡蛎湯＋黄連解毒湯",
+    "kyo+netsu":"血虚＋血熱 → 温清飲（四物湯＋黄連解毒湯）",
+    "jin+utsu":"虚実錯雑 → 柴胡加竜骨牡蛎湯（虚証なら桂枝加竜骨牡蛎湯）＋六味丸",
+    "jin+netsu":"陰虚血熱 → 六味丸＋温清飲"
+  },
+  rx:{
+    utsu:{
+      path:"精神的ショックやストレスで肝の疏泄が失われ、気滞から血瘀となり、頭皮の気血が毛根に届かない。",
+      feat:"ストレスの直後〜数週間後に急激に抜ける。頭皮の張り、イライラ、脇の張り、肩こり、不眠。",
+      tongue:"舌 暗・瘀点／脈 弦（渋）",
+      main:"柴胡加竜骨牡蛎湯／桂枝加竜骨牡蛎湯／加味逍遥散",
+      groups:[["疏肝＋安神",["柴胡加竜骨牡蛎湯","桂枝加竜骨牡蛎湯"]],["肝鬱＋血虚（女性）",["加味逍遥散"]],["実証",["大柴胡湯"]],["瘀血",["桂枝茯苓丸"]]],
+      tcm:[["逍遙散","医療用エキスなし → 加味逍遙散"],["通竅活血湯","医療用エキスなし → 桂枝茯苓丸（＋柴胡剤）"],["（追加）","柴胡加竜骨牡蛎湯・桂枝加竜骨牡蛎湯：日本で円形脱毛症に頻用"]],
+      alt:["抑肝散：イライラ・食いしばり・神経の昂ぶり","四逆散：緊張・手足の冷え・腹直筋の緊張","半夏厚朴湯：不安・喉のつかえ"],
+      caution:["柴胡加竜骨牡蛎湯・大柴胡湯は黄芩を含む → 間質性肺炎・肝障害","加味逍遥散は山梔子を含む"]
+    },
+    kyo:{
+      path:"「髪は血の余り」。血が不足して毛根を養えず、頭皮が乾いて内風が生じる。",
+      feat:"境界のはっきりした脱毛、細く弱い発毛。頭皮の乾燥・フケ。顔色が白い、立ちくらみ、疲れやすい。産後・病後。",
+      tongue:"舌 淡／脈 細",
+      main:"十全大補湯／当帰飲子／当帰芍薬散／加味帰脾湯",
+      groups:[["気血双補",["十全大補湯"]],["養血潤燥・熄風",["当帰飲子"]],["血虚＋水滞",["当帰芍薬散"]],["心脾両虚",["加味帰脾湯"]],["補血の土台",["四物湯"]]],
+      tcm:[["神応養真丹","医療用エキスなし → 四物湯を土台にした方剤（十全大補湯・当帰飲子）"],["八珍湯","医療用エキスなし → 十全大補湯"]],
+      alt:["人参養栄湯：高齢・咳・物忘れ","帰脾湯：加味帰脾湯の証で熱がない","補中益気湯：気虚が主体"],
+      caution:["十全大補湯・四物湯は地黄を含む → 胃もたれ","当帰飲子・十全大補湯は甘草を含む"]
+    },
+    netsu:{
+      path:"熱が血分に入って血を焼き、風を生じて毛根をゆるめる。急速に進む。",
+      feat:"急速に進行・多発する脱毛。頭皮の赤み・熱感・かゆみ。口の渇き。アトピー素因を伴うことも。",
+      tongue:"舌 紅絳・苔黄／脈 数",
+      main:"温清飲／消風散／黄連解毒湯／柴胡清肝湯",
+      groups:[["清熱涼血＋養血",["温清飲"]],["風湿熱・かゆみ",["消風散"]],["実熱",["黄連解毒湯"]],["小児・解毒証",["柴胡清肝湯"]]],
+      tcm:[["涼血消風散","医療用エキスなし → 温清飲（血熱）・消風散（かゆみ・風湿熱）"]],
+      alt:["荊芥連翹湯：思春期以降の解毒証体質","白虎加人参湯：口渇・ほてりが強い","竜胆瀉肝湯：肝胆の湿熱・口苦"],
+      caution:["急速進行・広範囲なら標準治療を優先","温清飲・黄連解毒湯・柴胡清肝湯は山梔子・黄芩を含む"]
+    },
+    jin:{
+      path:"「腎の華は髪にある」。肝腎の精血が消耗し、毛髪を生み出す力が根本から弱っている。",
+      feat:"脱毛部が徐々に広がり、発毛が遅い。慢性化・再発。腰膝の重だるさ、めまい、耳鳴り、白髪。",
+      tongue:"舌 淡 or 紅・少苔／脈 沈細",
+      main:"六味丸／八味地黄丸（＋十全大補湯・当帰飲子）",
+      groups:[["滋補肝腎",["六味丸"]],["温腎陽",["八味地黄丸"]],["精血を補う併用",["十全大補湯","当帰飲子"]]],
+      tcm:[["七宝美髯丹（何首烏・枸杞子・菟絲子・当帰など）","医療用エキスなし → 六味丸（何首烏を含む当帰飲子の併用も）"],["左帰丸・右帰丸","医療用エキスなし → 六味丸・八味地黄丸"]],
+      alt:["人参養栄湯：気血両虚＋高齢","牛車腎気丸：陽虚＋下肢のむくみ・しびれ","桂枝加竜骨牡蛎湯：虚証で不安・寝汗を伴う"],
+      caution:["地黄で胃もたれしやすい。胃腸が弱ければ食後に","八味地黄丸は附子を含む"]
+    }
+  },
+  cmpTitle:"円形脱毛症の4証 比較",
+  cmpExtra:`<h3>病型・経過で見る</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th>病型・経過</th><th>証と方剤</th></tr>
+      <tr><td>ストレス直後・単発〜数個</td><td>① 柴胡加竜骨牡蛎湯・加味逍遥散</td></tr>
+      <tr><td>産後・病後・貧血傾向</td><td>② 十全大補湯・当帰芍薬散・加味帰脾湯</td></tr>
+      <tr><td>急速進行・多発・頭皮の赤み・アトピー合併</td><td>③ 温清飲・消風散（標準治療を優先）</td></tr>
+      <tr><td>慢性・再発・白髪・高齢</td><td>④ 六味丸・八味地黄丸</td></tr>
+    </table></div>
+    <p class="hint">「髪は血の余り（髪為血之余）」、「腎の華は髪にある（腎其華在髪）」。急性期は①③の「実」、慢性期は②④の「虚」を補う。</p>`,
+  pt:{
+    utsu:{t:"ストレスによる「巡りの詰まり」",b:"強いストレスやショックで体の巡り（気・血）が詰まり、頭皮に栄養が届きにくくなって髪が抜けた状態です。頭皮の張りや肩こり、イライラを伴うことがあります。<br><br>お薬で気持ちの張りをゆるめ、巡りを整えて、髪が生える環境をつくります。<br><br><b>生活のポイント</b>：十分な睡眠／ストレスを抱え込まない／頭皮・首・肩をやさしくほぐす"},
+    kyo:{t:"「血」の不足による脱毛",b:"東洋医学では「髪は血の余り」と考えます。栄養（血）が不足して髪まで行き届かず、抜けやすく、生えてくる毛も細い状態です。顔色が白い、疲れやすいといった症状を伴います。<br><br>お薬で血を補い、髪を育てる力を取り戻します。<br><br><b>生活のポイント</b>：たんぱく質・鉄・亜鉛をしっかりとる（肉・魚・卵・大豆）／過度なダイエットを避ける／睡眠"},
+    netsu:{t:"頭皮の「熱」による急な脱毛",b:"体の中の熱が血に入り、頭皮が赤く熱をもって、急に髪が抜けている状態です。かゆみを伴うこともあります。<br><br>お薬で熱を冷まし、頭皮の炎症を鎮めます。進行が速いときは、塗り薬や注射などの治療と一緒に行います。<br><br><b>生活のポイント</b>：辛いもの・お酒・脂っこいものを控える／頭皮を掻かない／熱いシャワーを避ける"},
+    jin:{t:"「腎」の衰えによる慢性の脱毛",b:"東洋医学では「髪は腎の状態を映す」と考えます。体の根本の力（腎の精）が弱り、髪を育てる力が落ちて、治りにくく繰り返しやすい状態です。<br><br>お薬で腎を補い、体の土台から髪を育てます。時間をかけて続けることが大切です。<br><br><b>生活のポイント</b>：夜更かし・過労を避ける／黒い食材（黒ごま・黒豆）や海藻をとる／足腰を冷やさない"}
+  },
+  formulas:["柴胡加竜骨牡蛎湯","桂枝加竜骨牡蛎湯","加味逍遥散","大柴胡湯","桂枝茯苓丸","十全大補湯","当帰飲子","当帰芍薬散","加味帰脾湯","四物湯","温清飲","消風散","黄連解毒湯","柴胡清肝湯","六味丸","八味地黄丸"]
+},
+/* ---------- 肩こり ---------- */
+katakori:{
+  label:"肩こり", sub:"寒邪・気滞血瘀・気血虚・痰湿 × エキス剤",
+  types:{
+    gai:{no:"①",name:"外感風邪・寒凝経絡",bar:"①風寒",seg:"①風寒",color:"var(--ai)"},
+    oketsu:{no:"②",name:"気滞血瘀",bar:"②気滞血瘀",seg:"②血瘀",color:"var(--oketsu)"},
+    kyo:{no:"③",name:"気血両虚・肝腎不足",bar:"③気血虚",seg:"③虚",color:"var(--kincha)"},
+    tan:{no:"④",name:"痰湿阻絡",bar:"④痰湿",seg:"④痰湿",color:"var(--matsuba)"}
+  },
+  groups:[
+    ["gai","① 外感風邪・寒凝経絡","実寒・不通則痛","var(--ai)"],
+    ["oketsu","② 気滞血瘀","実証・不通則痛","var(--oketsu)"],
+    ["kyo","③ 気血両虚・肝腎不足","虚証・不栄則痛","var(--kincha)"],
+    ["tan","④ 痰湿阻絡","虚実錯雑","var(--matsuba)"]
+  ],
+  sx:[
+    ["a1","急に首筋〜肩が固く張る","gai",{gai:2}],
+    ["a2","冷やすと悪化し、温めると楽（冷房・気候で悪化）","gai",{gai:2,kyo:1},"cold"],
+    ["a3","悪寒・頭痛・かぜ症状を伴う（汗は出ない）","gai",{gai:1},"acute"],
+    ["a4","汗が出やすい・虚弱（表虚）","gai",{gai:1},"hyokyo"],
+    ["a5","慢性で冷え、関節や筋肉も痛む","gai",{gai:1,kyo:1},"jutsubu"],
+    ["a6","高齢・元気がない・寒気が強い","gai",{gai:1},"mafusai"],
+    ["a7","脈 浮緊","gai",{gai:1}],
+
+    ["b1","肩がガチガチに固い・押すと強く痛い（拒按）","oketsu",{oketsu:2}],
+    ["b2","デスクワーク・スマホ・同じ姿勢で悪化／夜間に悪化","oketsu",{oketsu:2}],
+    ["b3","ストレス・緊張で悪化・肩甲骨の間や脇の張り","oketsu",{oketsu:1},"stress"],
+    ["b4","急なつり・こむら返りのようなこわばり","oketsu",{oketsu:1},"cramp"],
+    ["b5","月経前の悪化・のぼせ（女性）","oketsu",{oketsu:1},"meno"],
+    ["b6","胸脇苦満・便秘・がっしり体型（実証）","oketsu",{oketsu:1},"daisaiko"],
+    ["b7","食いしばり・歯ぎしり・イライラ","oketsu",{oketsu:1},"kuishibari"],
+    ["b8","中高年・高血圧・頭痛を伴う","oketsu",{oketsu:1},"choto"],
+    ["b9","腕や腰下肢のしびれ・痛みも伴う","oketsu",{oketsu:1},"shibire"],
+    ["b10","舌 暗・瘀点／脈 弦渋","oketsu",{oketsu:1}],
+
+    ["c1","慢性的にジワジワ重だるい・夕方や疲労時に悪化","kyo",{kyo:2}],
+    ["c2","揉むと気持ちいい（喜按）","kyo",{kyo:2}],
+    ["c3","疲れやすい・食欲不振・息切れ（気虚）","kyo",{kyo:1},"qixu"],
+    ["c4","虚弱・疲れると寝汗・腹痛しやすい","kyo",{kyo:1},"kenchu"],
+    ["c5","顔色が悪い・目のかすみ・眼精疲労（血虚）","kyo",{kyo:1},"bloodxu"],
+    ["c6","冷え・反復する頭痛・吐き気（冷えタイプ）","kyo",{kyo:1,tan:1},"goshuyu"],
+    ["c7","高齢・腰膝のだるさ・夜間頻尿（腎虚）","kyo",{kyo:1},"kidney"],
+    ["c8","冷え・むくみ・月経不順（若い女性）","kyo",{kyo:1,tan:1},"tokishaku"],
+    ["c9","舌 淡／脈 細弱","kyo",{kyo:1}],
+
+    ["d1","肩〜背中に板が乗ったように重い","tan",{tan:2}],
+    ["d2","頭が重い・めまい・悪心","tan",{tan:2}],
+    ["d3","肩関節が痛い・腕が上がらない（五十肩）","tan",{tan:1},"nijutsu"],
+    ["d4","色白・水太り・汗かき・膝の痛み","tan",{tan:1},"boi"],
+    ["d5","むくみ・口渇があるのに尿が少ない","tan",{tan:1},"goreisan"],
+    ["d6","立ちくらみ・動悸","tan",{tan:1},"ryokei"],
+    ["d7","雨の日・湿気・食後に悪化","tan",{tan:1}],
+    ["d8","舌 胖大・苔白膩／脈 滑","tan",{tan:1}]
+  ],
+  redTitle:"先に除外（肩こりに隠れる疾患）",
+  red:[
+    ["r1","左肩〜腕の痛み・胸痛・冷汗・労作で悪化（狭心症・心筋梗塞）"],
+    ["r2","手のしびれ・脱力・細かい作業がしにくい（頸椎症）"],
+    ["r3","突然の激しい首の痛み・頭痛（くも膜下出血・椎骨動脈解離）"],
+    ["r4","発熱・夜間痛・体重減少（感染・腫瘍）"],
+    ["r5","高齢で両肩・上腕の朝のこわばり（リウマチ性多発筋痛症）"],
+    ["r6","肩関節の可動域制限（五十肩・腱板断裂）"],
+    ["r7","片側のピリピリした痛み（帯状疱疹の前駆痛）"],
+    ["r8","高血圧・眼精疲労・顎関節症・うつの背景"]
+  ],
+  redMsg:r=>"器質的疾患の除外を優先してください。"
+    +(r.has("r1")?"<br>至急、心電図と循環器科での評価を。":"")
+    +(r.has("r2")?"<br>整形外科で頸椎の評価（MRI）を。":"")
+    +(r.has("r3")?"<br>救急対応を。":"")
+    +(r.has("r4")?"<br>血液検査・画像で精査を。":"")
+    +(r.has("r5")?"<br>CRP・赤沈を確認。少量ステロイドが著効しやすい。":"")
+    +(r.has("r6")?"<br>整形外科での評価を（漢方では④の二朮湯も）。":"")
+    +(r.has("r7")?"<br>皮疹が出る前でも、抗ウイルス薬の早期投与を検討。":"")
+    +(r.has("r8")?"<br>背景の治療を並行（高血圧なら②の釣藤散も）。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="gai"){
+      if(has("mafusai")){rx="麻黄附子細辛湯";why.push("高齢・虚弱で寒気が強い → 陽虚＋外寒");}
+      else if(has("jutsubu")&&!has("acute")){rx="桂枝加朮附湯";why.push("慢性の冷えで関節・筋肉も痛む → 温経散寒・除湿");}
+      else if(has("hyokyo")&&!has("acute")){rx="桂枝加葛根湯";why.push("汗が出やすい虚弱な人の項背のこわばり → 桂枝湯＋葛根");}
+      else {rx="葛根湯";why.push("急性の首筋〜肩のこわばり・悪寒・無汗 → 風寒を発散し、項背をゆるめる");}
+      if(rx==="葛根湯") why.push("麻黄を含むため短期で。慢性の肩こりに漫然と続けない");
+    }
+    if(k==="oketsu"){
+      if(has("daisaiko")){rx="大柴胡湯";why.push("胸脇苦満・便秘の実証 → 疏肝＋瀉下");}
+      else if(has("meno")){rx="加味逍遥散";why.push("月経前の悪化・のぼせ → 疏肝清熱＋養血");}
+      else if(has("kuishibari")){rx="抑肝散";why.push("食いしばり・イライラ → 平肝熄風、筋の緊張をゆるめる");}
+      else if(has("stress")){rx="四逆散";why.push("ストレス・脇の張り → 疏肝理気（柴胡疏肝散の代わり）");}
+      else if(has("choto")){rx="釣藤散";why.push("中高年・高血圧・頭痛 → 平肝熄風");}
+      else if(has("shibire")){rx="疎経活血湯";why.push("しびれ・痛みを伴う → 活血・祛風湿");}
+      else {rx="桂枝茯苓丸";why.push("同じ姿勢・拒按・夜間に悪化 → 駆瘀血");}
+      if(rx!=="桂枝茯苓丸") why.push("同じ姿勢・拒按の瘀血があれば桂枝茯苓丸を併用");
+      if(has("cramp")) why.push("急なつり・こわばりには芍薬甘草湯を頓用（甘草が多く、連用は避ける）");
+    }
+    if(k==="kyo"){
+      if(has("goshuyu")){rx="呉茱萸湯";why.push("冷え・反復する頭痛・吐き気 → 温中降逆（中寒・寒飲）");}
+      else if(has("kidney")){rx="八味地黄丸";why.push("高齢・腰膝のだるさ → 肝腎を補い、筋骨を養う");}
+      else if(has("tokishaku")){rx="当帰芍薬散";why.push("冷え・むくみ・月経不順 → 養血利水");}
+      else if(has("kenchu")){rx="黄耆建中湯";why.push("虚弱・疲れると寝汗・腹痛 → 中焦を温めて補う");}
+      else if(has("bloodxu")){rx="十全大補湯";why.push("顔色不良・目のかすみ → 気血双補（肝血で筋を養う）");}
+      else {rx="補中益気湯";why.push("疲労で悪化・喜按 → 升陽益気（脾は肌肉を主る）");}
+    }
+    if(k==="tan"){
+      if(has("nijutsu")){rx="二朮湯";why.push("肩関節の痛み・腕が上がらない → 化痰祛湿・通絡（五十肩で頻用）");}
+      else if(has("boi")){rx="防己黄耆湯";why.push("水太り・汗かき・関節痛 → 益気利水");}
+      else if(has("goreisan")){rx="五苓散";why.push("むくみ・口渇・尿不利 → 利水");}
+      else if(has("ryokei")){rx="苓桂朮甘湯";why.push("立ちくらみ・動悸 → 温陽化飲");}
+      else {rx="半夏白朮天麻湯";why.push("板が乗ったような重さ・頭重・悪心 → 健脾化痰");}
+    }
+    return {rx,why};
+  },
+  addons:(has,top)=>top?`<div class="addon combo"><b>併用</b>：鍼灸・円皮鍼（肩井・風池・天柱・肩外兪など）、温罨法、ストレッチと組み合わせると効果を実感しやすい。</div>`:"",
+  combo:{
+    "gai+oketsu":"寒凝＋瘀血 → 葛根湯（急性）＋桂枝茯苓丸。慢性なら桂枝加朮附湯＋桂枝茯苓丸",
+    "gai+kyo":"虚寒 → 桂枝加朮附湯、または黄耆建中湯。高齢なら麻黄附子細辛湯",
+    "gai+tan":"風湿 → 二朮湯（羌活を含む）、または葛根湯＋五苓散",
+    "kyo+oketsu":"虚＋瘀血 → 当帰芍薬散・加味逍遥散（女性）、疎経活血湯",
+    "oketsu+tan":"痰瘀互結 → 二朮湯＋桂枝茯苓丸、または疎経活血湯",
+    "kyo+tan":"脾虚＋痰湿 → 半夏白朮天麻湯（六君子湯の骨格）、冷えがあれば呉茱萸湯"
+  },
+  rx:{
+    gai:{
+      path:"気候の変化や冷房で、風邪・寒邪が首筋〜背中の経絡（太陽経）に入る。寒は「収引」で経絡を縮め、気血の巡りを塞ぐ。",
+      feat:"急に首筋〜肩が固く張る。冷やすと悪化し、温めると楽。悪寒・頭痛などのかぜ症状。",
+      tongue:"舌 淡紅・苔薄白／脈 浮緊",
+      main:"葛根湯（第一選択）／桂枝加朮附湯／麻黄附子細辛湯",
+      groups:[["風寒・急性（無汗）",["葛根湯"]],["表虚（自汗）",["桂枝加葛根湯"]],["慢性の虚寒・関節痛",["桂枝加朮附湯"]],["陽虚＋外寒",["麻黄附子細辛湯"]]],
+      tcm:[["葛根湯","医療用エキスあり（そのまま）"],["羌活勝湿湯（風湿の肩背痛）","医療用エキスなし → 二朮湯（羌活を含む）、川芎茶調散"]],
+      alt:["川芎茶調散：かぜの頭痛が主","葛根湯加川芎辛夷：鼻閉・副鼻腔炎を伴う","五積散：冷房病・寒湿で腰も重い"],
+      caution:["葛根湯・麻黄附子細辛湯は麻黄を含む → 短期で。高齢・心疾患・前立腺肥大では慎重に","桂枝加葛根湯は取り扱うメーカーが限られる"]
+    },
+    oketsu:{
+      path:"ストレスで肝の疏泄が滞る（肝気鬱結）、あるいは長時間の同じ姿勢で血脈が停滞する（血瘀）。肩・背中の経絡が塞がれ、筋肉が硬直する。",
+      feat:"ガチガチに固く、押すと強く痛い（拒按）。肩甲骨の間・脇の張り。同じ姿勢や夜間に悪化する。",
+      tongue:"舌 暗・瘀点／脈 弦渋",
+      main:"桂枝茯苓丸／四逆散（柴胡疏肝散の代用）／芍薬甘草湯（頓用）",
+      groups:[["駆瘀血",["桂枝茯苓丸"]],["疏肝理気",["四逆散","加味逍遥散","大柴胡湯"]],["緊張をゆるめる",["抑肝散","芍薬甘草湯"]],["活血＋しびれ",["疎経活血湯"]],["肝陽（高血圧）",["釣藤散"]]],
+      tcm:[["桂枝茯苓丸・芍薬甘草湯","医療用エキスあり（そのまま）"],["柴胡疏肝散（四逆散＋川芎・香附子・陳皮）","医療用エキスなし → 四逆散で近似"],["身痛逐瘀湯","医療用エキスなし → 疎経活血湯"]],
+      alt:["通導散：瘀血＋便秘の実証","治打撲一方：打撲・寝違えの後","葛根湯：急性の寝違え（短期）"],
+      caution:["芍薬甘草湯は甘草の量が多い → 頓用が基本。連用すると偽アルドステロン症になりやすい","大柴胡湯は黄芩、加味逍遥散は山梔子を含む"]
+    },
+    kyo:{
+      path:"脾胃の弱りや過労で気血が不足し、肌肉・筋を養えない（脾は肌肉を主り、肝は筋を主る）。加齢で肝血・腎精が衰え、筋骨が潤わない。",
+      feat:"慢性的にジワジワ重だるい。夕方や疲れたときに悪化。揉むと気持ちいい（喜按）。顔色が悪い・目のかすみ。",
+      tongue:"舌 淡／脈 細弱",
+      main:"補中益気湯／黄耆建中湯／十全大補湯／呉茱萸湯（冷えタイプ）",
+      groups:[["気虚",["補中益気湯","黄耆建中湯"]],["気血両虚",["十全大補湯"]],["冷えタイプ（中寒）",["呉茱萸湯"]],["血虚＋水滞",["当帰芍薬散"]],["肝腎不足",["八味地黄丸"]]],
+      tcm:[["黄耆建中湯・補中益気湯・呉茱萸湯","医療用エキスあり（そのまま）。呉茱萸湯は本来、中寒・寒飲の方剤"],["八珍湯","医療用エキスなし → 十全大補湯"]],
+      alt:["人参養栄湯：高齢・咳・物忘れ","桂枝加朮附湯：冷えで関節・筋肉も痛む","六味丸：腎陰虚でほてりを伴う"],
+      caution:["十全大補湯・八味地黄丸は地黄を含む → 胃もたれ","八味地黄丸は附子を含む"]
+    },
+    tan:{
+      path:"脾胃の不調で生じた痰湿が経絡を塞ぎ、肩・背中に停滞して巡りを妨げる。",
+      feat:"肩〜背中に板が乗ったように重だるい。頭重感・めまい・悪心。雨の日や湿気、食後に悪化。",
+      tongue:"舌 胖大・苔白膩／脈 滑",
+      main:"半夏白朮天麻湯／二朮湯／五苓散",
+      groups:[["健脾化痰",["半夏白朮天麻湯"]],["肩の痛み・五十肩",["二朮湯"]],["水滞",["五苓散","苓桂朮甘湯"]],["水太り",["防己黄耆湯"]]],
+      tcm:[["半夏白朮天麻湯","医療用エキスあり（そのまま）"],["（追加）","二朮湯（肩関節の痛み・五十肩）、防己黄耆湯（水太り）、五苓散（むくみ・頭重）"]],
+      alt:["六君子湯：胃腸虚弱が主","半夏厚朴湯：喉のつかえ・気鬱を伴う","疎経活血湯：痰湿＋瘀血のしびれ"],
+      caution:["二朮湯は黄芩を含む","防己黄耆湯は甘草を含む"]
+    }
+  },
+  cmpTitle:"肩こりの4証 比較",
+  cmpExtra:`<h3>実と虚の見分け</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th>見るところ</th><th>実（①②④）</th><th>虚（③）</th></tr>
+      <tr><td>押すと</td><td>痛い（拒按）</td><td>気持ちいい（喜按）</td></tr>
+      <tr><td>張り方</td><td>①急に固く<br>②ガチガチ・刺す<br>④板が乗ったよう</td><td>ジワジワ重だるい</td></tr>
+      <tr><td>悪化する時</td><td>①冷え・気候<br>②ストレス・同じ姿勢・夜<br>④雨・湿気・食後</td><td>夕方・疲労時</td></tr>
+    </table></div>
+    <p class="hint">葛根湯は急性の第一選択だが、麻黄を含むので慢性の肩こりに漫然と使わない。芍薬甘草湯は頓用。</p>`,
+  pt:{
+    gai:{t:"「冷え・寒さ」で固まる肩こり",b:"冷房や気候の変化で首筋から肩に冷えが入り込み、筋肉や血管が縮こまって固く張っている状態です。冷やすと悪化し、温めると楽になるのが特徴です。<br><br>お薬で入り込んだ冷えを追い出し、首・肩の巡りを回復させます。<br><br><b>生活のポイント</b>：首元を冷やさない（スカーフ・タオル）／冷房の風に直接当たらない／蒸しタオルで温める"},
+    oketsu:{t:"「巡りの滞り」による肩こり",b:"ストレスや長時間の同じ姿勢で気と血の巡りが滞り、肩がガチガチに固まっている状態です。押すと痛く、夜や同じ姿勢を続けたときに悪化します。<br><br>お薬で滞った巡りを流し、筋肉の緊張をゆるめます。<br><br><b>生活のポイント</b>：30分に1回は肩を回す／画面の高さを目線に合わせる／深呼吸で緊張をほどく"},
+    kyo:{t:"エネルギー・栄養不足の肩こり",b:"疲れや加齢で体のエネルギー（気）と栄養（血）が不足し、筋肉を十分に養えずに、慢性的に重だるくこっている状態です。揉むと気持ちよく、夕方や疲れたときに悪化します。<br><br>お薬で気と血を補い、筋肉をしなやかにします。<br><br><b>生活のポイント</b>：十分な睡眠・休息／三食しっかり食べる／無理のない運動で筋力をつける"},
+    tan:{t:"「余分な水」がたまる重い肩こり",b:"胃腸の働きが弱って余分な水分（痰湿）がたまり、肩から背中に板が乗ったような重さが出ている状態です。頭の重さやめまいを伴うこともあります。<br><br>お薬で胃腸を整え、余分な水を捌きます。<br><br><b>生活のポイント</b>：冷たい飲み物・甘いもの・食べ過ぎを控える／軽い運動で汗をかく／湿気の多い日は特に体を冷やさない"}
+  },
+  formulas:["葛根湯","桂枝加葛根湯","桂枝加朮附湯","麻黄附子細辛湯","桂枝茯苓丸","四逆散","加味逍遥散","大柴胡湯","抑肝散","芍薬甘草湯","疎経活血湯","釣藤散","補中益気湯","黄耆建中湯","十全大補湯","呉茱萸湯","当帰芍薬散","八味地黄丸","半夏白朮天麻湯","二朮湯","五苓散","苓桂朮甘湯","防己黄耆湯"]
+},
+/* ---------- 声がれ・失音 ---------- */
+koe:{
+  label:"声がれ", sub:"金実不鳴・金破不鳴 × エキス剤",
+  intro:`<h3>肺金は鐘のごとし</h3>
+    <p style="margin:4px 0">喉は「肺の気門」。肺が宣散する精気が喉に届いて声になる（肺は声を主る）。鐘が鳴らない理由は2つ。</p>
+    <p style="margin:4px 0"><b>金実不鳴</b>（実）：邪が肺・喉を塞いで鳴らない → ①外邪 ②肝火 ③瘀血<br><b>金破不鳴</b>（虚）：気陰が損なわれ、鐘が壊れて鳴らない → ④肺腎陰虚 ⑤脾肺気虚</p>`,
+  types:{
+    gai:{no:"①",name:"外邪犯肺（風寒・燥・風熱・痰熱）",bar:"①外邪",seg:"①外邪",color:"var(--ai)"},
+    kanka:{no:"②",name:"肝火上炎・気鬱",bar:"②肝火",seg:"②肝火",color:"var(--shu)"},
+    oketsu:{no:"③",name:"瘀血阻滞（血瘀声門）",bar:"③瘀血",seg:"③瘀血",color:"var(--oketsu)"},
+    yin:{no:"④",name:"肺腎陰虚",bar:"④陰虚",seg:"④陰虚",color:"var(--sh-kan)"},
+    kyo:{no:"⑤",name:"脾肺気虚",bar:"⑤気虚",seg:"⑤気虚",color:"var(--kincha)"}
+  },
+  groups:[
+    ["gai","① 外邪犯肺","金実不鳴・急性","var(--ai)"],
+    ["kanka","② 肝火上炎・気鬱","金実不鳴・ストレス","var(--shu)"],
+    ["oketsu","③ 瘀血阻滞","金実不鳴・慢性","var(--oketsu)"],
+    ["yin","④ 肺腎陰虚","金破不鳴・潤い不足","var(--sh-kan)"],
+    ["kyo","⑤ 脾肺気虚","金破不鳴・押し出す力不足","var(--kincha)"]
+  ],
+  sx:[
+    ["a1","かぜの後・急に声がかれた／出なくなった","gai",{gai:2}],
+    ["a2","悪寒・無汗・鼻水・くしゃみ（風寒）","gai",{gai:1},"windcold"],
+    ["a3","高齢・寒気が強く元気がない","gai",{gai:1,kyo:1},"mafusai"],
+    ["a4","喉が乾燥してイガイガ・空咳（燥邪）","gai",{gai:1,yin:1},"dry"],
+    ["a5","咽頭痛・発熱・喉が赤い（風熱）","gai",{gai:1},"throat"],
+    ["a6","扁桃の腫れ・強い咽頭痛","gai",{gai:1},"tonsil"],
+    ["a7","黄色い痰・咳込み・喘鳴（痰熱）","gai",{gai:1},"tannetsu"],
+    ["a8","脈 浮","gai",{gai:1}],
+
+    ["b1","ストレス・感情の高ぶりの後に声が出なくなった","kanka",{kanka:2}],
+    ["b2","喉のつかえ・何かが詰まった感じ（梅核気）","kanka",{kanka:2},"baikaku"],
+    ["b3","イライラ・怒り・顔面紅潮・口が苦い（肝火）","kanka",{kanka:1},"fire"],
+    ["b4","不安・緊張で声が出にくい（心因性）","kanka",{kanka:1},"baikaku"],
+    ["b5","月経・更年期と関連（女性）","kanka",{kanka:1},"meno"],
+    ["b6","悲しみ・涙もろい・感情が揺れやすい","kanka",{kanka:1},"kanbaku"],
+    ["b7","舌 紅・辺縁紅／脈 弦","kanka",{kanka:1}],
+
+    ["c1","慢性的に声がかれ、戻らない","oketsu",{oketsu:2,yin:1}],
+    ["c2","声帯結節・ポリープを指摘された","oketsu",{oketsu:2}],
+    ["c3","声を酷使する職業（歌手・教師・接客など）","oketsu",{oketsu:1,yin:1}],
+    ["c4","喉の異物感・刺すような痛み","oketsu",{oketsu:1}],
+    ["c5","便秘・のぼせ（実証）","oketsu",{oketsu:1},"constip"],
+    ["c6","舌 暗紫・瘀点／脈 渋","oketsu",{oketsu:1}],
+
+    ["d1","喉の乾燥・声の使いすぎで悪化","yin",{yin:2}],
+    ["d2","夕方〜夜にかれる・空咳","yin",{yin:2},"night"],
+    ["d3","手足のほてり・寝汗・頬の紅潮","yin",{yin:1},"hot"],
+    ["d4","腰膝のだるさ・耳鳴り・高齢（腎陰虚）","yin",{yin:1},"kidney"],
+    ["d5","痰が少なく切れにくい","yin",{yin:1}],
+    ["d6","舌 紅・少苔／脈 細数","yin",{yin:1}],
+
+    ["e1","声が小さい・力がない・長く話せない","kyo",{kyo:2}],
+    ["e2","疲れると声が出にくくなる","kyo",{kyo:2}],
+    ["e3","息切れ・倦怠感・食欲不振","kyo",{kyo:1}],
+    ["e4","胃腸が弱い・軟便","kyo",{kyo:1},"spxu"],
+    ["e5","高齢・咳・物忘れ","kyo",{kyo:1},"ninjin"],
+    ["e6","かぜをひきやすい・汗をかきやすい","kyo",{kyo:1}],
+    ["e7","舌 淡・歯痕／脈 弱","kyo",{kyo:1}]
+  ],
+  redTitle:"先に確認（耳鼻咽喉科的な除外）",
+  red:[
+    ["r1","強い咽頭痛・飲み込めない・呼吸が苦しい・含み声（急性喉頭蓋炎）"],
+    ["r2","2週間以上続く声がれ・喫煙や飲酒の習慣（喉頭癌・声帯病変）"],
+    ["r3","甲状腺・胸部の手術後、または原因不明の片側性の声がれ（反回神経麻痺）"],
+    ["r4","血痰・首のしこり・体重減少"],
+    ["r5","胸やけ・呑酸・咳払いが多い（咽喉頭酸逆流）"],
+    ["r6","吸入ステロイドを使用中"],
+    ["r7","寒がり・むくみ・声が低くなった（甲状腺機能低下症）"],
+    ["r8","手のふるえ・動作緩慢・飲み込みにくさ（神経疾患）"]
+  ],
+  redMsg:r=>"2週間以上続く声がれは、耳鼻科で喉頭の観察を。"
+    +(r.has("r1")?"<br>急性喉頭蓋炎は気道閉塞の危険がある → 至急、救急・耳鼻科へ。":"")
+    +(r.has("r2")||r.has("r4")?"<br>喉頭内視鏡で悪性疾患を除外。":"")
+    +(r.has("r3")?"<br>反回神経麻痺の原因（肺癌・食道癌・甲状腺癌・大動脈瘤など）を精査。":"")
+    +(r.has("r5")?"<br>PPIの診断的投与も選択肢。":"")
+    +(r.has("r6")?"<br>吸入後のうがい・スペーサーの使用、吸入薬の種類の見直しを。":"")
+    +(r.has("r7")?"<br>TSH・FT4を確認。":"")
+    +(r.has("r8")?"<br>神経内科と連携。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="gai"){
+      if(has("mafusai")){rx="麻黄附子細辛湯";why.push("高齢・寒気が強い急な失声 → 少陰の寒を温めて散らす");}
+      else if(has("windcold")){rx="麻黄湯";why.push("悪寒・無汗の風寒 → 宣肺散寒（三拗湯＋桂皮。短期で）");}
+      else if(has("tonsil")){rx="小柴胡湯加桔梗石膏";why.push("扁桃の腫れ・強い咽頭痛 → 和解＋清熱利咽");}
+      else if(has("tannetsu")){rx="麻杏甘石湯";why.push("黄色い痰・咳込み → 肺熱を冷まし宣肺");}
+      else if(has("dry")){rx="麦門冬湯";why.push("喉の乾燥・空咳（燥邪）→ 潤肺（清燥救肺湯の代わり）");}
+      else {rx="桔梗湯";why.push("急性の声がれ・咽頭痛 → 利咽・排膿（うがいをしながら飲む）");}
+      if(rx!=="桔梗湯"&&has("throat")) why.push("咽頭痛があれば桔梗湯を併用");
+    }
+    if(k==="kanka"){
+      if(has("fire")){rx="竜胆瀉肝湯";why.push("怒り・顔面紅潮・口苦 → 肝火を冷ます（のぼせが主なら黄連解毒湯）");}
+      else if(has("kanbaku")){rx="甘麦大棗湯";why.push("悲しみ・感情の揺れ → 心を養い、急迫を緩める");}
+      else if(has("baikaku")){rx="半夏厚朴湯";why.push("喉のつかえ・心因性 → 行気散結（咽中炙臠）");}
+      else if(has("meno")){rx="加味逍遥散";why.push("月経・更年期と関連 → 疏肝清熱");}
+      else {rx="加味逍遥散";why.push("ストレスで声が出ない → 疏肝解鬱＋清熱");}
+      if(has("baikaku")&&rx!=="半夏厚朴湯") why.push("喉のつかえがあれば半夏厚朴湯を併用");
+      why.push("心因性失声は、器質的疾患を耳鼻科で除外したうえで");
+    }
+    if(k==="oketsu"){
+      if(has("constip")){rx="桃核承気湯";why.push("瘀血＋便秘・のぼせ → 駆瘀血＋瀉下");}
+      else {rx="桂枝茯苓丸 ＋ 桔梗湯";why.push("慢性に枯れた声・声帯の血行障害 → 活血＋利咽（会厭逐瘀湯の近似）");}
+      why.push("声帯結節・ポリープは耳鼻科で評価し、音声治療（発声指導）と併用");
+    }
+    if(k==="yin"){
+      if(has("kidney")){rx="麦門冬湯 ＋ 六味丸";why.push("肺腎陰虚・高齢 → 肺を潤し腎陰を補う（百合固金湯の近似）");}
+      else if(has("night")||has("hot")){rx="滋陰降火湯";why.push("夜に悪化・ほてり → 滋陰潤肺・降火");}
+      else {rx="麦門冬湯";why.push("喉の乾燥・声の使いすぎ → 潤肺利咽");}
+    }
+    if(k==="kyo"){
+      if(has("ninjin")){rx="人参養栄湯";why.push("高齢・咳・物忘れ → 気血を補い、肺を養う");}
+      else if(has("spxu")){rx="六君子湯";why.push("胃腸虚弱 → 脾を補い、肺気の源をつくる（培土生金）");}
+      else {rx="補中益気湯";why.push("声に力がない・疲れると悪化 → 升陽益気で精気を喉へ");}
+    }
+    return {rx,why};
+  },
+  addons:(has,top)=>top?`<div class="addon combo"><b>養生</b>：声の安静（ささやき声も負担になる）、加湿・こまめな水分、禁煙・節酒。白い食材（梨・大根・蓮根・はちみつ）で肺を潤す。</div>`:"",
+  combo:{
+    "gai+yin":"燥邪＋陰虚 → 麦門冬湯（＋桔梗湯）",
+    "gai+kyo":"気虚の外感 → 参蘇飲、回復期は補中益気湯",
+    "gai+kanka":"かぜ＋ストレス → 小柴胡湯加桔梗石膏、または半夏厚朴湯",
+    "gai+oketsu":"急性の炎症が長引いた → 桔梗湯＋桂枝茯苓丸",
+    "kanka+oketsu":"気滞血瘀 → 桂枝茯苓丸＋半夏厚朴湯（または四逆散）",
+    "kanka+yin":"陰虚火旺＋肝火 → 滋陰降火湯、または加味逍遥散",
+    "kanka+kyo":"気虚＋気鬱 → 香蘇散、または加味帰脾湯",
+    "kyo+oketsu":"気虚血瘀 → 補中益気湯＋桂枝茯苓丸",
+    "kyo+yin":"気陰両虚 → 麦門冬湯＋補中益気湯（または清暑益気湯）",
+    "oketsu+yin":"声の酷使による陰虚＋瘀血（声帯結節）→ 麦門冬湯＋桂枝茯苓丸"
+  },
+  rx:{
+    gai:{
+      path:"風寒が肺を外から締め付ける（寒邪束肺）、燥邪が津液を奪う（燥邪犯肺）、痰熱が肺と喉を塞ぐ（痰熱窒肺）。肺気が鬱閉し、精気が喉に届かない。",
+      feat:"かぜや急性の咽喉炎に伴って、急に声がかれる・出なくなる。悪寒・鼻水、喉の乾燥、咽頭痛・発熱、黄色い痰。",
+      tongue:"舌 苔薄白（風寒）・薄黄（風熱）・乾燥（燥）・黄膩（痰熱）／脈 浮",
+      main:"桔梗湯／麻杏甘石湯／麦門冬湯／麻黄湯・麻黄附子細辛湯",
+      groups:[["利咽",["桔梗湯","小柴胡湯加桔梗石膏"]],["風寒",["麻黄湯","麻黄附子細辛湯"]],["燥邪",["麦門冬湯"]],["痰熱",["麻杏甘石湯","清肺湯"]]],
+      tcm:[["三拗湯（麻黄・杏仁・甘草）","医療用エキスなし → 麻黄湯（三拗湯＋桂皮、短期）。寒邪による急な失声には麻黄附子細辛湯"],["清燥救肺湯","医療用エキスなし → 麦門冬湯"],["麻杏甘石湯","医療用エキスあり（そのまま）"],["響声破笛丸","一般用医薬品あり（声がれ・声の使いすぎに）"]],
+      alt:["葛根湯：首肩のこわばりを伴う風寒の初期","銀翹散（一般用）：風熱の咽頭痛","清肺湯：痰熱が長引く"],
+      caution:["麻黄湯・麻杏甘石湯・麻黄附子細辛湯は麻黄を含む → 短期で","麻黄は喉を乾かすことがある。燥邪には使わない"]
+    },
+    kanka:{
+      path:"精神的ストレスで肝気が滞って化火し、強い火熱が経絡を通って喉を焼く（灼喉）。気鬱が喉に結ぶと梅核気・心因性失声となる。",
+      feat:"ストレスや感情の高ぶりの後に声が出なくなる。喉のつかえ。イライラ・顔面紅潮・口の苦み、または不安・悲しみ。",
+      tongue:"舌 紅・辺縁紅／脈 弦（数）",
+      main:"加味逍遥散／竜胆瀉肝湯／半夏厚朴湯／甘麦大棗湯",
+      groups:[["肝火",["竜胆瀉肝湯","黄連解毒湯"]],["肝鬱化火",["加味逍遥散"]],["気鬱・梅核気",["半夏厚朴湯"]],["感情の揺れ",["甘麦大棗湯"]]],
+      tcm:[["竜胆瀉肝湯","医療用エキスあり（そのまま）"],["（追加）","半夏厚朴湯（「咽中炙臠あるが如し」）・甘麦大棗湯：心因性失声に"]],
+      alt:["柴朴湯：気鬱＋咳","柴胡加竜骨牡蛎湯：不安・動悸・不眠","香蘇散：虚弱で軽い気鬱"],
+      caution:["竜胆瀉肝湯・黄連解毒湯は黄芩・山梔子を含む","甘麦大棗湯は甘草の量が多い"]
+    },
+    oketsu:{
+      path:"喉・声門の血行障害（血瘀）で局所の巡りが停滞する。炎症の長期化や声の酷使で生じる。",
+      feat:"慢性的に声がかれ、戻らない。声帯結節・ポリープ。喉の異物感・刺すような痛み。",
+      tongue:"舌 暗紫・瘀点／脈 渋",
+      main:"桂枝茯苓丸＋桔梗湯（会厭逐瘀湯の代用）／桃核承気湯",
+      groups:[["活血＋利咽",["桂枝茯苓丸","桔梗湯"]],["瘀血＋便秘",["桃核承気湯"]]],
+      tcm:[["会厭逐瘀湯","医療用エキスなし → 桂枝茯苓丸＋桔梗湯で近似"]],
+      alt:["通導散：瘀血＋気滞・便秘の実証","麦門冬湯：声の酷使による乾燥を伴う","半夏厚朴湯：喉の異物感が強い"],
+      caution:["桂枝茯苓丸・桃核承気湯は妊娠中は慎重に","結節・ポリープは耳鼻科での評価が前提"]
+    },
+    yin:{
+      path:"肺陰・腎陰が不足して喉を潤す津液がなくなり、虚熱が喉を乾かして声帯を傷める。",
+      feat:"喉の乾燥。声の使いすぎで悪化、夕方〜夜にかれる。空咳、ほてり・寝汗。高齢では腰膝のだるさ・耳鳴り。",
+      tongue:"舌 紅・少苔／脈 細数",
+      main:"麦門冬湯／滋陰降火湯／麦門冬湯＋六味丸（百合固金湯の代用）",
+      groups:[["潤肺利咽",["麦門冬湯"]],["滋陰降火",["滋陰降火湯"]],["滋腎陰",["六味丸"]]],
+      tcm:[["百合固金湯","医療用エキスなし → 麦門冬湯＋六味丸で近似"],["六味地黄丸","医療用は「六味丸」（そのまま）"]],
+      alt:["滋陰至宝湯：陰虚の慢性咳嗽・痰","清暑益気湯：気陰両虚・汗が多い","温清飲：陰血虚＋熱"],
+      caution:["滋陰降火湯・六味丸は地黄を含む → 胃もたれ","麦門冬湯は甘草を含む"]
+    },
+    kyo:{
+      path:"脾胃の弱りで気血が作られず、肺気が不足する。精気を喉へ上輸・宣散する力が失われる（宣散無力）。",
+      feat:"声が小さい・細い・力がない、長く話せない。疲れると悪化。息切れ・倦怠感・食欲不振。",
+      tongue:"舌 淡・歯痕／脈 弱",
+      main:"補中益気湯／六君子湯／人参養栄湯",
+      groups:[["升陽益気",["補中益気湯"]],["培土生金",["六君子湯"]],["気血＋肺",["人参養栄湯"]]],
+      tcm:[["補中益気湯","医療用エキスあり（そのまま）"]],
+      alt:["十全大補湯：気血両虚、病後","参蘇飲：気虚のかぜ","黄耆建中湯：虚弱・小児"],
+      caution:["人参養栄湯は地黄を含む → 胃もたれ","甘草を含む方剤が多い（併用チェックで重複を確認）"]
+    }
+  },
+  cmpTitle:"声がれの5証 比較",
+  cmpExtra:`<h3>金実不鳴と金破不鳴</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th></th><th>金実不鳴（実）</th><th>金破不鳴（虚）</th></tr>
+      <tr><td>病機</td><td>邪気が肺を塞ぎ、気門へ精気が届かない</td><td>肺・腎・脾の気陰が消耗し、喉を養えない</td></tr>
+      <tr><td>経過</td><td>急性。急に声が止まる。かぜ・ストレスが引き金</td><td>慢性。疲れると悪化。かすれ声・弱々しい声</td></tr>
+      <tr><td>証</td><td>①外邪 ②肝火 ③瘀血</td><td>④肺腎陰虚 ⑤脾肺気虚</td></tr>
+      <tr><td>方剤</td><td>桔梗湯・麻杏甘石湯・半夏厚朴湯・桂枝茯苓丸</td><td>麦門冬湯・滋陰降火湯・補中益気湯</td></tr>
+    </table></div>
+    <h3 style="margin-top:14px">声の出方で見る</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th>声の出方</th><th>証</th></tr>
+      <tr><td>かぜの後、急に出なくなる</td><td>① 外邪犯肺</td></tr>
+      <tr><td>ストレスの後・喉のつかえ</td><td>② 肝火・気鬱</td></tr>
+      <tr><td>慢性・枯れたまま・結節</td><td>③ 瘀血</td></tr>
+      <tr><td>夕方〜夜・乾燥・使いすぎ</td><td>④ 肺腎陰虚</td></tr>
+      <tr><td>小さい・力がない・疲れると</td><td>⑤ 脾肺気虚</td></tr>
+    </table></div>`,
+  pt:{
+    gai:{t:"かぜなど「外から」の原因による声がれ",b:"かぜや乾燥した空気などで、喉の通り道が塞がれたり乾いたりして、急に声がかれた状態です。東洋医学では、鐘が詰まって鳴らない状態にたとえます。<br><br>お薬で喉の炎症や詰まりを取り、声の通り道を回復させます。<br><br><b>生活のポイント</b>：声を休める（ささやき声も負担）／加湿・こまめな水分／温かい飲み物でのどを潤す"},
+    kanka:{t:"ストレスで「喉が詰まる」声がれ",b:"ストレスや強い感情で気の巡りが滞り、喉に熱がのぼったり、詰まった感じが出たりして、声が出にくくなっている状態です。<br><br>お薬で気の巡りを整え、喉の詰まりと熱を取ります。<br><br><b>生活のポイント</b>：ゆっくり深呼吸／気持ちを吐き出せる時間をつくる／十分な睡眠"},
+    oketsu:{t:"喉の「血の巡りの滞り」による声がれ",b:"炎症が長引いたり、声を使いすぎたりして、喉の血の巡りが滞り、声がかれたまま戻りにくくなっている状態です。<br><br>お薬で喉の血の巡りをよくします。声帯の状態によっては、耳鼻科での治療や発声の指導と一緒に行います。<br><br><b>生活のポイント</b>：声の使いすぎを避ける／大声・咳払いを控える／首を冷やさない"},
+    yin:{t:"喉の「潤い不足」による声がれ",b:"体の潤いが不足して喉が乾き、声帯がうまく震えなくなっている状態です。声を使いすぎたときや、夕方から夜にかけて悪化しやすいのが特徴です。<br><br>お薬で喉と体の潤いを補います。<br><br><b>生活のポイント</b>：加湿・こまめな水分／白い食材（梨・大根・蓮根・はちみつ）で潤す／夜更かし・辛いもの・お酒を控える"},
+    kyo:{t:"「声を押し出す力」が足りない声がれ",b:"胃腸が弱ってエネルギー（気）が不足し、声を喉まで押し出す力が弱くなっている状態です。声が小さく、疲れると出にくくなるのが特徴です。<br><br>お薬で胃腸とエネルギーを補い、声に力を取り戻します。<br><br><b>生活のポイント</b>：三食しっかり食べる／十分な休息／腹式呼吸で声を支える練習を"}
+  },
+  formulas:["桔梗湯","小柴胡湯加桔梗石膏","麻黄湯","麻黄附子細辛湯","麦門冬湯","麻杏甘石湯","清肺湯","竜胆瀉肝湯","黄連解毒湯","加味逍遥散","半夏厚朴湯","甘麦大棗湯","桂枝茯苓丸","桃核承気湯","滋陰降火湯","六味丸","補中益気湯","六君子湯","人参養栄湯"]
+},
+/* ---------- ほてり ---------- */
+hoteri:{
+  label:"ほてり", sub:"陰虚・肝鬱・実熱・気虚 × エキス剤",
+  intro:`<h3>ほてりは陰陽のバランスの崩れ</h3>
+    <p style="margin:4px 0">熱（陽）と潤い（陰）のバランスが崩れて起こる。<b>熱が多すぎる実熱</b>（②③）か、<b>潤い・血・精が足りず熱を抑えられない虚熱</b>（①）か。気虚でも熱は出る（④：甘温除熱）。</p>
+    <p class="hint" style="margin:4px 0">冷えのぼせ（顔は熱く足は冷える）は「兼証」を確認。冷やす薬だけでは足の冷えが悪化する。</p>`,
+  types:{
+    yin:{no:"①",name:"陰虚火旺・虚熱",bar:"①陰虚火旺",seg:"①陰虚",color:"var(--ai)"},
+    kan:{no:"②",name:"肝鬱化火・気滞",bar:"②肝鬱化火",seg:"②肝鬱",color:"var(--matsuba)"},
+    jitsu:{no:"③",name:"陽盛・実熱",bar:"③実熱",seg:"③実熱",color:"var(--shu)"},
+    kyo:{no:"④",name:"気虚発熱",bar:"④気虚発熱",seg:"④気虚",color:"var(--kincha)"}
+  },
+  groups:[
+    ["yin","① 陰虚火旺・虚熱","陰不制陽・最も多い","var(--ai)"],
+    ["kan","② 肝鬱化火・気滞","ストレスで突き上げる","var(--matsuba)"],
+    ["jitsu","③ 陽盛・実熱","熱が過剰・実証","var(--shu)"],
+    ["kyo","④ 気虚発熱","甘温除熱","var(--kincha)"],
+    ["stasis","兼証：瘀血・上熱下寒","冷えのぼせ","var(--oketsu)"]
+  ],
+  sx:[
+    ["a1","手のひら・足の裏・胸元がじりじり熱い（五心煩熱）","yin",{yin:2}],
+    ["a2","夕方〜夜にカーッと熱くなる（潮熱）","yin",{yin:2}],
+    ["a3","寝汗・頬の紅潮・口や喉の渇き","yin",{yin:1},"night"],
+    ["a4","手足が熱く、布団から出したくなる","yin",{yin:1},"sanmotsu"],
+    ["a5","不眠・動悸・胸のざわつき（心陰虚）","yin",{yin:1},"heart"],
+    ["a6","腰膝のだるさ・耳鳴り・高齢（腎陰虚）","yin",{yin:1},"kidney"],
+    ["a7","目の乾き・めまい・こむら返り（肝陰虚）","yin",{yin:1},"liveryin"],
+    ["a8","舌 紅・少苔・裂紋／脈 細数","yin",{yin:1}],
+
+    ["b1","ストレスや感情の起伏で、急に顔や首がカッと熱くなる","kan",{kan:2}],
+    ["b2","イライラ・怒りっぽい・脇の張り・肩こり","kan",{kan:2}],
+    ["b3","頭痛・目の充血・口が苦い（肝火）","kan",{kan:1,jitsu:1},"fire"],
+    ["b4","不安・動悸・不眠・驚きやすい","kan",{kan:1},"ryukotsu"],
+    ["b5","更年期・月経前に悪化","kan",{kan:1,yin:1},"meno"],
+    ["b6","のぼせ・めまいが固定的に続く（血の道症）","kan",{kan:1},"nyoshin"],
+    ["b7","舌 辺縁紅・苔薄黄／脈 弦数","kan",{kan:1}],
+
+    ["c1","一日中熱っぽい・暑がり","jitsu",{jitsu:2}],
+    ["c2","顔面紅潮・強いのぼせ","jitsu",{jitsu:2,kan:1}],
+    ["c3","強い口渇・冷たいものを好む・大汗","jitsu",{jitsu:1},"thirst"],
+    ["c4","便秘・口内炎・口臭","jitsu",{jitsu:1},"constip"],
+    ["c5","飲酒・辛いもの・脂っこいものが多い","jitsu",{jitsu:1}],
+    ["c6","肥満・体格がよい・腹満","jitsu",{jitsu:1},"obese"],
+    ["c7","舌 紅・苔黄（燥）／脈 洪数・実","jitsu",{jitsu:1}],
+
+    ["d1","疲れたとき・食後・日中にほてる・微熱","kyo",{kyo:2}],
+    ["d2","体がだるい・気力がない","kyo",{kyo:2}],
+    ["d3","汗をかきやすい・かぜをひきやすい","kyo",{kyo:1}],
+    ["d4","胃腸が弱い・食欲不振・軟便","kyo",{kyo:1}],
+    ["d5","夏ばて・汗と口渇","kyo",{kyo:1,yin:1},"seisho"],
+    ["d6","不眠・不安・考えすぎ","kyo",{kyo:1},"kihi"],
+    ["d7","顔色不良・病後・術後","kyo",{kyo:1},"juzen"],
+    ["d8","舌 淡・歯痕／脈 虚大・無力","kyo",{kyo:1}],
+
+    ["s1","月経痛・下腹部の圧痛・舌の瘀点（瘀血）","stasis",{},"stasis"],
+    ["s2","顔はのぼせるのに足は冷える（上熱下寒）","stasis",{},"jonetsu"],
+    ["s3","手のひらのほてり＋唇の乾燥＋下腹部の冷え","stasis",{},"unkei"]
+  ],
+  redTitle:"先に確認（ほてりに隠れる疾患）",
+  red:[
+    ["r1","動悸・体重減少・手のふるえ・汗（甲状腺機能亢進症）"],
+    ["r2","微熱・寝汗・体重減少が続く（結核・悪性リンパ腫など）"],
+    ["r3","顔の赤み・ほてりが続く・毛細血管拡張（酒皶）"],
+    ["r4","薬剤性（Ca拮抗薬・硝酸薬・SSRI・タモキシフェン・アロマターゼ阻害薬・GnRH製剤など）"],
+    ["r5","発作的な顔面紅潮＋下痢（カルチノイド症候群）"],
+    ["r6","発作的な頭痛・動悸・高血圧（褐色細胞腫）"],
+    ["r7","高血圧が背景にある"]
+  ],
+  redMsg:r=>"背景疾患・薬剤の確認を並行してください。"
+    +(r.has("r1")?"<br>TSH・FT4を確認。":"")
+    +(r.has("r2")?"<br>血算・CRP・LDH・胸部X線で精査を。":"")
+    +(r.has("r3")?"<br>酒皶の治療（メトロニダゾール外用など）を並行。漢方は黄連解毒湯・白虎加人参湯・加味逍遥散・桂枝茯苓丸など。":"")
+    +(r.has("r4")?"<br>原因薬の見直しを。乳癌のホルモン療法中は主治医と相談のうえで。":"")
+    +(r.has("r5")?"<br>尿中5-HIAAを確認。":"")
+    +(r.has("r6")?"<br>血中・尿中メタネフリンを確認。":"")
+    +(r.has("r7")?"<br>降圧治療を優先。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="yin"){
+      if(has("sanmotsu")){rx="三物黄芩湯";why.push("手足が熱く布団から出したい → 「四肢煩熱に苦しむ」に。清熱涼血");}
+      else if(has("heart")){rx="酸棗仁湯 ＋ 六味丸";why.push("不眠・動悸・胸のざわつき（心陰虚）→ 天王補心丹の代わり");}
+      else if(has("night")){rx="滋陰降火湯";why.push("寝汗・潮熱・口の渇き → 滋陰降火（知母・黄柏を含み、知柏地黄丸の方意に近い）");}
+      else {rx="六味丸";why.push("陰虚の基本 → 腎陰を補い、虚熱を抑える（陰不制陽を正す）");}
+      if(has("kidney")&&rx!=="六味丸") why.push("腎陰虚（腰膝・耳鳴り）があれば六味丸を併用");
+      if(has("liveryin")) why.push("目の乾き・めまい（肝陰虚）→ 六味丸を土台に（杞菊地黄丸の方意）");
+    }
+    if(k==="kan"){
+      if(has("fire")){rx="竜胆瀉肝湯";why.push("頭痛・目の充血・口苦 → 肝火を冷ます");}
+      else if(has("ryukotsu")){rx="柴胡加竜骨牡蛎湯";why.push("不安・動悸・不眠 → 疏肝＋重鎮安神");}
+      else if(has("nyoshin")){rx="女神散";why.push("のぼせ・めまいが固定的に続く（血の道症）→ 理気＋清熱");}
+      else {rx="加味逍遥散";why.push("ストレスで急にカッと熱くなる・症状が移り変わる → 疏肝解鬱＋清熱");}
+    }
+    if(k==="jitsu"){
+      if(has("obese")){rx="防風通聖散";why.push("肥満・腹満の実証 → 表裏双解");}
+      else if(has("constip")){rx="三黄瀉心湯";why.push("のぼせ＋便秘 → 実火を大黄で下から抜く");}
+      else if(has("thirst")){rx="白虎加人参湯";why.push("強い口渇・大汗 → 気分の熱を冷まし、津液を補う");}
+      else {rx="黄連解毒湯";why.push("顔面紅潮・一日中の熱感 → 三焦の実熱を冷ます");}
+    }
+    if(k==="kyo"){
+      if(has("seisho")){rx="清暑益気湯";why.push("夏ばて・汗・口渇 → 益気生津");}
+      else if(has("kihi")){rx="加味帰脾湯";why.push("不眠・不安＋疲労 → 心脾を補い、柴胡・山梔子で虚熱を冷ます");}
+      else if(has("juzen")){rx="十全大補湯";why.push("顔色不良・病後 → 気血双補");}
+      else {rx="補中益気湯";why.push("疲れると・食後にほてる → 甘温除熱（冷やさず、温めて補う）");}
+    }
+    return {rx,why};
+  },
+  addons(has,top){
+    let h="";
+    if(has("unkei")) h+=`<div class="addon"><b>温経湯の証</b>：手のひらのほてり・唇の乾燥・下腹部の冷え → 温経湯（温めながら潤し、瘀血も除く）</div>`;
+    else if(has("jonetsu")) h+=`<div class="addon"><b>上熱下寒（冷えのぼせ）</b>：冷やす薬だけでは足の冷えが悪化する → 桂枝茯苓丸・加味逍遥散。冷えが強ければ温経湯。</div>`;
+    if(has("stasis")&&!has("unkei")) h+=`<div class="addon"><b>瘀血あり</b>：桂枝茯苓丸を併用（便秘・実証なら桃核承気湯）</div>`;
+    if(top) h+=`<div class="addon combo"><b>養生</b>：辛いもの・お酒・熱い風呂・夜更かしを控える。潤す食材（豆腐・山芋・黒ごま・梨・白きくらげ）を。</div>`;
+    return h;
+  },
+  combo:{
+    "kan+yin":"陰虚＋肝鬱（更年期に多い）→ 加味逍遥散＋六味丸、または滋陰降火湯",
+    "jitsu+yin":"虚熱か実熱か。舌紅・少苔・夕方〜夜なら陰虚（六味丸）、苔黄・一日中・便秘なら実熱（三黄瀉心湯）。混在すれば温清飲",
+    "jitsu+kan":"肝火＋実熱 → 黄連解毒湯・竜胆瀉肝湯。便秘なら大柴胡湯・三黄瀉心湯",
+    "kyo+yin":"気陰両虚 → 清暑益気湯、または補中益気湯＋六味丸",
+    "kan+kyo":"気虚＋肝鬱 → 加味帰脾湯、または加味逍遥散",
+    "jitsu+kyo":"虚実を見極める。疲れると悪化・温かいものを好むなら気虚発熱（補中益気湯）、口渇・冷たいもの・便秘なら実熱"
+  },
+  rx:{
+    yin:{
+      path:"加齢・慢性病・過労・ストレスで陰液（津液・血・腎精）が消耗し、陽気を制御できなくなる（陰虚則熱・陰不制陽）。くすぶる虚熱が上方や手足へ昇る。",
+      feat:"手足のひら・胸元がじりじり熱い（五心煩熱）。夕方〜夜の潮熱、寝汗、頬の紅潮、口や喉の渇き。",
+      tongue:"舌 紅・少苔・裂紋／脈 細数",
+      main:"六味丸／滋陰降火湯（知柏地黄丸の代用）／三物黄芩湯／酸棗仁湯＋六味丸",
+      groups:[["滋腎陰",["六味丸"]],["滋陰降火",["滋陰降火湯"]],["手足の煩熱",["三物黄芩湯"]],["心陰虚（不眠・動悸）",["酸棗仁湯"]]],
+      tcm:[["六味丸","医療用エキスあり（そのまま）"],["知柏地黄丸","医療用エキスなし → 滋陰降火湯（知母・黄柏を含む）、または六味丸＋黄連解毒湯を少量"],["天王補心丹","医療用エキスなし（一般用医薬品あり）→ 酸棗仁湯＋六味丸"],["大補陰丸","医療用エキスなし → 滋陰降火湯＋六味丸"],["（追加）","三物黄芩湯：「四肢煩熱に苦しむ」手足のほてりに"]],
+      alt:["温清飲：血虚＋熱、皮膚の乾燥や赤みも伴う","柴胡桂枝乾姜湯：寝汗・頭汗・動悸・口の乾き","加味逍遥散：更年期で症状が移り変わる"],
+      caution:["六味丸・滋陰降火湯・三物黄芩湯は地黄を含む → 胃もたれ","三物黄芩湯は黄芩を含む → 間質性肺炎・肝障害"]
+    },
+    kan:{
+      path:"ストレスや情緒の乱れで肝の疏泄が滞り（肝気鬱結）、滞った気が熱に化す（化火）。熱が経絡を伝って頭・顔・上半身へ一気に突き上げる。",
+      feat:"感情の起伏や緊張で、急に顔や首元がカッと熱くなる。イライラ・頭痛・目の充血・脇の張り・肩こり。",
+      tongue:"舌 辺縁紅・苔薄黄／脈 弦数",
+      main:"加味逍遥散／竜胆瀉肝湯／女神散／柴胡加竜骨牡蛎湯",
+      groups:[["肝鬱化火",["加味逍遥散"]],["肝火",["竜胆瀉肝湯"]],["血の道症",["女神散"]],["神志不安",["柴胡加竜骨牡蛎湯"]]],
+      tcm:[["加味逍遙散・竜胆瀉肝湯","医療用エキスあり（そのまま）"],["（追加）","女神散（のぼせ・めまいが固定的）、柴胡加竜骨牡蛎湯（不安・動悸）"]],
+      alt:["抑肝散：イライラ・食いしばり","大柴胡湯：胸脇苦満・便秘の実証","桂枝茯苓丸：瘀血を伴うのぼせ"],
+      caution:["竜胆瀉肝湯・女神散・柴胡加竜骨牡蛎湯は黄芩を含む","加味逍遥散は山梔子を含む → 長期では腸間膜静脈硬化症に注意"]
+    },
+    jitsu:{
+      path:"外からの風熱・暑邪、または飲食の不摂生（酒・辛いもの・脂っこいもの）で、胃腸や体内に実熱が充満する（陽盛）。熱が陰液を焼きつつ、全身や顔面に強い熱感をもたらす。",
+      feat:"一日中熱っぽい、顔面紅潮、強い口渇、大汗、便秘、イライラ。",
+      tongue:"舌 紅・苔黄（燥）／脈 洪数・実",
+      main:"黄連解毒湯／三黄瀉心湯／白虎加人参湯",
+      groups:[["三焦の実熱",["黄連解毒湯"]],["実熱＋便秘",["三黄瀉心湯"]],["気分の熱・口渇",["白虎加人参湯"]],["肥満の実証",["防風通聖散"]]],
+      tcm:[["三黄瀉心湯・白虎加人参湯・黄連解毒湯","医療用エキスあり（そのまま）"]],
+      alt:["大柴胡湯：胸脇苦満・便秘","半夏瀉心湯：胃熱・口内炎・心下痞","温清飲：熱が引いた後の乾燥＋赤み"],
+      caution:["苦寒薬は胃腸を冷やす → 短期で、症状が引いたら減量","三黄瀉心湯・防風通聖散は大黄を含む → 下痢"]
+    },
+    kyo:{
+      path:"脾胃の弱りで気が不足し、気の体温調節が乱れて熱が滞留する（気虚発熱）。李東垣の「甘温除熱」：冷やさず、温めて補って熱を除く。",
+      feat:"日中・食後・疲労時にほてる、微熱。体がだるい、汗をかきやすい、胃腸が弱い。",
+      tongue:"舌 淡・歯痕／脈 虚大・無力",
+      main:"補中益気湯（甘温除熱）／清暑益気湯／加味帰脾湯",
+      groups:[["甘温除熱",["補中益気湯"]],["気陰両虚",["清暑益気湯"]],["心脾両虚＋虚熱",["加味帰脾湯"]],["気血両虚",["十全大補湯"]]],
+      tcm:[["補中益気湯","医療用エキスあり（そのまま）。甘温除熱の代表方"]],
+      alt:["六君子湯：胃腸症状が主","人参養栄湯：高齢・咳・物忘れ","黄耆建中湯：虚弱・小児"],
+      caution:["気虚の熱に苦寒薬を使うと、かえってだるさが悪化する","補中益気湯・清暑益気湯は甘草を含む"]
+    }
+  },
+  cmpTitle:"ほてりの4証 比較",
+  cmpExtra:`<h3>時間帯と部位で見る</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th></th><th>時間帯</th><th>部位・特徴</th></tr>
+      <tr><td>① 陰虚</td><td>夕方〜夜（潮熱）</td><td>手のひら・足の裏・胸（五心煩熱）、寝汗</td></tr>
+      <tr><td>② 肝鬱</td><td>ストレス時に急に</td><td>顔・首・上半身、イライラ</td></tr>
+      <tr><td>③ 実熱</td><td>一日中</td><td>全身・顔面紅潮、口渇・便秘</td></tr>
+      <tr><td>④ 気虚</td><td>日中・食後・疲労時</td><td>全身の微熱感、だるさ・汗</td></tr>
+      <tr><td>上熱下寒</td><td>—</td><td>顔は熱いのに足は冷える（瘀血）</td></tr>
+    </table></div>
+    <p class="hint">実熱は冷ます（清熱）、虚熱は潤す（滋陰）、気虚の熱は温めて補う（甘温除熱）。同じほてりでも治し方の方向が逆になる。</p>`,
+  pt:{
+    yin:{t:"潤い不足でくすぶる「ほてり」",b:"年齢や疲れ、ストレスで体の潤い（陰）が減り、熱を抑えきれなくなって、内側から熱がくすぶっている状態です。手のひらや足の裏がじりじり熱い、夕方から夜にほてる、寝汗が出るのが特徴です。<br><br>お薬で潤いを補い、こもった熱を静めます。<br><br><b>生活のポイント</b>：夜更かしを避ける（夜は潤いを養う時間）／辛いもの・お酒・熱すぎる風呂を控える／豆腐・山芋・黒ごまなど潤す食材を"},
+    kan:{t:"ストレスで「カッと上る」ほてり",b:"ストレスや気持ちの揺れで気の巡りが詰まり、それが熱に変わって顔や首に一気に突き上げている状態です。イライラや頭痛、肩こりを伴いやすくなります。<br><br>お薬で気の巡りを整え、上った熱を下ろします。<br><br><b>生活のポイント</b>：深呼吸・ストレッチで緊張をほどく／睡眠をしっかりとる／カフェイン・お酒を控えめに"},
+    jitsu:{t:"体の中の「熱が多すぎる」ほてり",b:"お酒や辛いもの、脂っこいものなどで体の中に熱がたまりすぎ、一日中熱っぽく、顔が赤くなっている状態です。口の渇きや便秘を伴いやすくなります。<br><br>お薬で余分な熱を冷まし、外へ出します。<br><br><b>生活のポイント</b>：お酒・辛いもの・揚げ物を控える／野菜・果物・水分をしっかり／便通を整える"},
+    kyo:{t:"エネルギー不足で出る「ほてり」",b:"胃腸が弱ってエネルギー（気）が不足すると、体温の調節がうまくいかず、疲れたときや食後にほてりや微熱が出ることがあります。冷やすのではなく、元気を補うことで熱が引いていきます。<br><br>お薬で胃腸と元気を補います。<br><br><b>生活のポイント</b>：無理をせず休む／温かく消化のよい食事を／冷たいもの・食べ過ぎを避ける"}
+  },
+  formulas:["六味丸","滋陰降火湯","三物黄芩湯","酸棗仁湯","温清飲","加味逍遥散","竜胆瀉肝湯","女神散","柴胡加竜骨牡蛎湯","黄連解毒湯","三黄瀉心湯","白虎加人参湯","防風通聖散","補中益気湯","清暑益気湯","加味帰脾湯","十全大補湯","桂枝茯苓丸","温経湯"]
+},
+/* ---------- 肥満 ---------- */
+himan:{
+  label:"肥満", sub:"水太り・固太り・腎陽・肝鬱 × エキス剤",
+  intro:`<h3>水太り（虚）か、固太り（実）か</h3>
+    <p style="margin:4px 0">脾の運化が衰えて水湿・痰湿が肌肉にたまる<b>水太り</b>（①③）と、過食で胃に熱がこもり便秘で老廃物が出ない<b>固太り・太鼓腹</b>（②）。ストレスが脾を妨げる（肝木乗土 ④）。</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px;font-size:.9rem">
+      <span>身長</span><input id="bh" type="number" inputmode="decimal" placeholder="cm" style="width:5em;padding:6px;border:1.5px solid var(--line);border-radius:8px;font:inherit"
+        oninput="var h=+document.getElementById('bh').value/100,w=+document.getElementById('bw').value,o=document.getElementById('bmiout');if(h>0&&w>0){var b=w/h/h;o.textContent='BMI '+b.toFixed(1)+'（'+(b<18.5?'低体重':b<25?'普通体重':b<30?'肥満1度':b<35?'肥満2度':b<40?'肥満3度・高度肥満':'肥満4度・高度肥満')+'）'}else{o.textContent=''}">
+      <span>体重</span><input id="bw" type="number" inputmode="decimal" placeholder="kg" style="width:5em;padding:6px;border:1.5px solid var(--line);border-radius:8px;font:inherit"
+        oninput="document.getElementById('bh').oninput()">
+      <b id="bmiout" style="color:var(--shu)"></b>
+    </div>`,
+  types:{
+    hi:{no:"①",name:"脾虚・水湿内停（水太り）",bar:"①水太り",seg:"①水太り",color:"var(--kincha)"},
+    i:{no:"②",name:"胃熱・大腸実熱（太鼓腹）",bar:"②太鼓腹",seg:"②太鼓腹",color:"var(--shu)"},
+    jin:{no:"③",name:"腎陽不足",bar:"③腎陽不足",seg:"③腎陽",color:"var(--ai)"},
+    kan:{no:"④",name:"肝鬱気滞（肝木乗土）",bar:"④肝鬱",seg:"④肝鬱",color:"var(--matsuba)"}
+  },
+  groups:[
+    ["hi","① 脾虚・水湿内停","虚証・水太り","var(--kincha)"],
+    ["i","② 胃熱・大腸実熱","実証・太鼓腹","var(--shu)"],
+    ["jin","③ 腎陽不足","ボイラーの冷え","var(--ai)"],
+    ["kan","④ 肝鬱気滞","ストレス・肝木乗土","var(--matsuba)"],
+    ["stasis","兼証：瘀血","月経・便秘","var(--oketsu)"]
+  ],
+  sx:[
+    ["a1","筋肉が柔らかい・ぷよぷよした水太り","hi",{hi:2}],
+    ["a2","汗をかきやすい・疲れやすい","hi",{hi:2},"sweat"],
+    ["a3","下半身や全身がむくむ・膝が痛い","hi",{hi:1},"boi"],
+    ["a4","胃腸が弱い・食後に眠い・軟便","hi",{hi:1},"spxu"],
+    ["a5","口渇があるのに尿が少ない","hi",{hi:1},"goreisan"],
+    ["a6","冷え・月経不順・色白（女性）","hi",{hi:1,jin:1},"tokishaku"],
+    ["a7","頭が重い・痰が多い（痰湿）","hi",{hi:1}],
+    ["a8","舌 胖大・歯痕・苔白膩／脈 濡緩","hi",{hi:1}],
+
+    ["b1","がっちり体型・腹が固く張り出す（太鼓腹）","i",{i:2}],
+    ["b2","便秘がち","i",{i:2},"constip"],
+    ["b3","食欲旺盛・食べてもすぐお腹がすく（消穀善飢）","i",{i:1}],
+    ["b4","顔面紅潮・のぼせ・暑がり","i",{i:1},"heat"],
+    ["b5","胸脇苦満・肩こり・ストレスで食べる","i",{i:1,kan:1},"daisaiko"],
+    ["b6","口渇・冷たいものを多飲する","i",{i:1},"thirst"],
+    ["b7","脂っこいもの・甘いもの・飲酒が多い","i",{i:1}],
+    ["b8","舌 紅・苔黄厚／脈 滑実","i",{i:1}],
+
+    ["c1","中年以降・加齢とともに太りだした","jin",{jin:2}],
+    ["c2","冷え・寒がり・腰膝のだるさ","jin",{jin:2}],
+    ["c3","下肢のむくみ・しびれ","jin",{jin:1},"goshajin"],
+    ["c4","夜間頻尿・尿の出が悪い","jin",{jin:1}],
+    ["c5","水様の下痢・めまい・ふらつき","jin",{jin:1},"shinbu"],
+    ["c6","舌 淡胖・苔白滑／脈 沈遅","jin",{jin:1}],
+
+    ["d1","ストレスで過食する・気分で食べる","kan",{kan:2}],
+    ["d2","イライラ・脇の張り・ため息","kan",{kan:2}],
+    ["d3","不安・動悸・不眠","kan",{kan:1},"ryukotsu"],
+    ["d4","月経前に過食・のぼせ（女性）","kan",{kan:1},"meno"],
+    ["d5","ガス・腹の張り（気滞）","kan",{kan:1}],
+    ["d6","舌 辺縁紅／脈 弦","kan",{kan:1}],
+
+    ["s1","月経痛・下腹部の圧痛・舌の瘀点（瘀血）","stasis",{},"stasis"],
+    ["s2","瘀血＋便秘・のぼせ（実証）","stasis",{},"tsudo"]
+  ],
+  redTitle:"先に確認（二次性肥満・合併症）",
+  red:[
+    ["r1","満月様顔貌・中心性肥満・赤紫色の皮膚線条（クッシング症候群）"],
+    ["r2","寒がり・むくみ・便秘・声が低い（甲状腺機能低下症）"],
+    ["r3","月経不順・多毛・ニキビ（多嚢胞性卵巣症候群）"],
+    ["r4","首・腋の黒ずみやざらつき（黒色表皮腫：インスリン抵抗性）"],
+    ["r5","薬剤性（ステロイド・抗精神病薬・インスリン・SU薬など）"],
+    ["r6","いびき・日中の強い眠気（睡眠時無呼吸）"],
+    ["r7","急な体重増加＋むくみ・息切れ（心不全・腎疾患・肝疾患）"],
+    ["r8","BMI 35以上、または糖尿病・高血圧・脂質異常症を合併"]
+  ],
+  redMsg:r=>"二次性肥満と合併症を評価してください。"
+    +(r.has("r1")?"<br>コルチゾール・ACTH（デキサメタゾン抑制試験）を。":"")
+    +(r.has("r2")?"<br>TSH・FT4を確認。":"")
+    +(r.has("r3")?"<br>婦人科・内分泌の評価を。":"")
+    +(r.has("r4")?"<br>血糖・HbA1c・インスリンを確認。":"")
+    +(r.has("r5")?"<br>原因薬を見直す。":"")
+    +(r.has("r6")?"<br>睡眠検査を。":"")
+    +(r.has("r7")?"<br>体重増加が脂肪とは限らない → 水分貯留として精査を。":"")
+    +(r.has("r8")?"<br>肥満症として食事・運動療法を基本に、薬物療法（GLP-1受容体作動薬など。適応基準あり）や専門施設への紹介を検討。漢方は補助として。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="hi"){
+      if(has("sweat")||has("boi")){rx="防己黄耆湯";why.push("汗かき・むくみ・膝痛の水太り → 益気利水（水太り体質の改善剤）");}
+      else if(has("tokishaku")){rx="当帰芍薬散";why.push("冷え・月経不順・むくみ → 養血利水");}
+      else if(has("spxu")){rx="六君子湯";why.push("胃腸虚弱 → 脾を補い、痰湿の源を断つ");}
+      else if(has("goreisan")){rx="五苓散";why.push("口渇・尿不利・むくみ → 利水");}
+      else {rx="防己黄耆湯";why.push("脾虚・水湿の水太り → 益気利水");}
+    }
+    if(k==="i"){
+      if(has("daisaiko")){rx="大柴胡湯";why.push("胸脇苦満・肩こり・ストレス食い → 疏肝＋瀉下");}
+      else if(has("thirst")){rx="白虎加人参湯";why.push("口渇・冷たいものを多飲 → 胃熱を冷まし、津液を補う（糖尿病の確認を）");}
+      else {rx="防風通聖散";why.push("太鼓腹・便秘・のぼせ → 表裏双解で、熱と老廃物を汗・便・尿から出す");}
+      if(has("heat")&&has("constip")&&rx!=="防風通聖散") why.push("のぼせ＋便秘が強ければ三黄瀉心湯を併用");
+      why.push("虚証（筋肉が柔らかい・汗かき・胃腸が弱い）には使わない");
+    }
+    if(k==="jin"){
+      if(has("goshajin")){rx="牛車腎気丸";why.push("下肢のむくみ・しびれ → 温腎利水（済生腎気丸と同じ構成）");}
+      else if(has("shinbu")){rx="真武湯";why.push("水様の下痢・ふらつき → 温陽利水");}
+      else {rx="八味地黄丸";why.push("加齢・冷え・腰膝のだるさ → 腎陽を補い、水の気化を回復（金匱腎気丸の代わり）");}
+    }
+    if(k==="kan"){
+      if(has("daisaiko")){rx="大柴胡湯";why.push("胸脇苦満・便秘の実証 → 疏肝＋瀉下");}
+      else if(has("ryukotsu")){rx="柴胡加竜骨牡蛎湯";why.push("不安・動悸・不眠 → 疏肝＋安神");}
+      else {rx="加味逍遥散";why.push("ストレスで脾が妨げられる（肝木乗土）→ 疏肝健脾");if(!has("meno"))why.push("男性・腹直筋の緊張が強ければ四逆散");}
+    }
+    return {rx,why};
+  },
+  addons(has,top){
+    let h="";
+    if(has("tsudo")) h+=`<div class="addon"><b>瘀血＋便秘の実証</b>：通導散・桃核承気湯を併用（妊娠中は避ける）</div>`;
+    else if(has("stasis")) h+=`<div class="addon"><b>瘀血あり</b>：桂枝茯苓丸を併用</div>`;
+    if(top) h+=`<div class="addon combo"><b>基本</b>：食事・運動療法が土台で、漢方は体質面から補う。体重は月に1〜2kgを目安に、ゆっくり減らす。</div>`;
+    return h;
+  },
+  combo:{
+    "hi+i":"虚実を見極める。筋肉が柔らかく汗かきなら防己黄耆湯、腹が固く便秘なら防風通聖散。混在すれば防己黄耆湯＋防風通聖散（少量から）",
+    "hi+jin":"脾腎陽虚の水太り → 防己黄耆湯＋八味地黄丸、または真武湯",
+    "hi+kan":"肝木乗土（ストレスで脾が弱る）→ 加味逍遥散＋六君子湯、または柴胡桂枝湯",
+    "i+kan":"肝鬱＋胃熱・便秘 → 大柴胡湯",
+    "i+jin":"上実下虚 → 大柴胡湯または防風通聖散を少量＋八味地黄丸。虚実を慎重に",
+    "jin+kan":"腎虚＋肝鬱 → 加味逍遥散＋八味地黄丸"
+  },
+  rx:{
+    hi:{
+      path:"過労・冷たいもの・飲食不節で脾気（脾陽）が衰え、水液を運化できない。余った水湿が痰湿となって皮下・肌肉にたまる。",
+      feat:"筋肉が柔らかい、ぷよぷよした水太り。疲れやすい、汗をかきやすい、下半身や全身のむくみ、膝の痛み。",
+      tongue:"舌 胖大・歯痕・苔白膩／脈 濡緩",
+      main:"防己黄耆湯／六君子湯／当帰芍薬散／五苓散",
+      groups:[["益気利水（水太り）",["防己黄耆湯"]],["健脾化痰",["六君子湯","二陳湯"]],["血虚＋水滞（女性）",["当帰芍薬散"]],["利水",["五苓散"]]],
+      tcm:[["防己黄耆湯","医療用エキスあり（「汗っかきで水太り体質の改善剤」）"],["参苓白朮散","医療用エキスなし → 構成が近い啓脾湯"]],
+      alt:["啓脾湯：胃腸虚弱・軟便が主","半夏白朮天麻湯：痰湿で頭重・めまい","九味檳榔湯：むくみ・倦怠感・便秘傾向"],
+      caution:["防己黄耆湯は甘草を含む → 偽アルドステロン症（むくみの悪化）に注意","水太りに防風通聖散を使うと、下痢・脱力で体力を落とす"]
+    },
+    i:{
+      path:"暴飲暴食・脂っこいもの・甘いもので胃に実熱がこもり、消化が異常に早まる（消穀善飢）。熱が大腸に及んで便秘となり、老廃物・熱・脂が腹にたまって太鼓腹をつくる。",
+      feat:"体力が旺盛、がっちり体型、腹回りが太く固い。便秘、顔面紅潮・のぼせ、食欲旺盛。",
+      tongue:"舌 紅・苔黄厚／脈 滑実",
+      main:"防風通聖散／大柴胡湯",
+      groups:[["表裏双解（太鼓腹）",["防風通聖散"]],["疏肝＋瀉下（胸脇苦満）",["大柴胡湯"]],["実熱＋便秘",["三黄瀉心湯","大承気湯"]],["胃熱・口渇",["白虎加人参湯"]]],
+      tcm:[["防風通聖散","医療用エキスあり（「漢方のやせ薬」。太鼓腹の卒中体質）"],["（追加）","大柴胡湯（胸脇苦満・肩こり）、三黄瀉心湯（のぼせ・便秘）"]],
+      alt:["調胃承気湯：便秘が主","黄連解毒湯：のぼせ・赤ら顔で便秘はない","通導散：瘀血＋気滞の実証"],
+      caution:["防風通聖散：麻黄（動悸・血圧上昇）・大黄（下痢）・甘草・黄芩・山梔子を含む。肝障害・間質性肺炎の報告あり","虚証には使わない。「飲むだけでやせる薬」ではないことを説明"]
+    },
+    jin:{
+      path:"腎陽（命門の火）は全身の水液を気化する根本のエンジン。加齢や体調不良で腎陽が衰えると三焦の気化が弱まり、水湿・痰湿が下焦や全身にたまる。",
+      feat:"中年以降・加齢とともに太る。冷え、腰膝のだるさ、下肢のむくみ、夜間頻尿。",
+      tongue:"舌 淡胖・苔白滑／脈 沈遅",
+      main:"八味地黄丸／牛車腎気丸／真武湯",
+      groups:[["温補腎陽",["八味地黄丸"]],["温腎利水",["牛車腎気丸","真武湯"]]],
+      tcm:[["金匱腎気丸","医療用は「八味地黄丸」"],["済生腎気丸","医療用は「牛車腎気丸」（同じ構成）"]],
+      alt:["苓桂朮甘湯：めまい・立ちくらみ・動悸","当帰芍薬散：冷え・むくみの女性","防己黄耆湯：①の水太りを伴う"],
+      caution:["八味地黄丸・牛車腎気丸・真武湯は附子を含む","地黄で胃もたれしやすい"]
+    },
+    kan:{
+      path:"ストレスで肝の疏泄が滞り（肝気鬱結）、気の巡りが塞がれて脾胃の運化を妨げる（肝木乗土）。代謝が落ち、ストレス食いも加わって痰湿が増える。",
+      feat:"ストレスで過食する、イライラ・脇の張り・ため息、ガス・腹の張り。月経前の過食。",
+      tongue:"舌 辺縁紅／脈 弦",
+      main:"加味逍遥散／大柴胡湯／柴胡加竜骨牡蛎湯／四逆散",
+      groups:[["疏肝健脾",["加味逍遥散"]],["疏肝＋瀉下（実証）",["大柴胡湯"]],["疏肝＋安神",["柴胡加竜骨牡蛎湯"]],["疏肝理気",["四逆散"]]],
+      tcm:[["逍遙散","医療用エキスなし → 加味逍遙散"],["柴胡疏肝散","医療用エキスなし → 四逆散"]],
+      alt:["抑肝散：イライラ・食いしばり","半夏厚朴湯：気鬱・喉のつかえ","柴胡桂枝湯：ストレス＋胃腸の弱り"],
+      caution:["大柴胡湯・柴胡加竜骨牡蛎湯は黄芩を含む","加味逍遥散は山梔子を含む"]
+    }
+  },
+  cmpTitle:"肥満の4証 比較",
+  cmpExtra:`<h3>水太りと固太り</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th></th><th>水太り（①③）</th><th>固太り・太鼓腹（②）</th></tr>
+      <tr><td>筋肉</td><td>柔らかい・ぷよぷよ</td><td>固い・がっちり</td></tr>
+      <tr><td>汗・むくみ</td><td>汗かき・むくみやすい</td><td>暑がり・のぼせ</td></tr>
+      <tr><td>腹</td><td>柔らかく垂れる</td><td>固く張り出す</td></tr>
+      <tr><td>便</td><td>軟便〜普通</td><td>便秘</td></tr>
+      <tr><td>体力</td><td>疲れやすい</td><td>旺盛</td></tr>
+      <tr><td>代表方</td><td>防己黄耆湯</td><td>防風通聖散</td></tr>
+    </table></div>
+    <p class="hint">日本肥満学会：BMI 25以上で、肥満による健康障害（またはその予測される内臓脂肪蓄積）があれば「肥満症」。BMI 35以上は高度肥満。漢方は食事・運動療法の補助として使い、体質を見誤ると逆効果になる（虚証への防風通聖散など）。</p>`,
+  pt:{
+    hi:{t:"胃腸の弱りによる「水太り」",b:"胃腸（脾）の働きが弱ると、体の中の水分をうまく巡らせられず、余分な水がたまってぷよぷよした体型になります。汗をかきやすい、むくみやすい、疲れやすいのが特徴です。<br><br>お薬で胃腸と体の水はけを整えます。<br><br><b>生活のポイント</b>：冷たい飲み物・甘いもの・食べ過ぎを控える／よく噛んで腹八分目に／軽い筋トレで筋肉をつける"},
+    i:{t:"食べ過ぎと熱がこもる「固太り」",b:"食べ過ぎや脂っこいもの、甘いものが続いて胃腸に熱がこもり、食欲が止まらず、便秘で余分なものが外へ出にくくなっている状態です。お腹が固く張り出すのが特徴です。<br><br>お薬で体の中の熱と余分なものを、便や汗から外へ出します。<br><br><b>生活のポイント</b>：夜遅い食事・揚げ物・お酒を控える／野菜から先に食べる／便通を整える／有酸素運動を"},
+    jin:{t:"年齢とともに「代謝の火」が弱まる肥満",b:"東洋医学では、体の水を温めて巡らせるボイラーの役割を「腎」が担うと考えます。年齢とともにこの火が弱まると、水が下半身などにたまりやすくなります。冷えやむくみ、夜間のトイレを伴いやすいのが特徴です。<br><br>お薬で腎を温め、代謝の火を取り戻します。<br><br><b>生活のポイント</b>：足腰を冷やさない／ウォーキングなどで足腰を使う／冷たい飲食を控える"},
+    kan:{t:"ストレスで巡りが滞る肥満",b:"ストレスで気の巡りが滞ると、胃腸の働きが妨げられ、気分で食べてしまったり、代謝が落ちたりします。イライラや、お腹の張りを伴いやすくなります。<br><br>お薬で気の巡りを整え、胃腸の働きを助けます。<br><br><b>生活のポイント</b>：ストレス発散を食べること以外で（散歩・入浴・趣味）／食事の時間を決める／十分な睡眠"}
+  },
+  formulas:["防己黄耆湯","六君子湯","二陳湯","当帰芍薬散","五苓散","啓脾湯","防風通聖散","大柴胡湯","三黄瀉心湯","大承気湯","白虎加人参湯","八味地黄丸","牛車腎気丸","真武湯","加味逍遥散","柴胡加竜骨牡蛎湯","四逆散","桂枝茯苓丸","通導散","桃核承気湯"]
+},
+/* ---------- 季節：夏→秋 ---------- */
+natsuaki:{
+  label:"夏→秋", sub:"秋バテ・燥・憂い × 養生と漢方",
+  intro:`<h3>秋口の不調はどこから来るか</h3>
+    <p style="margin:4px 0">① 夏の疲れによる<b>脾胃の弱り</b>（冷たい飲食・湿・多汗による気の消耗）と、② 秋の燥・涼気による<b>肺の揺らぎ</b>（乾燥・バリア機能・「悲・憂」の感情）が重なって起こる。</p>
+    <p class="hint" style="margin:4px 0">陽消陰長：外向き・活動的な夏から、内向き・静かな秋へ。無理に元気を出さず、温めてゆったり「収める」季節。</p>`,
+  types:{
+    hi:{no:"①",name:"脾虚湿困（夏の胃腸のダメージ）",bar:"①脾虚湿困",seg:"①脾胃",color:"var(--kincha)"},
+    ki:{no:"②",name:"気津両傷（多汗による消耗）",bar:"②気津両傷",seg:"②気虚",color:"var(--shu)"},
+    hai:{no:"③",name:"肺燥・肺気不足（秋の乾燥）",bar:"③肺燥",seg:"③肺燥",color:"var(--ai)"},
+    yu:{no:"④",name:"悲憂傷肺・気消（物悲しさ）",bar:"④悲憂",seg:"④憂い",color:"var(--oketsu)"}
+  },
+  groups:[
+    ["hi","① 脾虚湿困","秋バテの怠さ・胃腸","var(--kincha)"],
+    ["ki","② 気津両傷","夏の汗で気が漏れた","var(--shu)"],
+    ["hai","③ 肺燥・肺気不足","乾燥・バリアの揺らぎ","var(--ai)"],
+    ["yu","④ 悲憂傷肺","悲しめば則ち気消ゆ","var(--oketsu)"]
+  ],
+  sx:[
+    ["a1","食欲不振・胃もたれ・食後に眠い","hi",{hi:2},"gastric"],
+    ["a2","体が重だるい・手足に力が入らない（身倦乏力）","hi",{hi:2,ki:1}],
+    ["a3","夏に冷たい飲み物・アイスを摂りすぎた","hi",{hi:1}],
+    ["a4","お腹が冷える・軟便・下痢しやすい","hi",{hi:1},"coldbelly"],
+    ["a5","むくみ・頭が重い・口が粘る（湿）","hi",{hi:1},"damp"],
+    ["a6","舌 胖大・歯痕・苔白膩／脈 濡緩","hi",{hi:1}],
+
+    ["b1","夏にたくさん汗をかいた・今も汗をかきやすい","ki",{ki:2},"sweat"],
+    ["b2","疲れやすい・息切れ・声に力がない","ki",{ki:2}],
+    ["b3","口や喉が渇く・尿が少ない","ki",{ki:1,hai:1},"thirst"],
+    ["b4","朝起きられない・夕方にぐったりする","ki",{ki:1}],
+    ["b5","気温の変化についていけない・かぜをひきやすい","ki",{ki:1,hai:1},"eiki"],
+    ["b6","舌 淡紅〜紅・乾き気味／脈 虚弱","ki",{ki:1}],
+
+    ["c1","空咳・喉のイガイガ・痰が少なく切れにくい","hai",{hai:2},"cough"],
+    ["c2","皮膚の乾燥・かゆみ（秋口の乾燥肌）","hai",{hai:2},"dryskin"],
+    ["c3","鼻・口・目の乾燥","hai",{hai:1}],
+    ["c4","便が硬い・コロコロ便","hai",{hai:1},"constip"],
+    ["c5","手足のほてり・寝汗・夜に咳が出る（陰虚）","hai",{hai:1},"yin"],
+    ["c6","舌 紅・少苔・乾燥／脈 細","hai",{hai:1}],
+
+    ["d1","物悲しい・寂しい・涙もろい","yu",{yu:2},"sad"],
+    ["d2","気力が出ない・ため息が多い","yu",{yu:2,ki:1}],
+    ["d3","不安・考えすぎ・眠りが浅い","yu",{yu:1},"kihi"],
+    ["d4","喉のつかえ・胸がふさがる感じ","yu",{yu:1},"hange"],
+    ["d5","気分が晴れない・胃腸も弱い（軽い気鬱）","yu",{yu:1,hi:1},"koso"],
+    ["d6","日が短くなると沈む・過眠・甘いものが欲しい","yu",{yu:1},"sad2"],
+    ["d7","舌 淡／脈 弱","yu",{yu:1}]
+  ],
+  redTitle:"先に確認（季節の不調に隠れる疾患）",
+  red:[
+    ["r1","2週間以上続く抑うつ・興味の喪失・希死念慮（うつ病）"],
+    ["r2","毎年秋〜冬に気分が落ち込み、過眠・過食（季節性感情障害）"],
+    ["r3","体重減少・微熱・寝汗（感染症・悪性腫瘍）"],
+    ["r4","寒がり・むくみ・体重増加・便秘（甲状腺機能低下症）"],
+    ["r5","動悸・息切れ・顔色不良（貧血）"],
+    ["r6","口渇・多尿・体重減少（糖尿病）"],
+    ["r7","いびき・日中の強い眠気（睡眠時無呼吸）"]
+  ],
+  redMsg:r=>"疲労・気分の落ち込みの背景疾患を確認してください。"
+    +(r.has("r1")?"<br>精神科・心療内科と連携を。希死念慮があれば当日中に対応。":"")
+    +(r.has("r2")?"<br>朝の光（光療法）と規則的な生活を。漢方は補助として。":"")
+    +(r.has("r3")?"<br>血液検査・画像で精査を。":"")
+    +(r.has("r4")?"<br>TSH・FT4を確認。":"")
+    +(r.has("r5")?"<br>血算・フェリチンを確認。":"")
+    +(r.has("r6")?"<br>血糖・HbA1cを確認。":""),
+  recommend(k,has){
+    const why=[]; let rx;
+    if(k==="hi"){
+      if(has("coldbelly")){rx="人参湯";why.push("お腹の冷え・軟便 → 冷えて弱った脾陽を温めて補う");}
+      else if(has("damp")&&!has("gastric")){rx="胃苓湯";why.push("むくみ・頭重・口の粘り → 湿を除き、脾を立て直す");}
+      else if(has("gastric")){rx="六君子湯";why.push("食欲不振・胃もたれ → 健脾和胃");}
+      else {rx="補中益気湯";why.push("秋バテの重だるさ → 脾気を補い、上へ持ち上げる（脾は肌肉・四肢を主る）");}
+    }
+    if(k==="ki"){
+      if(has("sweat")||has("thirst")){rx="清暑益気湯";why.push("夏の汗で気と潤いを失った → 益気生津（生脈散の人参・麦門冬・五味子を含む）");}
+      else {rx="補中益気湯";why.push("疲労・息切れ・気温変化への弱さ → 益気固表");}
+      if(has("eiki")&&rx!=="補中益気湯") why.push("かぜをひきやすければ補中益気湯（衛気を補う）");
+    }
+    if(k==="hai"){
+      if(has("cough")&&has("yin")){rx="滋陰降火湯";why.push("夜の空咳・ほてり → 滋陰潤肺・降火");}
+      else if(has("cough")){rx="麦門冬湯";why.push("空咳・喉のイガイガ → 潤肺降逆（秋燥の代表）");}
+      else if(has("dryskin")){rx="当帰飲子";why.push("秋口の乾燥肌のかゆみ → 養血潤燥（「痒み」テーマ③と同じ考え方）");}
+      else if(has("constip")){rx="麻子仁丸";why.push("硬い便 → 潤腸（肺と大腸は表裏）");}
+      else {rx="麦門冬湯";why.push("乾燥・肺の潤い不足 → 潤肺");}
+      if(has("dryskin")&&rx!=="当帰飲子") why.push("乾燥肌のかゆみがあれば当帰飲子を併用");
+    }
+    if(k==="yu"){
+      if(has("sad")){rx="甘麦大棗湯";why.push("物悲しい・涙もろい → 「喜悲傷して哭せんと欲す」に。心を養い、急迫を緩める");}
+      else if(has("kihi")){rx="加味帰脾湯";why.push("不安・考えすぎ・眠りが浅い → 心脾を補う");}
+      else if(has("hange")){rx="半夏厚朴湯";why.push("喉のつかえ・胸のふさがり → 行気解鬱");}
+      else if(has("koso")){rx="香蘇散";why.push("晴れない気分＋胃腸の弱さ → 穏やかに気を巡らせる");}
+      else {rx="補中益気湯";why.push("気力が出ない → 悲憂で消耗した気を補う（悲しめば則ち気消ゆ）");}
+      if(has("sad2")) why.push("日照時間と関連する落ち込み → 朝の光を浴びる・起床時刻を一定に");
+    }
+    return {rx,why};
+  },
+  addons(has,top){
+    const Y={
+      hi:"<b>食</b>：温かく消化のよいもの（お粥・かぼちゃ・山芋・さつまいも）、冷たい飲食を控える／<b>ツボ</b>：太白・足三里・中脘を温める",
+      ki:"<b>食</b>：山芋・鶏肉・なつめ・もち米で気を補う／<b>運動</b>：汗をかきすぎない散歩・ストレッチ／<b>ツボ</b>：足三里・気海",
+      hai:"<b>食</b>：白い食材（白きくらげ・梨・大根・蓮根・百合根・豆腐・はちみつ）で潤す／<b>生活</b>：加湿・入浴後の保湿・深呼吸／<b>ツボ</b>：太淵・尺沢",
+      yu:"<b>生活</b>：早寝早起き（秋は鶏とともに起きる）、日中の散歩と深呼吸、焦らずゆったり／<b>ツボ</b>：膻中・内関・神門"
+    };
+    return top?`<div class="addon combo"><b>養生</b>　${Y[top]}</div>`:"";
+  },
+  combo:{
+    "hi+ki":"脾虚＋気虚（典型的な秋バテ）→ 補中益気湯。汗・口渇が残れば清暑益気湯",
+    "hai+ki":"気陰両虚（汗で気と潤いを失い、秋の燥へ）→ 清暑益気湯（麦門冬・五味子）、または麦門冬湯",
+    "hai+hi":"脾肺両虚（土生金：脾が弱ると肺も弱る）→ 六君子湯＋麦門冬湯、または補中益気湯",
+    "ki+yu":"悲しめば則ち気消ゆ → 補中益気湯。不安・不眠があれば加味帰脾湯",
+    "hi+yu":"思えば脾を傷る → 加味帰脾湯（帰脾湯）",
+    "hai+yu":"肺の憂い＋燥 → 甘麦大棗湯＋麦門冬湯、または半夏厚朴湯"
+  },
+  rx:{
+    hi:{
+      path:"夏の暑邪・湿邪や冷たい飲食で中焦が傷み、脾の運化が低下（湿困脾陽・脾気虚）。脾は肌肉・四肢を主るため、手足や筋肉に気血が届かない。",
+      feat:"全身の重だるさ・無力感（身倦乏力）。食欲不振・胃もたれ・食後の眠気。軟便、むくみ、頭重。",
+      tongue:"舌 胖大・歯痕・苔白膩／脈 濡緩",
+      main:"補中益気湯／六君子湯／人参湯／胃苓湯",
+      groups:[["補気升陽",["補中益気湯"]],["健脾和胃",["六君子湯","啓脾湯"]],["脾陽を温める",["人参湯"]],["湿を除く",["胃苓湯"]]],
+      tcm:[["補中益気湯・六君子湯","医療用エキスあり（そのまま）"],["参苓白朮散","医療用エキスなし → 構成が近い啓脾湯、または六君子湯"]],
+      alt:["清暑益気湯：汗・口渇など夏バテの名残が強い","半夏白朮天麻湯：頭重・めまいを伴う","真武湯：冷え・水様の下痢が強い"],
+      caution:["六君子湯・補中益気湯・人参湯は甘草を含む","冷たい飲食を控えることが治療の一部"]
+    },
+    ki:{
+      path:"汗は津液から作られ、衛気によって留められている。夏の大量の汗で津液とともに気も漏れ出し（気随津脱）、気虚のまま秋の涼気を迎える。",
+      feat:"疲れやすい・息切れ・声に力がない。汗をかきやすい、口が渇く。気温の変化についていけない、かぜをひきやすい。",
+      tongue:"舌 淡紅〜紅・乾き気味／脈 虚弱",
+      main:"清暑益気湯（生脈散の代用）／補中益気湯",
+      groups:[["益気生津",["清暑益気湯"]],["益気固表",["補中益気湯"]],["気血双補",["十全大補湯"]]],
+      tcm:[["生脈散（人参・麦門冬・五味子）","医療用エキスなし → 清暑益気湯（生脈散の3味を含む）"]],
+      alt:["防己黄耆湯：汗かき・水太り・むくみ","黄耆建中湯：虚弱で寝汗・腹痛","人参養栄湯：疲労＋咳・不眠・高齢"],
+      caution:["清暑益気湯・補中益気湯は甘草を含む"]
+    },
+    hai:{
+      path:"秋は燥の季節で、燥邪は肺を傷りやすい（肺は潤を好み燥を嫌う）。肺は皮毛を主り、大腸と表裏をなすため、皮膚・鼻・喉・便にも乾燥が出る。",
+      feat:"空咳・喉のイガイガ・痰が少ない。皮膚・鼻・口・目の乾燥、乾燥肌のかゆみ。便が硬い。",
+      tongue:"舌 紅・少苔・乾燥／脈 細",
+      main:"麦門冬湯／当帰飲子（乾燥肌）／滋陰降火湯",
+      groups:[["潤肺降逆",["麦門冬湯"]],["滋陰潤肺（夜の咳・ほてり）",["滋陰降火湯"]],["皮膚の乾燥・かゆみ",["当帰飲子"]],["腸の乾燥",["麻子仁丸"]]],
+      tcm:[["沙参麦冬湯・清燥救肺湯","医療用エキスなし → 麦門冬湯"],["（追加）","当帰飲子：秋口の乾燥肌のかゆみ（皮脂欠乏性湿疹）に"]],
+      alt:["六味丸：陰虚が強く、ほてり・寝汗","温清飲：乾燥＋赤み・かゆみ","補中益気湯：肺気虚でかぜをひきやすい"],
+      caution:["滋陰降火湯・当帰飲子は地黄を含む → 胃もたれ","乾燥肌は保湿外用が基本"]
+    },
+    yu:{
+      path:"五行で秋は金・肺に属し、五志は「悲・憂」。陽消陰長で心身が内向きに移るなか、物悲しさが湧きやすく、悲しめば則ち気消ゆ（悲憂は気を消耗する）。",
+      feat:"物悲しい・寂しい・涙もろい。気力が出ない・ため息。不安・考えすぎ・眠りが浅い。喉のつかえ。",
+      tongue:"舌 淡／脈 弱",
+      main:"甘麦大棗湯／加味帰脾湯／半夏厚朴湯／香蘇散",
+      groups:[["悲傷・涙もろさ",["甘麦大棗湯"]],["心脾両虚（不安・不眠）",["加味帰脾湯","帰脾湯"]],["気鬱",["半夏厚朴湯","香蘇散"]],["気を補う",["補中益気湯"]]],
+      tcm:[["甘麦大棗湯","医療用エキスあり（「婦人臓躁、喜悲傷して哭せんと欲す」）"],["逍遙散","医療用エキスなし → 加味逍遙散（イライラ・のぼせを伴えば）"]],
+      alt:["加味逍遥散：イライラ・のぼせ・月経との関連","柴胡加竜骨牡蛎湯：不安・動悸・驚きやすい","抑肝散：イライラ・神経の昂ぶり"],
+      caution:["甘麦大棗湯は甘草の量が多い → 長期・併用では偽アルドステロン症に注意","2週間以上続く抑うつは専門医と連携"]
+    }
+  },
+  cmpTitle:"夏→秋の4証 比較",
+  cmpExtra:`<h3>秋の不調の機序</h3>
+    <ul class="tight">
+      <li><b>物悲しさ</b>：五行で秋＝金＝肺＝「悲・憂」。陽消陰長で、外向きの夏から内向きの秋へ心身がシフトする。悲しめば則ち気消ゆ。</li>
+      <li><b>怠さ（秋バテ）</b>：夏の暑湿・冷たい飲食で脾胃が弱り（脾は肌肉・四肢を主る）、多汗で気も漏れた状態で秋の涼気を迎える。</li>
+    </ul>
+    <h3 style="margin-top:14px">秋の養生</h3>
+    <div class="scroll"><table class="kv">
+      <tr><th>目的</th><th>食</th><th>ツボ・生活</th></tr>
+      <tr><td>脾胃を助ける</td><td>お粥・かぼちゃ・山芋・さつまいも。冷たい飲食を控える</td><td>太白・足三里・中脘を温める</td></tr>
+      <tr><td>気を補う</td><td>山芋・鶏肉・なつめ・もち米</td><td>足三里・気海。汗をかきすぎない運動</td></tr>
+      <tr><td>肺を潤す</td><td>白い食材：白きくらげ・梨・大根・蓮根・百合根・豆腐・はちみつ</td><td>太淵・尺沢。加湿・保湿・深呼吸</td></tr>
+      <tr><td>憂いを和らげる</td><td>温かい汁物・旬のもの</td><td>膻中・内関・神門。早寝早起き・日中の散歩</td></tr>
+    </table></div>
+    <p class="hint">『素問』四気調神大論：秋三月は「早く臥し早く起き、鶏と倶に興き、志をして安寧ならしむ」。収斂の季節なので、無理に元気を出そうとせず、温めてゆったり過ごす。</p>`,
+  pt:{
+    hi:{t:"夏の疲れが胃腸に残った「秋バテ」",b:"夏の暑さや湿気、冷たい飲み物・食べ物で胃腸（脾）が弱り、食べたものから元気を作れず、体や手足が重だるくなっている状態です。<br><br>お薬で胃腸の働きを立て直し、元気を作る力を取り戻します。<br><br><b>養生のポイント</b>：温かく消化のよいもの（お粥・かぼちゃ・山芋）を／冷たいものを控える／足の内側の「太白」、すねの「足三里」を温める・押す"},
+    ki:{t:"夏の汗で「元気が漏れた」だるさ",b:"夏にたくさん汗をかくと、汗と一緒に体のエネルギー（気）も外へ漏れ出てしまいます。エネルギー不足のまま秋の涼しさを迎えたため、気温の変化についていけず、だるさが残っている状態です。<br><br>お薬で気と潤いを補い、体を立て直します。<br><br><b>養生のポイント</b>：汗をかきすぎない軽い運動／山芋・鶏肉・なつめなどで元気を補う／しっかり眠る"},
+    hai:{t:"秋の「乾燥」による喉・肌の不調",b:"秋は空気が乾燥し、東洋医学では「肺」が乾燥に弱いと考えます。肺は皮膚や鼻・喉ともつながっているため、空咳、喉のイガイガ、肌の乾燥やかゆみが出やすくなります。<br><br>お薬で体の内側から潤いを補います。<br><br><b>養生のポイント</b>：白い食材（白きくらげ・梨・大根・蓮根・はちみつ）で潤す／部屋の加湿／お風呂上がりはすぐ保湿／ゆっくり深呼吸"},
+    yu:{t:"秋の「物悲しさ」と気力の低下",b:"東洋医学では、秋は「肺」の季節で、感情では「悲しみ・憂い」と結びつくと考えます。夏の活動的なエネルギーから、秋の静かなエネルギーへ切り替わる時期は、ふと寂しさや物悲しさを感じやすくなります。悲しみが続くと気力も消耗します。<br><br>お薬で心と体のエネルギーを補い、気持ちを穏やかにします。季節による自然な反応なので、無理に元気を出そうと焦らなくて大丈夫です。<br><br><b>養生のポイント</b>：早寝早起き／日中に散歩して光を浴びる／深呼吸／温かいものを食べてゆったり過ごす"}
+  },
+  formulas:["補中益気湯","六君子湯","啓脾湯","人参湯","胃苓湯","清暑益気湯","十全大補湯","麦門冬湯","滋陰降火湯","当帰飲子","麻子仁丸","甘麦大棗湯","加味帰脾湯","帰脾湯","半夏厚朴湯","香蘇散"]
+}
+};
+/* ===== 証ナビモジュール（旧 証ナビ yatsu3-crypto/kampogairai の index.html を移したもの。4日目） =====
+   ハッシュ：#/shou/<テーマ>/<サブタブ>（例 #/shou/mukumi/dx）。サブタブ：判定／比較表／方剤詳細／患者説明。
+   - データは data.js（SHOU_D・SHOU_EXTRA・SHOU_MODS）。構成生薬は共通の方剤データ DATA.formulas（entries の「構成」）から出す。
+   - 旧「生薬」タブは削り、併用チェックは副作用タブに一本化した（院長決定 Q11）。方剤詳細と判定結果の「併用チェックへ」で、
+     選んだ方剤を共有の SELECTED（メモリのみ）に入れる。
+   - 所見の選択はメモリの中だけで持つ（保存しない。所見はハッシュにも入れない）。保存するのはテーマとサブタブ（画面の状態）だけ。
+   - 旧 証ナビの保存キー kampoNavi.mod（最後のテーマ）は、新しいキーが空のときだけ genten.shou.topic.v1 に写す（旧キーは消さない）。 */
+(function(){
+var MODS = SHOU_MODS, FX = DATA.formulas || {};
+var KEYS7 = ["山梔子","黄芩","麻黄","大黄","附子","甘草","芒硝"];   /* 赤く表示する注意生薬（集計用の名前） */
+
+/* 旧 証ナビの保存キー（画面の状態＝最後のテーマ）だけを引き継ぐ（設計案 5-3） */
+(function(){
+  if (store.get("shou", "topic")) return;
+  var old = null;
+  try { old = localStorage.getItem("kampoNavi.mod"); } catch (e){}
+  if (old && MODS[old]) store.set("shou", "topic", old);
+})();
+
+var mod = MODS[store.get("shou", "topic")] ? store.get("shou", "topic") : Object.keys(MODS)[0];
+var ST = {};   /* 所見：テーマごとにメモリだけで持つ */
+Object.keys(MODS).forEach(function(k){ var t = Object.keys(MODS[k].types)[0]; ST[k] = {on: new Set(), red: new Set(), cur: t, curPt: t}; });
+var built = null;   /* いま画面に組み立ててあるテーマ */
+
+function M(){ return MODS[mod]; }
+function S(){ return ST[mod]; }
+function KEYS(){ return Object.keys(M().types); }
+function hasTag(t){ return M().sx.filter(function(s){ return s[4] === t && S().on.has(s[0]); }).length; }
+function idOf(n){ return NAME_INDEX[n] || null; }
+
+/* ---------- ヘッダー：テーマ ---------- */
+var topicsEl = $("#shTopics");
+topicsEl.innerHTML = Object.keys(MODS).map(function(k){ return '<button type="button" data-m="' + k + '">' + esc(MODS[k].label) + '</button>'; }).join("");
+topicsEl.addEventListener("click", function(ev){
+  var b = ev.target.closest("button"); if (!b || b.dataset.m === mod) return;
+  mod = b.dataset.m;
+  store.set("shou", "topic", mod);
+  window.scrollTo(0, 0);
+  ROUTER.replace(SHOU.hashFor());
 });
-/* ===== 証ナビのテーマ（テーマ名と方剤の並びだけ）=====
-   出所：公開中の証ナビ（yatsu3-crypto/kampogairai の index.html）の MODS[*].label と MODS[*].formulas。
-   方剤名は原典の id に直した（加味逍遥散→加味逍遙散 など。表記ゆれ表 nameIndex）。
-   副作用タブの併用チェックで「テーマで絞り込む」に使う。4日目に証ナビ本体を移すときもこれを使う。 */
-var SHOU_TOPICS = [
-  {id:"mukumi", label:"むくみ", formulas:["真武湯", "五苓散", "補中益気湯", "防已黄耆湯"]},
-  {id:"kayumi", label:"痒み", formulas:["桂麻各半湯", "消風散", "黄連解毒湯", "白虎加人参湯", "茵蔯蒿湯", "竜胆瀉肝湯", "防風通聖散", "当帰飲子", "六味丸", "温清飲", "柴胡清肝湯", "加味逍遙散", "抑肝散", "桂枝茯苓丸加薏苡仁"]},
-  {id:"hie", label:"冷え症", formulas:["真武湯", "八味地黄丸", "附子人参湯", "人参湯", "苓桂朮甘湯", "麻黄湯", "麻黄附子細辛湯", "当帰四逆加呉茱萸生姜湯", "五積散", "四逆散", "加味逍遙散", "桂枝茯苓丸", "十全大補湯", "人参養栄湯", "帰脾湯", "当帰芍薬散"]},
-  {id:"fumin", label:"不眠", formulas:["帰脾湯", "加味帰脾湯", "酸棗仁湯", "人参養栄湯", "六味丸", "黄連解毒湯", "温清飲", "黄連湯", "桂枝加竜骨牡蛎湯", "加味逍遙散", "柴胡加竜骨牡蛎湯", "抑肝散", "三黄瀉心湯", "竜胆瀉肝湯", "竹筎温胆湯", "半夏瀉心湯"]},
-  {id:"bempi", label:"便秘", formulas:["大承気湯", "調胃承気湯", "大黄甘草湯", "三黄瀉心湯", "防風通聖散", "桂枝加芍薬大黄湯", "大柴胡湯", "四逆散", "加味逍遙散", "通導散", "大建中湯", "潤腸湯", "麻子仁丸", "補中益気湯", "八味地黄丸", "小建中湯"]},
-  {id:"zutsu", label:"頭痛", formulas:["葛根湯", "川芎茶調散", "桂枝湯", "桔梗石膏", "清上防風湯", "五苓散", "釣藤散", "七物降下湯", "抑肝散", "加味逍遙散", "黄連解毒湯", "竜胆瀉肝湯", "半夏白朮天麻湯", "苓桂朮甘湯", "桂枝茯苓丸", "四逆散", "通導散", "桃核承気湯", "呉茱萸湯", "桂枝人参湯", "当帰四逆加呉茱萸生姜湯", "補中益気湯", "十全大補湯", "当帰芍薬散", "六味丸", "八味地黄丸"]},
-  {id:"tahan", label:"多汗", formulas:["防已黄耆湯", "桂枝加黄耆湯", "補中益気湯", "黄耆建中湯", "六味丸", "温清飲", "柴胡桂枝乾姜湯", "白虎加人参湯", "茵蔯蒿湯", "竜胆瀉肝湯", "黄連解毒湯", "防風通聖散", "四逆散", "加味逍遙散", "柴胡加竜骨牡蛎湯", "桂枝加竜骨牡蛎湯"]},
-  {id:"tan2", label:"痰・咳", formulas:["二陳湯", "六君子湯", "半夏厚朴湯", "柴朴湯", "麦門冬湯", "神秘湯", "参蘇飲", "小青竜湯", "麻杏甘石湯", "清肺湯", "竹筎温胆湯", "辛夷清肺湯", "小柴胡湯加桔梗石膏", "苓甘姜味辛夏仁湯", "麻黄附子細辛湯", "真武湯", "八味地黄丸"]},
-  {id:"jimei", label:"耳鳴り", formulas:["六味丸", "八味地黄丸", "牛車腎気丸", "竜胆瀉肝湯", "柴胡加竜骨牡蛎湯", "大柴胡湯", "加味逍遙散", "釣藤散", "補中益気湯", "半夏白朮天麻湯", "加味帰脾湯", "苓桂朮甘湯", "竹筎温胆湯", "五苓散", "柴苓湯"]},
-  {id:"memai", label:"めまい", formulas:["半夏白朮天麻湯", "苓桂朮甘湯", "五苓散", "柴苓湯", "竹筎温胆湯", "当帰芍薬散", "真武湯", "釣藤散", "竜胆瀉肝湯", "抑肝散", "七物降下湯", "女神散", "加味逍遙散", "柴胡加竜骨牡蛎湯", "補中益気湯", "帰脾湯", "加味帰脾湯", "十全大補湯", "六味丸", "八味地黄丸", "牛車腎気丸"]},
-  {id:"nikibi", label:"ニキビ", formulas:["清上防風湯", "黄連解毒湯", "白虎加人参湯", "荊芥連翹湯", "十味敗毒湯", "排膿散及湯", "防風通聖散", "半夏瀉心湯", "桂枝茯苓丸加薏苡仁", "加味逍遙散", "当帰芍薬散", "桃核承気湯", "温清飲"]},
-  {id:"datsumou", label:"円形脱毛", formulas:["柴胡加竜骨牡蛎湯", "桂枝加竜骨牡蛎湯", "加味逍遙散", "大柴胡湯", "桂枝茯苓丸", "十全大補湯", "当帰飲子", "当帰芍薬散", "加味帰脾湯", "四物湯", "温清飲", "消風散", "黄連解毒湯", "柴胡清肝湯", "六味丸", "八味地黄丸"]},
-  {id:"katakori", label:"肩こり", formulas:["葛根湯", "桂枝加葛根湯", "桂枝加朮附湯", "麻黄附子細辛湯", "桂枝茯苓丸", "四逆散", "加味逍遙散", "大柴胡湯", "抑肝散", "芍薬甘草湯", "疎経活血湯", "釣藤散", "補中益気湯", "黄耆建中湯", "十全大補湯", "呉茱萸湯", "当帰芍薬散", "八味地黄丸", "半夏白朮天麻湯", "二朮湯", "五苓散", "苓桂朮甘湯", "防已黄耆湯"]},
-  {id:"koe", label:"声がれ", formulas:["桔梗湯", "小柴胡湯加桔梗石膏", "麻黄湯", "麻黄附子細辛湯", "麦門冬湯", "麻杏甘石湯", "清肺湯", "竜胆瀉肝湯", "黄連解毒湯", "加味逍遙散", "半夏厚朴湯", "甘麦大棗湯", "桂枝茯苓丸", "桃核承気湯", "滋陰降火湯", "六味丸", "補中益気湯", "六君子湯", "人参養栄湯"]},
-  {id:"hoteri", label:"ほてり", formulas:["六味丸", "滋陰降火湯", "三物黄芩湯", "酸棗仁湯", "温清飲", "加味逍遙散", "竜胆瀉肝湯", "女神散", "柴胡加竜骨牡蛎湯", "黄連解毒湯", "三黄瀉心湯", "白虎加人参湯", "防風通聖散", "補中益気湯", "清暑益気湯", "加味帰脾湯", "十全大補湯", "桂枝茯苓丸", "温経湯"]},
-  {id:"himan", label:"肥満", formulas:["防已黄耆湯", "六君子湯", "二陳湯", "当帰芍薬散", "五苓散", "啓脾湯", "防風通聖散", "大柴胡湯", "三黄瀉心湯", "大承気湯", "白虎加人参湯", "八味地黄丸", "牛車腎気丸", "真武湯", "加味逍遙散", "柴胡加竜骨牡蛎湯", "四逆散", "桂枝茯苓丸", "通導散", "桃核承気湯"]},
-  {id:"natsuaki", label:"夏→秋", formulas:["補中益気湯", "六君子湯", "啓脾湯", "人参湯", "胃苓湯", "清暑益気湯", "十全大補湯", "麦門冬湯", "滋陰降火湯", "当帰飲子", "麻子仁丸", "甘麦大棗湯", "加味帰脾湯", "帰脾湯", "半夏厚朴湯", "香蘇散"]}
-];
+function markTopic(){
+  Array.prototype.forEach.call(topicsEl.querySelectorAll("button"), function(b){ b.classList.toggle("on", b.dataset.m === mod); });
+  var on = topicsEl.querySelector("button.on");
+  if (on) topicsEl.scrollLeft = on.offsetLeft - (topicsEl.clientWidth - on.offsetWidth) / 2;
+}
+
+/* ---------- 判定 ---------- */
+function chip(id, label, color, set, bold){
+  var b = document.createElement("button");
+  b.type = "button";
+  b.className = "sh-chip" + (set.has(id) ? " on" : ""); b.style.setProperty("--c", color);
+  b.innerHTML = bold ? "<b>" + label + "</b>" : label;
+  b.setAttribute("aria-pressed", set.has(id) ? "true" : "false");
+  b.onclick = function(){
+    if (set.has(id)) set.delete(id); else set.add(id);
+    b.classList.toggle("on"); b.setAttribute("aria-pressed", set.has(id) ? "true" : "false");
+    render();
+  };
+  return b;
+}
+function buildFindings(){
+  var m = M(), s = S();
+  $("#shRedTitle").textContent = m.redTitle;
+  $("#shIntro").innerHTML = m.intro ? '<div class="sh-card sh-intro">' + m.intro + "</div>" : "";
+  var box = $("#shGroups"); box.innerHTML = "";
+  m.groups.forEach(function(g){
+    var h = document.createElement("div"); h.className = "sh-grp";
+    h.innerHTML = '<span class="sh-dot" style="background:' + g[3] + '"></span>' + g[1] + (g[2] ? "<small>" + g[2] + "</small>" : "");
+    var c = document.createElement("div"); c.className = "sh-chips";
+    m.sx.filter(function(x){ return x[2] === g[0]; }).forEach(function(x){
+      c.appendChild(chip(x[0], x[1], g[3], s.on, Object.keys(x[3]).some(function(k){ return x[3][k] >= 2; })));
+    });
+    box.appendChild(h); box.appendChild(c);
+  });
+  var r = $("#shRed"); r.innerHTML = "";
+  m.red.forEach(function(x){ r.appendChild(chip(x[0], x[1], "var(--alert)", s.red)); });
+}
+function scores(){
+  var sc = {}, mx = {};
+  KEYS().forEach(function(k){ sc[k] = 0; mx[k] = 0; });
+  M().sx.forEach(function(x){ for (var k in x[3]){ mx[k] += x[3][k]; if (S().on.has(x[0])) sc[k] += x[3][k]; } });
+  return {sc: sc, mx: mx};
+}
+function render(){
+  var m = M(), s = S(), T = m.types, r0 = scores(), sc = r0.sc, mx = r0.mx;
+  var ranked = KEYS().slice().sort(function(a, b){ return sc[b] - sc[a]; });
+  var top = ranked[0], sec = ranked[1];
+  var bars = '<div class="sh-bars">' + KEYS().map(function(k){
+    var p = mx[k] ? Math.round(sc[k] / mx[k] * 100) : 0;
+    return '<div class="sh-bar"><span style="color:' + T[k].color + ';font-weight:700">' + T[k].bar + '</span><div class="sh-track"><div class="sh-fill" style="width:' + p + '%;background:' + T[k].color + '"></div></div><span>' + sc[k] + "</span></div>";
+  }).join("") + "</div>";
+  var html;
+  if (sc[top] === 0){
+    html = '<h3>所見を選択してください</h3><p class="hint">判定結果と推奨方剤がここに表示されます。</p>' + bars;
+  } else {
+    var combo = sec && sc[sec] > 0 && sc[sec] >= sc[top] * 0.6;
+    var key = [top, sec].sort().join("+");
+    var r = m.recommend(top, hasTag);
+    var ids = formulaIds(r.rx).filter(function(f){ return FX[f]; });
+    html = '<div class="hint">最も考えられる証</div>' +
+      '<div class="sh-big" style="color:' + T[top].color + '">' + (T[top].no ? T[top].no + " " : "") + T[top].name +
+      (combo ? '<span style="color:' + T[sec].color + '"> ＋ ' + (T[sec].no || T[sec].name) + "</span>" : "") + "</div>" +
+      '<div class="sh-rxline">' + linkHTML(r.rx) + "</div>" +
+      '<ul class="sh-why">' + r.why.map(function(w){ return "<li>" + w + "</li>"; }).join("") + "</ul>" +
+      (combo && m.combo[key] ? '<div class="addon combo"><b>併存</b>：' + linkHTML(m.combo[key]) + "</div>" : "") +
+      (ids.length ? '<div class="sh-row"><button type="button" class="sh-btn" data-chk="' + esc(ids.join("|")) + '">' +
+        esc(ids.map(function(f){ return FX[f].name; }).join("・")) + " を併用チェックへ ›</button></div>" : "") +
+      '<div style="margin-top:12px">' + bars + "</div>";
+    s.cur = top; s.curPt = top;
+  }
+  html += linkHTML(m.addons(hasTag, sc[top] ? top : null));
+  $("#shRes").style.borderLeftColor = sc[top] ? T[top].color : "var(--ink)";
+  $("#shRes").innerHTML = html;
+  $("#shRedMsg").innerHTML = s.red.size ? '<div class="alert">⚠ 該当あり：' + m.redMsg(s.red) + "</div>" : "";
+  renderDetail(); renderPt();
+}
+
+/* ---------- 方剤詳細 ---------- */
+function herbChips(n){
+  var id = idOf(n), f = id && FX[id];
+  if (f) return f.herbs.map(function(h){ return '<span class="sh-herb' + (KEYS7.indexOf(h.canon) !== -1 ? " k" : "") + '">' + esc(h.raw) + "</span>"; }).join("");
+  if (SHOU_EXTRA[n]) return SHOU_EXTRA[n].h.split("・").map(function(h){ return '<span class="sh-herb">' + esc(h) + "</span>"; }).join("");
+  return '<span class="todo">構成 要確認</span>';
+}
+function selBtn(n){
+  var id = idOf(n); if (!id || !FX[id]) return "";
+  var on = SELECTED.has(id);
+  return '<button type="button" class="sh-sel' + (on ? " on" : "") + '" data-sel="' + esc(id) + '" aria-pressed="' + on + '">' + (on ? "✓ 併用チェックに入れた" : "＋ 併用チェックに入れる") + "</button>";
+}
+function seg(el, sel, fn){
+  var T = M().types, ks = KEYS();
+  el.style.gridTemplateColumns = "repeat(" + ks.length + ",1fr)";
+  el.innerHTML = ks.map(function(k){ return '<button type="button" data-k="' + k + '" class="' + (k === sel ? "on" : "") + '" style="--c:' + T[k].color + '">' + T[k].seg + "</button>"; }).join("");
+  Array.prototype.forEach.call(el.querySelectorAll("button"), function(b){ b.onclick = function(){ fn(b.dataset.k); }; });
+}
+function renderDetail(){
+  var s = S(), T = M().types;
+  seg($("#shSeg"), s.cur, function(k){ s.cur = k; renderDetail(); });
+  var r = M().rx[s.cur], c = T[s.cur].color;
+  var maker = function(n){ var id = idOf(n); return id && FX[id] && FX[id].maker && FX[id].maker !== "ツムラ" ? '<span class="ref">構成は' + esc(FX[id].maker) + "の製剤</span>" : ""; };
+  $("#shDetail").innerHTML =
+    '<div class="sh-card" style="border-top:5px solid ' + c + '"><h3 style="color:' + c + '">' + (T[s.cur].no ? T[s.cur].no + " " : "") + T[s.cur].name + "</h3>" +
+    "<dl><dt>病態</dt><dd>" + r.path + "</dd><dt>症状の特徴</dt><dd>" + r.feat + "</dd><dt>舌・脈</dt><dd>" + r.tongue + "</dd></dl></div>" +
+    '<div class="sh-card"><div class="hint">対応処方</div><div class="sh-rxline" style="color:' + c + '">' + linkHTML(r.main) + "</div>" +
+    r.groups.map(function(g){
+      return '<div class="sh-sublabel">' + g[0] + "</div>" + g[1].map(function(n){
+        var id = idOf(n);
+        return '<div class="sh-fm"><div class="sh-fmh"><b>' + (id ? linkify(n) : esc(n)) + "</b>" + maker(n) + selBtn(n) + "</div>" +
+          "<div>" + herbChips(n) + '</div><div class="hint">' + (SHOU_D[n] || "") + "</div></div>";
+      }).join("");
+    }).join("") + "</div>" +
+    (r.tcm ? '<div class="sh-card sh-kin"><h3>中医の代表方 → エキス剤</h3><table class="kv">' + r.tcm.map(function(t){ return "<tr><td>" + t[0] + "</td><td>" + linkHTML(t[1]) + "</td></tr>"; }).join("") + "</table></div>" : "") +
+    '<div class="sh-card"><h3>代替・鑑別</h3><ul class="tight">' + r.alt.map(function(a){ return "<li>" + linkHTML(a) + "</li>"; }).join("") + "</ul></div>" +
+    '<div class="sh-card sh-caution"><h3>注意</h3><ul class="tight">' + r.caution.map(function(a){ return "<li>" + a + "</li>"; }).join("") + "</ul>" +
+    '<p class="hint">赤い生薬＝重複・副作用に注意。構成は原典（entries）の「構成」から。</p>' +
+    '<div class="sh-row"><a class="sh-btn pri" href="#/fuku/check">併用チェックへ ›<small>' + (SELECTED.size ? SELECTED.size + "処方を選択中" : "") + "</small></a></div></div>";
+}
+
+/* ---------- 患者説明 ---------- */
+function renderPt(){
+  var s = S(), T = M().types;
+  seg($("#shSeg2"), s.curPt, function(k){ s.curPt = k; renderPt(); });
+  var p = M().pt[s.curPt];
+  $("#shPt").innerHTML = '<div class="sh-card"><h3 style="color:' + T[s.curPt].color + ';font-size:1.25rem">' + p.t + '</h3><div class="sh-pt">' + p.b + "</div></div>";
+}
+
+/* ---------- 比較表 ---------- */
+function buildCmp(){
+  var m = M(), T = m.types;
+  $("#shCmpTitle").textContent = m.cmpTitle;
+  $("#shCmp").innerHTML = "<tr><th>証</th><th>病態</th><th>症状の特徴</th><th>対応処方</th></tr>" +
+    KEYS().map(function(k){
+      return '<tr><td class="tname" style="color:' + T[k].color + '">' + (T[k].no ? T[k].no + "<br>" : "") + T[k].name + "</td><td>" + m.rx[k].path + "</td><td>" + m.rx[k].feat +
+        "</td><td><b>" + linkHTML(m.rx[k].main.replace(/／/g, "<br>")) + "</b></td></tr>";
+    }).join("");
+  $("#shCmpExtra").innerHTML = linkHTML(m.cmpExtra);
+}
+
+function buildAll(){
+  built = mod;
+  $("#appsub").textContent = M().sub;
+  markTopic(); buildFindings(); buildCmp(); render();
+}
+
+/* ---------- 操作 ---------- */
+$("#shReset").addEventListener("click", function(){ S().on.clear(); S().red.clear(); buildFindings(); render(); });
+$("#shToDetail").addEventListener("click", function(){ window.scrollTo(0, 0); ROUTER.replace(SHOU.hashFor("rx")); });
+/* 「併用チェックに入れる」：選択を切り替えるだけ（画面は移らない）。「…を併用チェックへ」：入れてから併用チェックへ（履歴を積む） */
+$("#m-shou").addEventListener("click", function(ev){
+  var b = ev.target.closest("[data-sel]");
+  if (b){
+    var id = b.dataset.sel;
+    if (SELECTED.has(id)) SELECTED.delete(id); else SELECTED.add(id);
+    renderDetail();
+    return;
+  }
+  var c = ev.target.closest("[data-chk]");
+  if (c){
+    c.dataset.chk.split("|").forEach(function(id){ SELECTED.add(id); });
+    location.hash = "#/fuku/check";
+  }
+});
+
+var SHOU = subtabModule("shou", {
+  title: "証ナビ",
+  sub: M().sub,
+  subs: [["dx", "判定"], ["cmp", "比較表"], ["rx", "方剤詳細"], ["pt", "患者説明"]],
+  fit: true,
+  top: true,
+  path: function(){ return mod; },
+  onPath: function(parts){
+    if (!parts.length || !MODS[parts[0]]) return false;
+    if (parts[0] !== mod){ mod = parts[0]; store.set("shou", "topic", mod); }
+    return true;
+  },
+  onShow: function(t){
+    if (built !== mod) buildAll();
+    else {
+      $("#appsub").textContent = M().sub;
+      /* 原典や併用チェックから戻ったとき：選択の印だけ描き直す（所見・位置はそのまま） */
+      if (t === "rx") renderDetail();
+    }
+  }
+});
+})();
+/* ===== 証ナビのテーマ（テーマ名と方剤の並び） =====
+   SHOU_MODS（data.js）の label と formulas から作る。方剤名は原典の id に直す（加味逍遥散→加味逍遙散 など。NAME_INDEX）。
+   副作用タブの併用チェックで「テーマで絞り込む」に使う（fuku.js は shou より後に読み込まれる）。 */
+var SHOU_TOPICS = Object.keys(SHOU_MODS).map(function(k){
+  return {id: k, label: SHOU_MODS[k].label, formulas: SHOU_MODS[k].formulas.map(function(n){ return NAME_INDEX[n] || n; })};
+});
 /* ===== 脈診モジュール（1日目：枠だけ）=====
    公開版（genten.html）には中身を入れない。build が modules/myaku/placeholder.html（「手元版のみ」）を差し込む。
    手元版の本体は5日目に modules-local/myaku/ に置く（gitignore）。 */
@@ -755,7 +4208,7 @@ var FX = DATA.formulas || {};
 var PM_MA = "PMDA 添付文書：ツムラ葛根湯・麻黄湯 使用上の注意",
     PM_BU = "PMDA 添付文書：ツムラ真武湯・八味地黄丸 使用上の注意",
     PM_DAI = "PMDA 添付文書：ツムラ大黄甘草湯 使用上の注意",
-    PM_BO = "PMDA 添付文書：ツムラ調胃承気湯・大黄牡丹皮湯・防風通聖散 その他の注意",
+    PM_BO = "PMDA 添付文書：ツムラ大承気湯・調胃承気湯・大黄牡丹皮湯・防風通聖散 その他の注意",
     PM_RASH = "PMDA 添付文書：ツムラ葛根湯・真武湯 使用上の注意";
 var REFS = [
   ["Uneda 2024", "Uneda K, et al. PLoS One 2024;19(1):e0296450. doi:10.1371/journal.pone.0296450", "甘草を含む処方の割合（148処方のうち7割以上）、偽アルドステロン症のリスク因子、投与期間14日超"],
@@ -770,7 +4223,7 @@ var REFS = [
   [PM_MA, "ツムラ葛根湯エキス顆粒（医療用）2026年8月改訂 第2版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200013D1123_1_14 ／ ツムラ麻黄湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200132D1035_1_12", "麻黄：9.1 合併症・既往歴等のある患者（循環器系の障害・重症高血圧症・排尿障害・甲状腺機能亢進症）、10.2 併用注意、11.2 その他の副作用（自律神経系・泌尿器）"],
   [PM_BU, "ツムラ真武湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200083D1030_1_13 ／ ツムラ八味地黄丸エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200121D1045_1_11", "附子：8.2 重要な基本的注意（ブシを含む製剤との併用）、9.1・9.5・9.7、11.2 その他の副作用"],
   [PM_DAI, "ツムラ大黄甘草湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200090D1030_1_12", "大黄：8.3・8.4 重要な基本的注意（併用・瀉下作用の個人差）、9.1・9.5・9.6、11.2 その他の副作用"],
-  [PM_BO, "ツムラ調胃承気湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200100D1027_1_11 ／ ツムラ大黄牡丹皮湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200091D1026_1_10 ／ ツムラ防風通聖散エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200130D1060_1_18", "芒硝：15.1 その他の注意（無水ボウショウ・食塩制限が必要な患者）。3つとも同じ文"],
+  [PM_BO, "ツムラ大承気湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200095D1024_1_09 ／ ツムラ調胃承気湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200100D1027_1_11 ／ ツムラ大黄牡丹皮湯エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200091D1026_1_10 ／ ツムラ防風通聖散エキス顆粒（医療用）2023年12月改訂 第1版 https://www.pmda.go.jp/PmdaSearch/iyakuDetail/460026_5200130D1060_1_18", "芒硝：15.1 その他の注意（無水ボウショウ・食塩制限が必要な患者）。4つとも同じ文"],
   [PM_RASH, "ツムラ葛根湯エキス顆粒（医療用）2026年8月改訂 第2版（上記）／ ツムラ真武湯エキス顆粒（医療用）2023年12月改訂 第1版（上記）", "薬疹：11.1.4 多形紅斑（葛根湯）、11.2 その他の副作用 過敏症（発疹・発赤・瘙痒・蕁麻疹等）"]
 ];
 function ref(){ return Array.prototype.map.call(arguments, function(k){ return '<span class="ref">' + esc(k) + '</span>'; }).join(""); }
