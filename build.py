@@ -19,7 +19,8 @@
 
 共通の方剤データ（2日目。中身は formulas.py）:
 - DATA に formulas（方剤ごとの構成と量）・nameIndex（方剤名の表記ゆれ→id）・herbIndex（生薬→方剤）を足す。
-- 量は data/ekisu.tsv から取る。無いときだけ entries の PMDA 行から初期値を作る（上書きしない）。
+- 構成（生薬名・並び）と量は data/ekisu.tsv から取る（院長決定 2026-10-29。原典タブの「構成」もここから作る）。
+  ekisu.tsv が無いときだけ entries の PMDA 行から初期値を作る（上書きしない）。
 - 検査結果（構成と表の名前の食い違い・量の空欄・証ナビとの食い違い）を表示し、sources/ があれば
   sources/pmda-check.md（社員に渡す PMDA 確認リスト。非公開）にも書き出す。
 """
@@ -227,6 +228,11 @@ def main():
         print("警告: entries/ に対応する方剤がない private/ のファイルは読みません: %s"
               % "、".join(n + ".md" for n in orphans), file=sys.stderr)
     shared = formula_data(entries)
+    # 原典タブの「構成」は ekisu.tsv（PMDA 添付文書）から作る（院長決定 2026-10-29）。手元版は private の構成表をこの後ろに足す
+    for e in entries:
+        text = fm.kousei_md(shared["formulas"][e["file"]])
+        if text is not None:
+            e["本文"]["構成"] = text
     texts = {}
     for edition in ["public", "local"]:
         texts[edition] = render(edition, [with_private(e, private.get(e["file"], {}), edition) for e in entries], shared)
@@ -278,7 +284,8 @@ def pmda_check_md(lines):
         "4. PMDA と違う数字・違う生薬があったら、表は PMDA に合わせて直し、`量の出所` を `PMDA` にし、`注記` に何が違ったかを書く。",
         "   entries（原典の本文）は直さない。違いは院長に報告する。",
         "5. ツムラの製剤が無い方剤は、どの製剤の量を載せるか院長に確認してから書く。`製剤` のメーカー名はアプリの画面に出る。",
-        "6. 生薬名は entries の「構成」と同じ表記にする（例：附子（ブシ末））。添付文書のカタカナ名では書かない。",
+        "6. この表がアプリの構成の表示（原典・証ナビ・副作用）の元になる（院長決定 2026-10-29）。生薬名は漢字で書き（例：附子（ブシ末））、添付文書のカタカナ名では書かない。",
+        "   entries の「構成」はこの表の生薬名・並びに合わせる（下の (1) に出たら entries 側を直す。生薬そのものが違うときは entries を直さず院長に報告）。",
         "7. 分からない量は空欄のままにする（空欄はアプリで「量 要確認」と出て、甘草の合計には入らない）。",
         "8. 院長の判断を待つ量は `量の出所` を「保留」にする（アプリでは量未確認として扱い、合計に入れない）。決まったら「PMDA」に直す。",
         "",

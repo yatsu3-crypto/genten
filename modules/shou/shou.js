@@ -1,6 +1,6 @@
 /* ===== 証ナビモジュール（旧 証ナビ yatsu3-crypto/kampogairai の index.html を移したもの。4日目） =====
    ハッシュ：#/shou/<テーマ>/<サブタブ>（例 #/shou/mukumi/dx）。サブタブ：判定／比較表／方剤詳細／患者説明。
-   - データは data.js（SHOU_D・SHOU_EXTRA・SHOU_MODS）。構成生薬は共通の方剤データ DATA.formulas（entries の「構成」）から出す。
+   - データは data.js（SHOU_D・SHOU_EXTRA・SHOU_MODS）。構成生薬は共通の方剤データ DATA.formulas（data/ekisu.tsv＝PMDA 添付文書の組成）から出す。
    - 旧「生薬」タブは削り、併用チェックは副作用タブに一本化した（院長決定 Q11）。方剤詳細と判定結果の「併用チェックへ」で、
      選んだ方剤を共有の SELECTED（メモリのみ）に入れる。
    - 所見の選択はメモリの中だけで持つ（保存しない。所見はハッシュにも入れない）。保存するのはテーマとサブタブ（画面の状態）だけ。
@@ -109,10 +109,17 @@ function render(){
     s.cur = top; s.curPt = top;
   }
   html += linkHTML(m.addons(hasTag, sc[top] ? top : null));
+  html += hfLine(html);
   $("#shRes").style.borderLeftColor = sc[top] ? T[top].color : "var(--ink)";
   $("#shRes").innerHTML = html;
   $("#shRedMsg").innerHTML = s.red.size ? '<div class="alert">⚠ 該当あり：' + m.redMsg(s.red) + "</div>" : "";
   renderDetail(); renderPt();
+}
+
+/* 抑肝散の心不全（院長決定 2026-10-29）：判定・比較表に抑肝散の名前があれば、方剤詳細と同じ注意を1行出す（文言は data.js） */
+function hfLine(html){
+  var text = String(html).replace(/<[^>]*>/g, "");
+  return SHOU_YOKUKAN_RE.test(text) && text.indexOf("抑肝散：心不全") === -1 ? '<div class="addon sh-hf"><b>注意</b>　' + SHOU_YOKUKAN_HF + "</div>" : "";
 }
 
 /* ---------- 方剤詳細 ---------- */
@@ -152,7 +159,7 @@ function renderDetail(){
     (r.tcm ? '<div class="sh-card sh-kin"><h3>中医の代表方 → エキス剤</h3><table class="kv">' + r.tcm.map(function(t){ return "<tr><td>" + t[0] + "</td><td>" + linkHTML(t[1]) + "</td></tr>"; }).join("") + "</table></div>" : "") +
     '<div class="sh-card"><h3>代替・鑑別</h3><ul class="tight">' + r.alt.map(function(a){ return "<li>" + linkHTML(a) + "</li>"; }).join("") + "</ul></div>" +
     '<div class="sh-card sh-caution"><h3>注意</h3><ul class="tight">' + r.caution.map(function(a){ return "<li>" + a + "</li>"; }).join("") + "</ul>" +
-    '<p class="hint">赤い生薬＝重複・副作用に注意。構成は原典（entries）の「構成」から。<br>注意文は各製剤の PMDA 添付文書（ツムラ。多くは2023年12月改訂 第1版、葛根湯は2026年8月改訂 第2版）の使用上の注意・用法に合わせた。「臨床上の工夫（分類：院長）」の札の行は添付文書に無い院長の工夫。' +
+    '<p class="hint">赤い生薬＝重複・副作用に注意。構成は PMDA 添付文書の組成（ツムラ。ツムラに無い方剤は他社）から。<br>注意文は各製剤の PMDA 添付文書（ツムラ。多くは2023年12月改訂 第1版、葛根湯は2026年8月改訂 第2版）の使用上の注意・用法に合わせた。「臨床上の工夫（分類：院長）」の札の行は添付文書に無い院長の工夫。' +
       '大腸メラノーシス：Zhang R, et al. Front Pharmacol 2023;14:1160480／富田ほか. medicina 2016;53(9):1374-1376。</p>' +
     '<div class="sh-row"><a class="sh-btn pri" href="#/fuku/check">併用チェックへ ›<small>' + (SELECTED.size ? SELECTED.size + "処方を選択中" : "") + "</small></a></div></div>";
 }
@@ -174,7 +181,7 @@ function buildCmp(){
       return '<tr><td class="tname" style="color:' + T[k].color + '">' + (T[k].no ? T[k].no + "<br>" : "") + T[k].name + "</td><td>" + m.rx[k].path + "</td><td>" + m.rx[k].feat +
         "</td><td><b>" + linkHTML(m.rx[k].main.replace(/／/g, "<br>")) + "</b></td></tr>";
     }).join("");
-  $("#shCmpExtra").innerHTML = linkHTML(m.cmpExtra);
+  $("#shCmpExtra").innerHTML = linkHTML(m.cmpExtra) + hfLine($("#shCmp").innerHTML + (m.cmpExtra || ""));
 }
 
 function buildAll(){

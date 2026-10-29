@@ -19,7 +19,7 @@
 | `modules-local/` | 手元版だけに入るモジュール。いまは `modules-local/myaku/`（脈診の本体。書籍の表を含む） | **非公開**（`.gitignore` 済み。コミットしない） |
 | `build.py` | `entries/*.md`（と `private/*.md`）を読み、モジュールを組み立てて `genten.html` と `genten-local.html` を出力する | リポジトリに入る |
 | `formulas.py` | build が使う共通の方剤データ（構成・量・生薬の寄せ方・方剤名の表記ゆれ）と、`data/ekisu.tsv` の検査。結果は `sources/pmda-check.md`（社員に渡す PMDA 確認リスト）にも出る | 同上 |
-| `data/ekisu.tsv` | エキス剤の生薬量（1日量中の g）。ツムラの添付文書（PMDA）を正とし、クリニックの社員が確認・記入する。空欄＝「量 要確認」。記憶や他アプリの数字で埋めない。併用チェックの甘草合計などはここから計算する | 公開してよい |
+| `data/ekisu.tsv` | エキス剤の構成と生薬量（1日量中の g）。**原典・証ナビ・副作用の構成の表示はここから出す**（院長決定 2026-10-29。entries の `## 構成` はこの表の表記に合わせる）。ツムラの添付文書（PMDA）を正とし、クリニックの社員が確認・記入する。空欄＝「量 要確認」。記憶や他アプリの数字で埋めない。併用チェックの甘草合計などはここから計算する | 公開してよい |
 | `genten.html` | **公開するのはこれだけ**（GitHub Pages：`https://yatsu3-crypto.github.io/genten/genten.html`） | 公開 |
 | `genten-local.html` | 手元版（`private/` の見出しと脈診の本体を含む）。build が毎回作り直す | **非公開**（`.gitignore` 済み。コミット・アップロード・共有しない） |
 | `private/` | 方剤ごとの非公開の md（独自の git あり・リモートなし）。統合の作業では変更しない | **非公開** |

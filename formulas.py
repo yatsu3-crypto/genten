@@ -1,7 +1,9 @@
 """共通の方剤データ（formulas・nameIndex・herbIndex）と data/ekisu.tsv の読み書き・検査。build.py から使う。
 
-- 生薬の一覧は entries の「## 構成」から取る（表記はそのまま＝raw）。集計用の名前（canon）は HERB_CANON で寄せる。
-- 量（g）は data/ekisu.tsv から取る。ekisu.tsv はツムラの添付文書（PMDA）を正とし、クリニックの社員が確認・記入する。
+- 生薬の一覧（表記・並び）と量（g）は data/ekisu.tsv から取る（院長決定 2026-10-29：ekisu.tsv＝PMDA・ツムラ基準を正とし、
+  原典タブ・証ナビ・副作用の構成はすべてここから出す）。ekisu.tsv はクリニックの社員が添付文書で確認・記入する。
+  entries の「## 構成」は検査用（表と生薬名が合わなければ build が知らせる。合わせるのは entries 側）。表に行が無い方剤だけ entries の構成を使う。
+  集計用の名前（canon）は HERB_CANON で寄せる。
 - ekisu.tsv が無いときだけ、entries の「## 出典」の PMDA 行に書かれた量を解析して初期値を作る（上書きはしない）。
   量が取れない生薬は空欄＝「要確認」。記憶や他アプリ（副作用ナビ・証ナビ）の数字は使わない。
 """
@@ -59,7 +61,7 @@ TSV_HEADER = ["ツムラ番号", "方剤名", "生薬名", "量(g)", "製剤", "
 PENDING_SOURCE = "保留"
 TSV_INTRO = [
     "# 漢方総合アプリ：エキス剤の生薬量（1日量中の g）。PMDA の医療用医薬品添付文書を正とする（ツムラの製剤を基本とし、ツムラに無い方剤は他社）。",
-    "# 1行＝方剤の生薬1つ。生薬名は entries の「## 構成」と同じ表記にする（違うと build が検査で知らせる）。",
+    "# 1行＝方剤の生薬1つ。この表がアプリの構成の表示（原典・証ナビ・副作用）の元。entries の「## 構成」はこの表の表記・並びに合わせる（違うと build が検査で知らせる）。",
     "# 量(g)：空欄＝要確認（アプリでは合計に入れない）。記憶や他アプリの数字で埋めない。",
     "# 製剤：量を取った添付文書のメーカー。アプリの画面にも出す。",
     "# 量の出所：entries＝entries の出典欄の PMDA 行から転記した値／PMDA＝添付文書から転記した値／保留＝添付文書の値はあるが院長の判断待ち（アプリでは量未確認として扱い、合計に入れない）。",
@@ -311,10 +313,12 @@ def build_data(entries, tsv):
         want = e["ツムラ番号"] if is_tsumura(e) else ""
         if rows and nums != {want}:
             checks["number"].append((e, sorted(nums)))
-        herbs = []
-        for raw in raws:
-            r = by_name.get(raw)
-            herbs.append({"raw": raw, "canon": canon_name(raw), "g": r["g"] if r else None})
+        # 構成と量は ekisu.tsv（PMDA 添付文書）を正とする（院長決定 2026-10-29）。表に行が無い方剤だけ entries の「構成」を使う
+        if rows:
+            herbs = [{"raw": r["生薬名"], "canon": canon_name(r["生薬名"]), "g": r["g"]}
+                     for i, r in enumerate(rows) if r["生薬名"] not in tsv_names[:i]]
+        else:
+            herbs = [{"raw": raw, "canon": canon_name(raw), "g": None} for raw in raws]
         have = [h for h in herbs if h["g"] is not None]
         status = "full" if herbs and len(have) == len(herbs) else ("partial" if have else "none")
         if status != "full":
@@ -344,6 +348,7 @@ def build_data(entries, tsv):
             "aliases": [a for a in e["別名"].split("・") if a.strip()],
             "maker": "／".join(makers) or None,
             "herbs": herbs, "doseStatus": status,
+            "herbSource": "ekisu" if rows else "entries",
             "pmda": "／".join(checked),
             "url": urls[0] if len(urls) == 1 else "",
             "pending": pending,
@@ -372,6 +377,28 @@ def build_data(entries, tsv):
     return formulas, name_index, herb_index, checks
 
 
+def kousei_md(f):
+    """原典タブの「構成」に出す本文（Markdown）。生薬名・量・製剤・添付文書の版は ekisu.tsv の値だけを使う。
+    表に行が無い方剤は None（呼び出し側で entries の「構成」をそのまま使う）。"""
+    if f["herbSource"] != "ekisu":
+        return None
+    line = "・".join("%s %sg" % (h["raw"], fmt_g(h["g"])) if h["g"] is not None else "%s（量 要確認）" % h["raw"]
+                     for h in f["herbs"])
+    vers = []
+    for p in f["pmda"].split("／"):
+        v = re.sub(r"^\d{4}-\d{2}-\d{2}\s*", "", p).strip()
+        if v and v not in vers:
+            vers.append(v)
+    cap = "1日量中の生薬量（g）。%sの添付文書（PMDA%s）による" % (
+        f["maker"] or "製剤 要確認", "　" + "／".join(vers) if vers else "・版 要確認")
+    if f["pending"]:
+        cap += "。量の一部は院長の判断待ち（量 要確認）"
+    out = [line, "", cap]
+    if f["other"]:
+        out.append("ほかの製剤：" + f["other"])
+    return "\n".join(out)
+
+
 def report(checks, formulas, tsv_path):
     """検査結果を文字列の行で返す（端末表示と sources/pmda-check.md の両方に使う）。"""
     total = len(formulas)
@@ -381,7 +408,7 @@ def report(checks, formulas, tsv_path):
     L = []
     L.append("方剤 %d 件：量が全部あるもの %d・一部だけ %d・空欄 %d" % (total, st["full"], st["partial"], st["none"]))
     L.append("")
-    L.append("## (1) 構成の生薬名と %s の生薬名が合わない方剤（%d 件）" % (tsv_path.name, len(checks["mismatch"])))
+    L.append("## (1) entries の構成の生薬名と %s の生薬名が合わない方剤（%d 件。表示は表に従う。entries 側を表に合わせる）" % (tsv_path.name, len(checks["mismatch"])))
     for e, only_e, only_t, missing in checks["mismatch"]:
         if missing:
             L.append("- %s：%s に行がない" % (e["file"], tsv_path.name))
