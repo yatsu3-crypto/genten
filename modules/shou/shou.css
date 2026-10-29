@@ -23,6 +23,8 @@
 .sh-kin{border-left:5px solid var(--kin)}
 .sh-caution{border-left:5px solid var(--shu-d)}
 .sh-note{font-size:12px;color:var(--usu);margin:4px 2px 0}
+/* 添付文書にない飲み方の工夫（院長の臨床判断）。注意文の本文とは別の行に出す（6日目・院長決定） */
+.sh-kufu{display:inline-block;font-size:11.5px;font-weight:700;color:var(--sumi2);border:1px dashed var(--sumi2);border-radius:999px;padding:0 8px;margin:0 6px 2px 0;line-height:1.6}
 
 /* 所見 */
 .sh-grp{margin:14px 0 6px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:6px}
