@@ -1,0 +1,101 @@
+/* ===== 証ナビ（旧 kampogairai の見た目を washi のトークンに合わせたもの） =====
+   旧データ（SHOU_MODS）が使う色の名前を washi のトークンに対応させる：
+   --kincha→--kin、--matsuba→--matsu、--alert→--shu-d、--oketsu→--akane、--ink→--sumi。
+   --sh-kan は旧の直書き #4f6f7a（寒飲・陰虚の色）。暗い表示用の値 #8FB0BA は、暗い背景 #1C1A17 で 7.51:1、カード #25221E で 6.85:1、
+   #2B2722 で 6.42:1（本文の基準 4.5:1 以上）。文字の --on #1C1A17 を載せる地の色としても 7.51:1。 */
+#m-shou,.mhead[data-mod="shou"]{--kincha:var(--kin);--matsuba:var(--matsu);--alert:var(--shu-d);--oketsu:var(--akane);--ink:var(--sumi);--sh-kan:#4F6F7A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #m-shou{--sh-kan:#8FB0BA}}
+:root[data-theme="dark"] #m-shou{--sh-kan:#8FB0BA}
+
+/* テーマ（ヘッダー内・横スクロール） */
+.sh-topics{display:flex;gap:6px;overflow-x:auto;margin:8px -16px 0;padding:0 16px 2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sh-topics::-webkit-scrollbar{display:none}
+.sh-topics button{flex:0 0 auto;font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;font-size:14px;color:var(--sumi2);
+  background:var(--washi);border:1.5px solid var(--line);border-radius:999px;padding:0 13px;min-height:44px;cursor:pointer;white-space:nowrap}
+.sh-topics button.on{background:var(--sumi);border-color:var(--sumi);color:var(--washi)}
+
+#m-shou .hint{color:var(--sumi2);font-size:13px;margin:6px 0}
+#m-shou .sh-h2{font-size:17px;margin:12px 0 8px}
+#m-shou h3{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-size:16px;margin:0 0 6px}
+.sh-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0;box-shadow:var(--shadow)}
+.sh-intro{border-left:5px solid var(--kin);background:color-mix(in srgb,var(--kin) 7%,var(--card))}
+.sh-result{border-left:5px solid var(--sumi)}
+.sh-kin{border-left:5px solid var(--kin)}
+.sh-caution{border-left:5px solid var(--shu-d)}
+.sh-note{font-size:12px;color:var(--usu);margin:4px 2px 0}
+/* 添付文書にない飲み方の工夫（院長の臨床判断）。注意文の本文とは別の行に出す（6日目・院長決定） */
+.sh-kufu{display:inline-block;font-size:11.5px;font-weight:700;color:var(--sumi2);border:1px dashed var(--sumi2);border-radius:999px;padding:0 8px;margin:0 6px 2px 0;line-height:1.6}
+
+/* 所見 */
+.sh-grp{margin:14px 0 6px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:6px}
+.sh-grp small{font-weight:500;color:var(--sumi2)}
+.sh-dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+.sh-chips{display:flex;flex-wrap:wrap;gap:8px}
+.sh-chip{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:6px 13px;min-height:44px;font:inherit;font-size:14.5px;color:var(--sumi);text-align:left;cursor:pointer}
+.sh-chip.on{color:var(--on);background:var(--c);border-color:var(--c)}
+
+/* 判定結果 */
+.sh-bars{display:grid;gap:8px;margin-top:4px}
+.sh-bar{display:grid;grid-template-columns:5.6em 1fr 2em;align-items:center;gap:8px;font-size:13.5px}
+.sh-track{height:12px;background:var(--washi-d);border-radius:6px;overflow:hidden}
+.sh-fill{height:100%;border-radius:6px;transition:width .25s}
+.sh-big{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-size:21px;font-weight:800;margin:2px 0 4px;line-height:1.4}
+.sh-rxline{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-size:18px;font-weight:800;line-height:1.5}
+.sh-rxline a.fx{font-weight:800}
+.sh-why{margin:6px 0 0;padding-left:1.2em;font-size:14px}
+.sh-why li{margin:2px 0}
+#m-shou .addon{margin-top:10px;padding:8px 10px;border-radius:10px;background:color-mix(in srgb,var(--akane) 9%,var(--card));font-size:14px}
+#m-shou .addon.combo{background:color-mix(in srgb,var(--kin) 12%,var(--card))}
+#m-shou .alert{background:color-mix(in srgb,var(--shu) 9%,var(--card));border:1.5px solid var(--shu-d);color:var(--shu-d);border-radius:12px;padding:10px 12px;margin:10px 0 0;font-size:14px}
+#m-shou input{font-size:16px!important;background:var(--card);color:var(--sumi)}
+
+/* ボタン */
+.sh-row{display:flex;gap:8px;margin-top:14px}
+.sh-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1.5px solid var(--line);background:var(--card);border-radius:10px;
+  padding:8px 10px;min-height:44px;font:inherit;font-size:14px;font-weight:700;color:var(--sumi);text-decoration:none;cursor:pointer;text-align:center}
+.sh-btn.pri{background:var(--ai);color:var(--on);border-color:var(--ai)}
+.sh-btn small{font-size:11px;font-weight:500;opacity:.85}
+.sh-sel{margin-left:auto;font:inherit;font-size:12px;font-weight:700;color:var(--ai);background:var(--card);border:1.5px solid var(--ai);border-radius:999px;
+  padding:0 10px;min-height:44px;cursor:pointer;white-space:nowrap}
+.sh-sel.on{background:var(--ai);color:var(--on)}
+
+/* 方剤詳細 */
+.sh-seg{display:grid;gap:6px;margin:4px 0}
+.sh-seg button{border:1.5px solid var(--line);background:var(--card);border-radius:10px;padding:0 1px;min-height:44px;font:inherit;font-weight:700;font-size:13px;color:var(--sumi);white-space:nowrap;min-width:0;cursor:pointer}
+.sh-seg button.on{color:var(--on);background:var(--c);border-color:var(--c)}
+#m-shou dl{margin:0}
+#m-shou dt{font-weight:700;font-size:12.5px;color:var(--sumi2);margin-top:10px}
+#m-shou dd{margin:2px 0 0}
+.sh-sublabel{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 9px;margin:14px 0 2px;
+  background:color-mix(in srgb,var(--shu) 14%,var(--card));color:var(--shu-d)}
+.sh-fm{margin-top:10px;padding-top:6px}
+.sh-fm + .sh-fm{border-top:1px dashed var(--line)}
+.sh-fmh{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px}
+.sh-fmh b{font-size:17px;font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif}
+.sh-fmh a.fx{display:inline-block;padding:8px 0}
+.sh-herb{display:inline-block;background:color-mix(in srgb,var(--kin) 12%,var(--card));border-radius:6px;padding:1px 7px;margin:2px 3px 2px 0;font-size:13px}
+.sh-herb.k{background:color-mix(in srgb,var(--shu) 16%,var(--card));color:var(--shu-d);font-weight:700}
+#m-shou ul.tight{margin:4px 0;padding-left:1.2em}
+#m-shou ul.tight li{margin:3px 0}
+.sh-pt{background:color-mix(in srgb,var(--kin) 6%,var(--card));border:1px dashed var(--kin);border-radius:12px;padding:14px;font-size:16px;line-height:1.85}
+
+/* 表 */
+#m-shou table{width:100%;border-collapse:collapse;font-size:13.5px}
+#m-shou th,#m-shou td{border-bottom:1px solid var(--line);padding:8px 6px;vertical-align:top;text-align:left}
+#m-shou th{font-weight:700;color:var(--sumi2);font-size:12px;white-space:nowrap}
+#m-shou .tname{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:800;min-width:6.5em}
+#m-shou .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+#m-shou .scroll table.wide{min-width:620px}
+#m-shou .kv td:first-child{white-space:nowrap;font-weight:700}
+#m-shou .nw{white-space:nowrap}
+
+@media print{
+  .sh-topics,.sh-row,.sh-sel,.sh-seg{display:none!important}
+  :root #m-shou,:root[data-theme="dark"] #m-shou,:root:not([data-theme="light"]) #m-shou{--sh-kan:#4F6F7A}
+  .sh-card{padding:10px 12px;margin:8px 0}
+  .sh-card h3,#m-shou dt,.sh-sublabel,.sh-fmh{break-after:avoid}
+  #m-shou li,.sh-fm{break-inside:avoid}
+  #m-shou .scroll{overflow:visible}
+  #m-shou .scroll table.wide{min-width:0}
+  .sh-pt{font-size:11pt}
+}

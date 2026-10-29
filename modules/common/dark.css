@@ -1,0 +1,34 @@
+/* ===== 共通：ダークモード（脈診ナビ方式） =====
+   端末が暗い設定のとき（data-theme="light" で明るさを固定している場合を除く）と、
+   data-theme="dark" で暗さを固定したときの2本立て。値は同じものを2か所に書く。
+   脈診ナビに対応する値があるもの：washi card line sumi sumi2 shu kin matsu ai
+   新しく決めたもの（院長確認待ち・Q10）：washi-d usu shu-d kin-d akane */
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --washi:#1C1A17;--washi-d:#2B2722;--card:#25221E;--line:#3A352E;
+  --sumi:#EEE7DA;--sumi2:#B0A698;--usu:#8A8174;
+  --shu:#E46A52;--shu-d:#F0907C;--kin:#D6A24A;--kin-d:#DDB468;
+  --matsu:#7FB287;--ai:#87A8D6;--akane:#C98B9B;
+  --shadow:0 1px 0 rgba(0,0,0,.2),0 6px 18px -10px rgba(0,0,0,.6);
+  --on:#1C1A17;--stem:#9CB585;
+  --head1:rgba(28,26,23,.97);--head2:rgba(28,26,23,.9);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --washi:#1C1A17;--washi-d:#2B2722;--card:#25221E;--line:#3A352E;
+  --sumi:#EEE7DA;--sumi2:#B0A698;--usu:#8A8174;
+  --shu:#E46A52;--shu-d:#F0907C;--kin:#D6A24A;--kin-d:#DDB468;
+  --matsu:#7FB287;--ai:#87A8D6;--akane:#C98B9B;
+  --shadow:0 1px 0 rgba(0,0,0,.2),0 6px 18px -10px rgba(0,0,0,.6);
+  --on:#1C1A17;--stem:#9CB585;
+  --head1:rgba(28,26,23,.97);--head2:rgba(28,26,23,.9);
+  color-scheme:dark;
+}
+/* 印刷は暗い表示でも明るい配色にする（base.css の :root と同じ値。カードの地は白） */
+@media print{:root,:root[data-theme="dark"],:root:not([data-theme="light"]){
+  --washi:#fff;--washi-d:#F2E9D2;--card:#fff;--line:#D9CDB3;
+  --sumi:#332C25;--sumi2:#5B5247;--usu:#8C8073;
+  --shu:#C1432E;--shu-d:#9A3A2E;--kin:#C08A22;--kin-d:#8A6410;
+  --matsu:#2E5D4B;--ai:#22376B;--akane:#8A4A5A;
+  --on:#fff;--stem:#5a6e48;
+  color-scheme:light;
+}}

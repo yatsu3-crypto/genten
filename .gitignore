@@ -8,3 +8,6 @@ genten-local.html
 .DS_Store
 __pycache__/
 *.pyc
+
+# 手元版だけに入るモジュール（脈診の本体など。build.py が genten-local.html にだけ入れる）
+modules-local/

@@ -1,0 +1,40 @@
+<!-- 副作用ナビ（旧 fukusayou.html を移したもの）。サブタブ：生薬別／併用チェック／甘草リスク／経過観察 -->
+<div data-sub="herb">
+  <div class="fk-lead">
+    注意生薬ごとの副作用。麻黄・附子・大黄・芒硝・薬疹は、その生薬を含む方剤の<b>PMDA 添付文書</b>の使用上の注意から。
+    <div class="fk-split">
+      <div class="d"><b>用量依存性</b><br>量・期間で増える。減量・重複回避で防ぐ。</div>
+      <div class="i"><b>特異体質性</b><br>体質・遺伝で起こる。早期発見・即中止。</div>
+    </div>
+    <div class="fk-cls">各カードの札「用量依存／特異体質」の分類：院長</div>
+  </div>
+  <div id="fkCards"></div>
+  <details class="fk-refs" id="fkRefs"></details>
+</div>
+
+<div data-sub="check" hidden>
+  <div class="fk-lead">併用する処方を選ぶと、<b>甘草の合計量</b>と注意すべき生薬・その重複を表示。</div>
+  <div class="search fk-search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input type="search" id="fkQ" placeholder="処方名・読み・番号（例：柴苓）" autocomplete="off" enterkeyhint="search">
+  </div>
+  <div class="fk-topics" id="fkTopics" role="group" aria-label="証ナビのテーマで絞り込む"></div>
+  <div class="fk-btnrow"><button type="button" class="fk-btn" id="fkClr">選択をクリア</button><span id="fkCount"></span></div>
+  <div class="fk-flist" id="fkList"></div>
+  <div class="fk-result" id="fkResult"></div>
+  <p class="fk-note">数値は PMDA の医療用医薬品添付文書に載る1日量中の生薬量（g）。ツムラの製剤を基本とし、ツムラに製剤の無い方剤は他社の量（メーカー名を併記）。メーカー・剤形で異なるため、処方時は各社添付文書で確認。<br>
+  凡例：<span class="mini m-ka">甘</span>甘草 <span class="mini m-ou">芩</span>黄芩 <span class="mini m-ma">麻</span>麻黄 <span class="mini m-bu">附</span>附子 <span class="mini m-dai">大</span>大黄 <span class="mini m-san">梔</span>山梔子 <span class="mini m-bo">硝</span>芒硝</p>
+</div>
+
+<div data-sub="risk" hidden>
+  <div class="fk-lead">偽アルドステロン症のリスク因子。<b>該当が多いほど</b>Kと血圧の確認を密に。<span class="ref">Uneda 2024</span></div>
+  <div id="fkRisk"></div>
+  <div id="fkRiskOut"></div>
+  <p class="fk-note">高齢者では11β-HSD2活性低下や、腸内細菌による3-epi-グリチルレチン酸産生（スルホン酸抱合を受けにくく蓄積しやすい）もリスクを高める。<span class="ref">Yoshino 2026</span><br>
+  チェックは画面を閉じると消える（患者の情報は保存しない）。</p>
+</div>
+
+<div data-sub="mon" hidden>
+  <div class="fk-lead">投与開始からの<b>時期別</b>チェックポイント。</div>
+  <div class="fk-tl" id="fkTimeline"></div>
+</div>
