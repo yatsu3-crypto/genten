@@ -7,6 +7,13 @@
 - 公開用には private/ に中身がある見出しの名前だけを渡す（画面で「手元版のみ」と出すため）。中身は入れない。
 - private/ と genten-local.html はリポジトリに入れない（.gitignore 済み）。
 - `_` で始まるファイル（_template.md など）は読まない。方剤が0件でも出力する。
+
+画面の組み立て（漢方総合アプリ）:
+- template.html は外枠（header・下部タブ）。各タブの中身は modules/<名前>/ にある。
+  - *.css → __MODULES_CSS__、head.html → __MODULES_HEAD__、view.html → __MODULES_HTML__、*.js → __MODULES_JS__
+  - 共通部品 modules/common/ は決まった順で先に入れる（router.js だけは最後）。
+- 公開用で modules/<名前>/placeholder.html があれば、view.html の代わりにそれを入れる（脈診＝「手元版のみ」）。
+- 手元用で modules-local/<名前>/ があれば、そのモジュールは丸ごとそちらを使う（modules-local/ は .gitignore 済み）。
 """
 import datetime
 import json
@@ -19,6 +26,15 @@ PRIVATE = ROOT / "private"
 TEMPLATE = ROOT / "template.html"
 OUT_PUBLIC = ROOT / "genten.html"
 OUT_LOCAL = ROOT / "genten-local.html"
+MODULES = ROOT / "modules"
+MODULES_LOCAL = ROOT / "modules-local"
+
+# 下部タブの順。template.html の .apptab と同じ並び
+MODULE_ORDER = ["genten", "shou", "myaku", "fuku"]
+COMMON_CSS = ["base.css", "dark.css"]
+COMMON_JS_FIRST = ["store.js", "linkify.js", "subtabs.js"]
+COMMON_JS_LAST = ["router.js"]
+SLOTS = ["__MODULES_CSS__", "__MODULES_HEAD__", "__MODULES_HTML__", "__MODULES_JS__", "__GENTEN_DATA__"]
 
 META_KEYS = ["名前", "読み", "ツムラ番号", "出典", "別名"]
 SECTIONS = ["条文", "出典", "構成", "方意", "諸家の論", "院長メモ"]
@@ -90,6 +106,52 @@ def sort_key(e):
     return (0, int(num), e["読み"]) if num.isdigit() else (1, 0, e["読み"] or e["名前"])
 
 
+def fail(msg):
+    print("エラー: " + msg + " 何も出力していません。", file=sys.stderr)
+    sys.exit(1)
+
+
+def read(path):
+    return path.read_text(encoding="utf-8").rstrip("\n") if path.is_file() else ""
+
+
+def module_dir(name, edition):
+    local = MODULES_LOCAL / name
+    if edition == "local" and local.is_dir():
+        return local
+    return MODULES / name
+
+
+def assemble(edition):
+    """modules/ を読み、template.html の差し込み場所ごとの文字列を返す。"""
+    common = MODULES / "common"
+    css = [read(common / f) for f in COMMON_CSS]
+    js = [read(common / f) for f in COMMON_JS_FIRST]
+    head, html = [], []
+    for name in MODULE_ORDER:
+        d = module_dir(name, edition)
+        if not d.is_dir():
+            fail("modules/%s/ がありません。" % name)
+        view = d / "view.html"
+        if edition == "public" and (d / "placeholder.html").is_file():
+            view = d / "placeholder.html"
+        css += [read(p) for p in sorted(d.glob("*.css"))]
+        js += [read(p) for p in sorted(d.glob("*.js"))]
+        head.append('<div class="mhead" data-mod="%s">%s</div>' % (name, read(d / "head.html")))
+        html.append('<section class="mod" data-mod="%s" id="m-%s">\n%s\n</section>' % (name, name, read(view)))
+    js += [read(common / f) for f in COMMON_JS_LAST]
+    parts = {
+        "__MODULES_CSS__": "\n".join(c for c in css if c),
+        "__MODULES_HEAD__": "\n  ".join(head),
+        "__MODULES_HTML__": "\n".join(html),
+        "__MODULES_JS__": "\n".join(j for j in js if j),
+    }
+    for k in ("__MODULES_CSS__", "__MODULES_JS__"):
+        if "</script" in parts[k].lower() or "</style" in parts[k].lower():
+            fail("modules/ の CSS・JS に </script> か </style> が含まれています。")
+    return parts
+
+
 def write(out, edition, entries):
     data = {
         "built": datetime.date.today().isoformat(),
@@ -97,9 +159,22 @@ def write(out, edition, entries):
         "sections": SECTIONS,
         "entries": entries,
     }
+    template = TEMPLATE.read_text(encoding="utf-8")
+    for s in SLOTS:
+        if template.count(s) != 1:
+            fail("template.html に %s がちょうど1つありません。" % s)
     # </script> で埋め込みが途切れないようにする
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
-    out.write_text(TEMPLATE.read_text(encoding="utf-8").replace("__GENTEN_DATA__", payload), encoding="utf-8")
+    parts = assemble(edition)
+    parts["__GENTEN_DATA__"] = payload
+    # 差し込み場所を template の前から順に1回ずつ置き換える（差し込んだ中身はもう一度は探さない）
+    result, rest = [], template
+    for s in sorted(SLOTS, key=template.index):
+        i = rest.index(s)
+        result += [rest[:i], parts[s]]
+        rest = rest[i + len(s):]
+    result.append(rest)
+    out.write_text("".join(result), encoding="utf-8")
     print("%s を出力しました（方剤 %d 件）" % (out.name, len(entries)))
 
 
