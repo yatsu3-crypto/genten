@@ -98,7 +98,20 @@ a.fx{color:var(--ai);text-decoration:none;font-family:"Shippori Mincho","Hiragin
 .apptab.on{color:var(--ai)}
 .apptab.on .ic{background:var(--ai);border-color:var(--ai);color:var(--on)}
 
+/* 印刷（A4・6日目）：表示中のタブの中身だけを紙に出す。ヘッダー・下部タブ・ボタン・表示の明るさは隠す。
+   注意書き（.disc）とクリニック名・データ更新日（.foot）は、紙だけ回ったときの出どころとして残す。
+   暗い表示で印刷しても、紙は明るい配色にする（dark.css の最後）。閉じた <details> は印刷の直前に開く（store.js） */
+@page{size:A4;margin:12mm 12mm 14mm}
 @media print{
-  header,.apptabs,.back,.disc,.theme{display:none!important}
-  body{background:#fff;background-image:none;padding-bottom:0}
+  header,.apptabs,.back,.theme{display:none!important}
+  main button:not(.al),main [role="button"],main input,main select{display:none!important}
+  html,body{background:#fff!important;background-image:none!important}
+  body{padding-bottom:0;font-size:11pt;line-height:1.6;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  main{max-width:none;padding:0 2px}
+  .view{animation:none}
+  a.fx{color:inherit}
+  *{box-shadow:none!important}
+  h1,h2,h3{break-after:avoid}
+  .disc{margin-top:16px;padding-top:8px;font-size:8.5pt}
+  .foot{font-size:8.5pt;margin-top:4px}
 }

@@ -66,5 +66,7 @@
   .tbl td.blank{display:none}
 }
 @media print{
-  .sec,.al{break-inside:avoid;box-shadow:none}
+  .al{break-inside:avoid;box-shadow:none}
+  .sec{box-shadow:none}
+  .sec h3{break-after:avoid}
 }

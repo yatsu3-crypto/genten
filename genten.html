@@ -115,9 +115,22 @@ a.fx{color:var(--ai);text-decoration:none;font-family:"Shippori Mincho","Hiragin
 .apptab.on{color:var(--ai)}
 .apptab.on .ic{background:var(--ai);border-color:var(--ai);color:var(--on)}
 
+/* 印刷（A4・6日目）：表示中のタブの中身だけを紙に出す。ヘッダー・下部タブ・ボタン・表示の明るさは隠す。
+   注意書き（.disc）とクリニック名・データ更新日（.foot）は、紙だけ回ったときの出どころとして残す。
+   暗い表示で印刷しても、紙は明るい配色にする（dark.css の最後）。閉じた <details> は印刷の直前に開く（store.js） */
+@page{size:A4;margin:12mm 12mm 14mm}
 @media print{
-  header,.apptabs,.back,.disc,.theme{display:none!important}
-  body{background:#fff;background-image:none;padding-bottom:0}
+  header,.apptabs,.back,.theme{display:none!important}
+  main button:not(.al),main [role="button"],main input,main select{display:none!important}
+  html,body{background:#fff!important;background-image:none!important}
+  body{padding-bottom:0;font-size:11pt;line-height:1.6;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  main{max-width:none;padding:0 2px}
+  .view{animation:none}
+  a.fx{color:inherit}
+  *{box-shadow:none!important}
+  h1,h2,h3{break-after:avoid}
+  .disc{margin-top:16px;padding-top:8px;font-size:8.5pt}
+  .foot{font-size:8.5pt;margin-top:4px}
 }
 /* ===== 共通：ダークモード（脈診ナビ方式） =====
    端末が暗い設定のとき（data-theme="light" で明るさを固定している場合を除く）と、
@@ -144,6 +157,15 @@ a.fx{color:var(--ai);text-decoration:none;font-family:"Shippori Mincho","Hiragin
   --head1:rgba(28,26,23,.97);--head2:rgba(28,26,23,.9);
   color-scheme:dark;
 }
+/* 印刷は暗い表示でも明るい配色にする（base.css の :root と同じ値。カードの地は白） */
+@media print{:root,:root[data-theme="dark"],:root:not([data-theme="light"]){
+  --washi:#fff;--washi-d:#F2E9D2;--card:#fff;--line:#D9CDB3;
+  --sumi:#332C25;--sumi2:#5B5247;--usu:#8C8073;
+  --shu:#C1432E;--shu-d:#9A3A2E;--kin:#C08A22;--kin-d:#8A6410;
+  --matsu:#2E5D4B;--ai:#22376B;--akane:#8A4A5A;
+  --on:#fff;--stem:#5a6e48;
+  color-scheme:light;
+}}
 /* ===== 原典モジュール（旧 template.html の画面をそのまま移したもの） ===== */
 .search{position:relative;margin-top:10px}
 .search input{width:100%;padding:12px 14px 12px 40px;border:1px solid var(--line);border-radius:var(--r);
@@ -212,7 +234,9 @@ a.fx{color:var(--ai);text-decoration:none;font-family:"Shippori Mincho","Hiragin
   .tbl td.blank{display:none}
 }
 @media print{
-  .sec,.al{break-inside:avoid;box-shadow:none}
+  .al{break-inside:avoid;box-shadow:none}
+  .sec{box-shadow:none}
+  .sec h3{break-after:avoid}
 }
 /* ===== 証ナビ（旧 kampogairai の見た目を washi のトークンに合わせたもの） =====
    旧データ（SHOU_MODS）が使う色の名前を washi のトークンに対応させる：
@@ -305,7 +329,16 @@ a.fx{color:var(--ai);text-decoration:none;font-family:"Shippori Mincho","Hiragin
 #m-shou .kv td:first-child{white-space:nowrap;font-weight:700}
 #m-shou .nw{white-space:nowrap}
 
-@media print{.sh-topics,.sh-row,.sh-sel{display:none!important}}
+@media print{
+  .sh-topics,.sh-row,.sh-sel,.sh-seg{display:none!important}
+  :root #m-shou,:root[data-theme="dark"] #m-shou,:root:not([data-theme="light"]) #m-shou{--sh-kan:#4F6F7A}
+  .sh-card{padding:10px 12px;margin:8px 0}
+  .sh-card h3,#m-shou dt,.sh-sublabel,.sh-fmh{break-after:avoid}
+  #m-shou li,.sh-fm{break-inside:avoid}
+  #m-shou .scroll{overflow:visible}
+  #m-shou .scroll table.wide{min-width:0}
+  .sh-pt{font-size:11pt}
+}
 /* ===== 副作用ナビモジュール（旧 fukusayou.html の見た目を washi のトークンに合わせたもの） ===== */
 /* 生薬ごとの色：甘＝朱、芩＝藍、麻＝金茶、附＝茜、大＝松葉、梔＝金茶の濃色、硝＝薄墨（旧 #7a3b6b・#b8862b は washi の色に寄せた） */
 .mod[data-mod="fuku"]{--fk-ka:var(--shu);--fk-ou:var(--ai);--fk-ma:var(--kin);--fk-bu:var(--akane);--fk-dai:var(--matsu);--fk-san:var(--kin-d);--fk-bo:var(--sumi2);--fk-all:var(--usu)}
@@ -417,6 +450,12 @@ a.fx{color:var(--ai);text-decoration:none;font-family:"Shippori Mincho","Hiragin
   .fk-btnrow,.fk-search,.fk-topics{display:none}
   .fk-flist{max-height:none}
   .fk-card .body{display:block}
+  .fk-card summary,.fk-card h3{break-after:avoid}
+  .fk-card li{break-inside:avoid}
+  .fk-card[open] summary::after{content:none}
+  /* 閉じたカードも中身を出す（対応ブラウザ。ほかは store.js が印刷の直前に開く） */
+  .fk-card::details-content{content-visibility:visible;display:block}
+  .fk-card summary::after{content:none}
 }
 </style>
 </head>
@@ -612,6 +651,19 @@ theme.apply(store.get("common", "theme"));
 document.addEventListener("click", function(ev){
   var b = ev.target.closest("[data-theme-set]"); if (b) theme.set(b.dataset.themeSet);
 });
+
+/* 印刷：表示中のタブの閉じた <details>（副作用のカードなど）を印刷の間だけ開き、終わったら元に戻す */
+(function(){
+  var opened = [];
+  window.addEventListener("beforeprint", function(){
+    opened = $$(".mod.on details:not([open])");
+    opened.forEach(function(d){ d.open = true; });
+  });
+  window.addEventListener("afterprint", function(){
+    opened.forEach(function(d){ d.open = false; });
+    opened = [];
+  });
+})();
 
 /* 併用チェックで選んだ方剤（方剤 id の集合）。全モジュールで1つを共有する。
    患者に関わる内容なのでメモリの中だけで持ち、localStorage には保存しない（院長決定9・Q7）。 */
@@ -4489,6 +4541,16 @@ $("#fkTimeline").innerHTML = TL.map(function(t){
 }).join("");
 
 drawList(); drawResult(); drawRisk();
+
+/* 旧 副作用ナビの最後のタブ（fk_tab。JSON の文字列 "t-herb" など）だけを、新しいキーが空のときに写す（旧キーは消さない）。
+   旧の fk_sel（選んだ処方）・fk_risk（甘草リスクのチェック）は患者に関わるので写さない（院長決定 Q7） */
+(function(){
+  if (store.get("fuku", "tab")) return;
+  var t = null;
+  try { t = JSON.parse(localStorage.getItem("fk_tab")); } catch (e){}
+  var map = {"t-herb": "herb", "t-check": "check", "t-risk": "risk", "t-mon": "mon"};
+  if (map[t]) store.set("fuku", "tab", map[t]);
+})();
 
 subtabModule("fuku", {
   title: "副作用ナビ",

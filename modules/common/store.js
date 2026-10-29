@@ -47,6 +47,19 @@ document.addEventListener("click", function(ev){
   var b = ev.target.closest("[data-theme-set]"); if (b) theme.set(b.dataset.themeSet);
 });
 
+/* 印刷：表示中のタブの閉じた <details>（副作用のカードなど）を印刷の間だけ開き、終わったら元に戻す */
+(function(){
+  var opened = [];
+  window.addEventListener("beforeprint", function(){
+    opened = $$(".mod.on details:not([open])");
+    opened.forEach(function(d){ d.open = true; });
+  });
+  window.addEventListener("afterprint", function(){
+    opened.forEach(function(d){ d.open = false; });
+    opened = [];
+  });
+})();
+
 /* 併用チェックで選んだ方剤（方剤 id の集合）。全モジュールで1つを共有する。
    患者に関わる内容なのでメモリの中だけで持ち、localStorage には保存しない（院長決定9・Q7）。 */
 var SELECTED = new Set();

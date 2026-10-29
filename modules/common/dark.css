@@ -23,3 +23,12 @@
   --head1:rgba(28,26,23,.97);--head2:rgba(28,26,23,.9);
   color-scheme:dark;
 }
+/* 印刷は暗い表示でも明るい配色にする（base.css の :root と同じ値。カードの地は白） */
+@media print{:root,:root[data-theme="dark"],:root:not([data-theme="light"]){
+  --washi:#fff;--washi-d:#F2E9D2;--card:#fff;--line:#D9CDB3;
+  --sumi:#332C25;--sumi2:#5B5247;--usu:#8C8073;
+  --shu:#C1432E;--shu-d:#9A3A2E;--kin:#C08A22;--kin-d:#8A6410;
+  --matsu:#2E5D4B;--ai:#22376B;--akane:#8A4A5A;
+  --on:#fff;--stem:#5a6e48;
+  color-scheme:light;
+}}

@@ -89,4 +89,13 @@
 #m-shou .kv td:first-child{white-space:nowrap;font-weight:700}
 #m-shou .nw{white-space:nowrap}
 
-@media print{.sh-topics,.sh-row,.sh-sel{display:none!important}}
+@media print{
+  .sh-topics,.sh-row,.sh-sel,.sh-seg{display:none!important}
+  :root #m-shou,:root[data-theme="dark"] #m-shou,:root:not([data-theme="light"]) #m-shou{--sh-kan:#4F6F7A}
+  .sh-card{padding:10px 12px;margin:8px 0}
+  .sh-card h3,#m-shou dt,.sh-sublabel,.sh-fmh{break-after:avoid}
+  #m-shou li,.sh-fm{break-inside:avoid}
+  #m-shou .scroll{overflow:visible}
+  #m-shou .scroll table.wide{min-width:0}
+  .sh-pt{font-size:11pt}
+}

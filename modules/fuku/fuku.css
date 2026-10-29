@@ -109,4 +109,10 @@
   .fk-btnrow,.fk-search,.fk-topics{display:none}
   .fk-flist{max-height:none}
   .fk-card .body{display:block}
+  .fk-card summary,.fk-card h3{break-after:avoid}
+  .fk-card li{break-inside:avoid}
+  .fk-card[open] summary::after{content:none}
+  /* 閉じたカードも中身を出す（対応ブラウザ。ほかは store.js が印刷の直前に開く） */
+  .fk-card::details-content{content-visibility:visible;display:block}
+  .fk-card summary::after{content:none}
 }

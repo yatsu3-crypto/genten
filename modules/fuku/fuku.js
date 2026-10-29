@@ -284,6 +284,16 @@ $("#fkTimeline").innerHTML = TL.map(function(t){
 
 drawList(); drawResult(); drawRisk();
 
+/* 旧 副作用ナビの最後のタブ（fk_tab。JSON の文字列 "t-herb" など）だけを、新しいキーが空のときに写す（旧キーは消さない）。
+   旧の fk_sel（選んだ処方）・fk_risk（甘草リスクのチェック）は患者に関わるので写さない（院長決定 Q7） */
+(function(){
+  if (store.get("fuku", "tab")) return;
+  var t = null;
+  try { t = JSON.parse(localStorage.getItem("fk_tab")); } catch (e){}
+  var map = {"t-herb": "herb", "t-check": "check", "t-risk": "risk", "t-mon": "mon"};
+  if (map[t]) store.set("fuku", "tab", map[t]);
+})();
+
 subtabModule("fuku", {
   title: "副作用ナビ",
   sub: "注意生薬と併用を確かめる",
