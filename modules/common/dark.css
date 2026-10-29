@@ -9,7 +9,7 @@
   --shu:#E46A52;--shu-d:#F0907C;--kin:#D6A24A;--kin-d:#DDB468;
   --matsu:#7FB287;--ai:#87A8D6;--akane:#C98B9B;
   --shadow:0 1px 0 rgba(0,0,0,.2),0 6px 18px -10px rgba(0,0,0,.6);
-  --on:#1C1A17;
+  --on:#1C1A17;--stem:#9CB585;
   --head1:rgba(28,26,23,.97);--head2:rgba(28,26,23,.9);
   color-scheme:dark;
 }}
@@ -19,7 +19,7 @@
   --shu:#E46A52;--shu-d:#F0907C;--kin:#D6A24A;--kin-d:#DDB468;
   --matsu:#7FB287;--ai:#87A8D6;--akane:#C98B9B;
   --shadow:0 1px 0 rgba(0,0,0,.2),0 6px 18px -10px rgba(0,0,0,.6);
-  --on:#1C1A17;
+  --on:#1C1A17;--stem:#9CB585;
   --head1:rgba(28,26,23,.97);--head2:rgba(28,26,23,.9);
   color-scheme:dark;
 }

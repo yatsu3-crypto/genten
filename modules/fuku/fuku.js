@@ -2,5 +2,6 @@
 subtabModule("fuku", {
   title: "副作用ナビ",
   sub: "注意生薬と併用を確かめる",
-  subs: [["herb", "生薬別"], ["check", "併用チェック"], ["risk", "甘草リスク"], ["mon", "経過観察"]]
+  subs: [["herb", "生薬別"], ["check", "併用チェック"], ["risk", "甘草リスク"], ["mon", "経過観察"]],
+  fit: true
 });

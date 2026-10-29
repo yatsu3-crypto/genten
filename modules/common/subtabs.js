@@ -1,5 +1,6 @@
 /* ===== 共通：サブタブ（ヘッダー内 pill）を持つモジュールの骨組み =====
-   subtabModule(名前, {title, sub, subs:[[id,表示名],…]})
+   subtabModule(名前, {title, sub, subs:[[id,表示名],…], fit})
+   fit:true … サブタブを横スクロールさせず、幅を分け合って全部見せる（4つ以下のとき）。
    ハッシュ：#/<名前>/<サブタブid>（証ナビは #/shou/<テーマ>/<サブタブ> を想定し、最後の区切りをサブタブとして読む）。
    サブタブの切替は履歴を積まない。最後のサブタブは画面の状態として genten.<名前>.tab.v1 に保存する。
    本体側：<… data-sub="id"> の要素があれば、選ばれたものだけ表示する（無ければ何もしない）。 */
@@ -8,7 +9,7 @@ function subtabModule(name, cfg){
   var head = document.querySelector('.mhead[data-mod="' + name + '"]');
   var body = document.querySelector('.mod[data-mod="' + name + '"]');
   var tabs = document.createElement("div");
-  tabs.className = "tabs"; tabs.setAttribute("role", "tablist");
+  tabs.className = cfg.fit ? "tabs fit" : "tabs"; tabs.setAttribute("role", "tablist");
   tabs.innerHTML = cfg.subs.map(function(s){
     return '<button type="button" class="tab" role="tab" data-sub="' + esc(s[0]) + '">' + esc(s[1]) + '</button>';
   }).join("");

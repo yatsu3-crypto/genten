@@ -11,6 +11,8 @@
 | `entries/_template.md` | 新しい方剤を足すときの雛形。`_` で始まるファイルは build で読まない | 同上 |
 | `template.html` | アプリの画面（和紙デザイン）。`__GENTEN_DATA__` などの置き場所に build がデータを入れる | 同上 |
 | `build.py` | `entries/*.md` を読み、データを埋め込んで `genten.html` を出力する | 同上 |
+| `data/ekisu.tsv` | エキス剤の生薬量（1日量中の g）。ツムラの添付文書（PMDA）を正とし、クリニックの社員が確認・記入する。空欄＝「量 要確認」。記憶や他アプリの数字で埋めない | 公開してよい |
+| `formulas.py` | build が使う共通の方剤データ（構成・量・生薬の寄せ方・方剤名の表記ゆれ）と、`data/ekisu.tsv` の検査。結果は `sources/pmda-check.md`（社員に渡す PMDA 確認リスト）にも出る | 同上 |
 | `genten.html` | **公開するのはこれだけ**（GitHub Pages：`https://yatsu3-crypto.github.io/genten/genten.html`） | 公開 |
 | `sources/` | 書籍・資料の原本・抜き書き。**公開しない**（`.gitignore` 済み。コミットしない） | 非公開 |
 
@@ -34,5 +36,6 @@
 
 - 単一HTML・オフラインで動作。外部依存は Google Fonts のみ。見た目は washi-design スキル（`~/.claude/skills/washi-design/SKILL.md`）に従う。
 - 390px 幅基準、375〜430px で崩れないこと。タップ領域 44px 以上、入力欄 16px 以上。
-- localStorage を使う場合のキーは `genten_<item>_v1`。患者情報は一切扱わない・保存しない。
+- localStorage を使う場合のキーは `genten.<モジュール>.<項目>.v1`（モジュールは `common`・`genten`・`shou`・`myaku`・`fuku`。例：`genten.common.theme.v1`、`genten.fuku.tab.v1`）。読み書きは `modules/common/store.js` の `store` を通し、保存してよい項目は `STORE_ALLOWED` に足してから使う。
+- 保存してよいのは画面の状態（タブ・表示の明るさなど）だけ。患者情報は一切扱わない・保存しない。所見・リスク因子・選んだ処方の組み合わせもメモリのみで保存しない。
 - `genten.html` は手で直さない（build で上書きされる）。画面を直すときは `template.html` を、データを直すときは `entries/` を直す。

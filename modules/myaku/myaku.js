@@ -4,5 +4,6 @@
 subtabModule("myaku", {
   title: "脈診ナビ",
   sub: "脈の所見を整理する",
-  subs: [["judge", "判定"], ["list", "二十八脈"], ["tips", "脈診の要点"]]
+  subs: [["judge", "判定"], ["list", "二十八脈"], ["tips", "脈診の要点"]],
+  fit: true
 });

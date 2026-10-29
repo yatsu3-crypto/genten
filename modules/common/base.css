@@ -11,6 +11,8 @@
   /* ヘッダー・下部タブの半透明の和紙 */
   --head1:rgba(251,245,230,.97);--head2:rgba(251,245,230,.9);
   --tabbar-h:58px;
+  /* たんぽぽちゃんの茎 */
+  --stem:#5a6e48;
   color-scheme:light;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -36,6 +38,7 @@ header{position:sticky;top:0;z-index:30;
 .brand h1{font-size:18px;margin:0}
 .brand .sub{font-size:11px;color:var(--sumi2);letter-spacing:.04em;margin-top:1px}
 .tampopo{width:34px;height:34px;flex:0 0 auto}
+.tampopo .stem{stroke:var(--stem)}
 .edition{margin-left:auto;font-size:11px;font-weight:700;color:var(--ai);border:1.5px solid var(--ai);border-radius:999px;padding:3px 10px;white-space:nowrap}
 
 /* モジュールごとのヘッダー部品・本体は、表示中のものだけ出す */
@@ -50,6 +53,10 @@ header{position:sticky;top:0;z-index:30;
 .tab{flex:0 0 auto;font-family:inherit;font-size:13px;font-weight:600;color:var(--sumi2);background:var(--card);
   border:1px solid var(--line);border-radius:999px;padding:0 12px;min-height:36px;cursor:pointer;white-space:nowrap}
 .tab.on{background:var(--ai);border-color:var(--ai);color:var(--on)}
+/* サブタブが4つ以下のモジュール（fit:true）：横スクロールさせず、幅を分け合って全部見せる（375px でも切れない） */
+.tabs.fit{overflow-x:visible;margin:10px 0 0;padding:0 0 2px;gap:5px}
+.tabs.fit .tab{flex:1 1 auto;min-width:0;padding:0 6px}
+@media (max-width:380px){.tabs.fit .tab{font-size:12.5px;padding:0 4px}}
 
 main{max-width:760px;margin:0 auto;padding:14px calc(14px + env(safe-area-inset-right)) 32px calc(14px + env(safe-area-inset-left))}
 .view{display:none;animation:fade .25s ease}
