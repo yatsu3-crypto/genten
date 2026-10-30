@@ -15,7 +15,7 @@
 | `modules/genten/` | 原典タブ（一覧・詳細） | 同上 |
 | `modules/shou/` | 証ナビタブ。`data.js` は17テーマの所見・判定・方剤詳細・患者説明（院長の自作）と注意文（PMDA 添付文書に合わせたもの。出典の確かめは `sources/shou-citations.md`） | 同上 |
 | `modules/fuku/` | 副作用タブ（生薬別・併用チェック・甘草リスク・経過観察）。出典の確かめは `sources/fukusayou-citations.md` | 同上 |
-| `modules/myaku/` | 脈診タブの**公開版**（2026-10-30 から）：判定・二十八脈・各脈の解説。`data.js` の文は院長確認済みの `sources/koten/myaku28-draft.md`（古典の翻刻から書き直したもの）からだけ取る。判定の仕組み（重み）は手元版と同じ。治法・参考処方はアプリ側の補足（書籍外。2026-10-30 院長確認）で、安全装置の語句を含まない文だけ出す（手元版だけに残した文は `sources/koten/myaku-hidden.md`）。書籍の表は入れない。翻刻に根拠のない相兼脈（弦滑数）は入れない | 同上 |
+| `modules/myaku/` | 脈診タブの**公開版**（2026-10-30 から）：判定・二十八脈・各脈の解説。`data.js` の文は院長確認済みの `sources/koten/myaku28-draft.md`（古典の翻刻から書き直したもの）からだけ取る。判定の仕組み（重み）は手元版と同じ。治法・参考処方はアプリ側の補足（書籍外。2026-10-30 院長確認）で、病態名とあわせて全件出す（「参考処方・書籍外」の札つき。経過は `sources/koten/myaku-hidden.md`）。書籍の表は入れない。翻刻に根拠のない相兼脈（弦滑数）は入れない | 同上 |
 | `modules-local/` | 手元版だけに入るモジュール。いまは `modules-local/myaku/`（脈診の書籍版。書籍の表を含む。手元版ではこちらが `modules/myaku/` の代わりに入る） | **非公開**（`.gitignore` 済み。コミットしない） |
 | `build.py` | `entries/*.md`（と `private/*.md`）を読み、モジュールを組み立てて `genten.html` と `genten-local.html` を出力する | リポジトリに入る |
 | `formulas.py` | build が使う共通の方剤データ（構成・量・生薬の寄せ方・方剤名の表記ゆれ）と、`data/ekisu.tsv` の検査。結果は `sources/pmda-check.md`（社員に渡す PMDA 確認リスト）にも出る | 同上 |
@@ -61,7 +61,10 @@
 - 念のための確かめ（0件が正しい。除外していない語句：書籍のページ番号・書籍版にしか無い語）：
   `grep -c -e "p.102" -e "p.104" -e "葱管" -e "如軽刀刮竹" -e "元気離散" -e "舎脈従症" /Users/atsushiyamamoto/genten/genten.html`
   （「如盤走珠」などを `LOCAL_ONLY_EXCLUDE` に入れたら、その語句はこの確かめから外す）
-- 手元版専用の語句（107語。`modules-local/*/data.js` の10字以上の文字列と目印の語句）がすべて公開版に無いことは、build の
+- 手元版専用の語句の一覧（2026-10-30 から78語）は、`modules-local/*/data.js` の10字以上の文字列と目印の語句から作る。
+  ただし脈診の病態（`const SYN`）の病態名 n・治療の方針 rx・参考処方 f はアプリ側の補足（書籍外。院長確認）なので元から外す（`build.py` の `app_side_spans`）。
+  病態の鑑別 next、二十八脈の表、相兼脈、判定の項目名・部位・注意の札などは今までどおり照合の対象。手元版のデータには印を付けない。
+- この語句一覧がすべて公開版に無いことは、build の
   「安全装置：手元版だけの語句 N 件は公開用に入っていません」の行で確かめる。どの語句が掛かったかは build のエラーに例が3つ出る。
 - `git -C ~/genten status --short --untracked-files=all` に `private/`・`modules-local/`・`genten-local.html`・`sources/` が出ないこと。
 

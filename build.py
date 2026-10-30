@@ -203,13 +203,28 @@ def render(edition, entries, shared):
     return "".join(result)
 
 
+def app_side_spans(src):
+    """手元版 data.js のうち、語句一覧の元から外す文字列の位置（開始, 終了）の並び。
+    2026-10-30 院長決定：病態（const SYN = {...}）の病態名 n・治療の方針 rx・参考処方 f はアプリ側の補足（書籍外）なので外す。
+    病態の鑑別 next と、ほかの部分（二十八脈の表・相兼脈・判定の項目名・部位・注意の札など）は今までどおり照合の対象。"""
+    spans = []
+    for blk in re.finditer(r"const SYN = \{.*?\n\};", src, re.S):
+        for m in re.finditer(r'\b(?:n|rx|f):"(?:[^"\\\n])*"', blk.group(0)):
+            spans.append((blk.start() + m.start(), blk.start() + m.end()))
+    return spans
+
+
 def local_only_phrases():
     """手元版にしか無い語句。modules-local/*/data.js の文字列リテラルと目印の語句から、entries の本文にも出てくるものを除いたもの。"""
     found = set(LOCAL_ONLY_FIXED)
     pat = re.compile(r'"([^"\\\n]{%d,})"' % LOCAL_ONLY_MIN)
     kana_kanji = re.compile("[\u3040-\u30ff\u4e00-\u9fff]")
     for p in sorted(MODULES_LOCAL.glob("*/data.js")):
-        for m in pat.finditer(read(p)):
+        src = read(p)
+        skip = app_side_spans(src)
+        for m in pat.finditer(src):
+            if any(a <= m.start() < b for a, b in skip):
+                continue
             if kana_kanji.search(m.group(1)):
                 found.add(m.group(1))
     body = "\n".join(p.read_text(encoding="utf-8") for p in md_files(ENTRIES))
